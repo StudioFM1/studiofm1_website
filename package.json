@@ -1,0 +1,42 @@
+{
+  "name": "studiofm1_website",
+  "version": "1.0.0",
+  "description": "The new Studio FM1 105.4 Website",
+  "keywords": [
+    "StudioFM1",
+    "105.4",
+    "Heraklion",
+    "Crete",
+    "TEI",
+    "HMU",
+    "Hellenic",
+    "Mediterranean",
+    "University",
+    "Technological",
+    "Educational",
+    "Institute",
+    "Radioactive"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StudioFM1/studiofm1_website.git"
+  },
+  "author": "Babis Kolokouris <babis-k@outlook.com>, Adam Fragkiadakis <adamfrag@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StudioFM1/studiofm1_website/issues"
+  },
+  "homepage": "https://github.com/StudioFM1/studiofm1_website#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
