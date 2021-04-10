@@ -1,9 +1,13 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 .wrapper {
     min-height: 100%;
     margin-bottom: -50px;
 }
 
-footer,
-.push {
+footer, .push {
     min-height: 50px;
 }

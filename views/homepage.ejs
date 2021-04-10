@@ -2,75 +2,25 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="/css/layout.css" rel="stylesheet">
-    <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js" defer></script>
-    <title>Studio FM1 105.4</title>
+    <%- include('./partials/head.ejs') %>    
 </head>
 
 <body>
+    <h1 class="visually-hidden"><%= title %></h1>
     <div class="wrapper">
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown link
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <main>
-            <h1 class="visually-hidden">Studio FM1 105.4</h1>
-            <div class="hero-image">
+        <%- include('./partials/header.ejs') %>
+        <section>
+            <div class="hero">
                 <div class="hero-text">
                     <h1>I am John Doe</h1>
                     <p>And I'm a Photographer</p>
                     <button>Hire me</button>
                 </div>
             </div>
-            <div class="push"></div>
-
-        </main>
-
-
-
-
-        <footer class="bg-dark  text-center text-light">
-            <div>
-                <p class="p-2">ALL RIGHTS REVESRSED Studio FM1 105.4&copy;</p>
-            </div>
-        </footer>
-
+        </section>
+        
+        <div class="push"></div>
+    </div>
+    <%- include('./partials/footer.ejs') %>
 </body>
-
 </html>
