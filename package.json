@@ -20,7 +20,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npm i -g pm2",
-    "server:watch": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon .",
+    "server:watch": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon ./server.js",
     "sass:watch": "node-sass --source-map true ./assets/scss --output-style compressed -wo ./public/css",
     "dev": "concurrently  \" npm run sass:watch \" \" npm run server:watch  \"",
     "sass:compile": "node-sass --sourcemap=none ./assets/scss --output-style compressed -o ./public/css",
@@ -28,7 +28,7 @@
     "css:clean": "cleancss -o ./public/css/main.css ./public/css/main.css ",
     "delete-maps": "find ./public/css -name '*.map' -delete",
     "build": "npm run sass:compile && npm run css:autoprefix && npm run css:clean && npm run delete-maps",
-    "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && pm2 start index.js"
+    "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && pm2 start ./server.js"
   },
   "repository": {
     "type": "git",
