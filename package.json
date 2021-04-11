@@ -20,11 +20,13 @@
   "main": "index.js",
   "scripts": {
     "server:watch": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon .",
-    "sass:watch": "node-sass --source-map-embed true --watch -r ./assets/scss --output-style compressed -o ./public/css",
-    "mode:dev": "concurrently  \" npm run sass:watch \" \" npm run server:watch  \"",
-    "sass:compile": "node-sass ./assets/scss --output-style compressed -o ./public/css",
+    "sass:watch": "node-sass --source-map true ./assets/scss --output-style compressed -wo ./public/css",
+    "dev": "concurrently  \" npm run sass:watch \" \" npm run server:watch  \"",
+    "sass:compile": "node-sass --sourcemap=none ./assets/scss --output-style compressed -o ./public/css",
     "css:autoprefix": "postcss --use autoprefixer -b 'defaults' -o ./public/css/main.css ./public/css/*.css",
-    "build": "npm run sass:compile && npm run css:autoprefix",
+    "css:clean": "cleancss -o ./public/css/main.css ./public/css/main.css ",
+    "delete-maps": "find ./public/css -name '*.map' -delete",
+    "build": "npm run sass:compile && npm run css:autoprefix && npm run css:clean && npm run delete-maps",
     "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && node ."
   },
   "repository": {
@@ -52,10 +54,12 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
+    "clean-css": "^5.1.2",
     "concurrently": "^6.0.1",
     "node-sass": "^5.0.0",
     "nodemon": "^2.0.7",
     "postcss": "^8.2.9",
-    "postcss-cli": "^8.3.1"
+    "postcss-cli": "^8.3.1",
+    "strip-comments": "^2.0.1"
   }
 }
