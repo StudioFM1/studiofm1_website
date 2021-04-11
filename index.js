@@ -3,6 +3,7 @@
 /* Dependencies */
 const path = require('path');
 const express = require('express');
+const methodOverride = require('method-override');
 /* Load database connection */
 const dbConnection = require('./database');
 /* Load session object */
@@ -11,14 +12,11 @@ const routes = require('./routes');
 
 /* Create express app */
 const app = express();
-/* Boddy parser middleware */
-app.use(express.json());
-
-/* Set views path and engine */
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-/* Public folder path */
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'views')); // Set views files path
+app.set('view engine', 'ejs'); // Set view engine
+app.use(methodOverride('_method')); // Override method middleware
+app.use(express.json()); // Parse json middleware
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
 /* Connect to mongo database */
 const mongoURI = process.env.MONGO_URI;
