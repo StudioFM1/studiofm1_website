@@ -1,8 +1,5 @@
 'use strict';
 
-/* Load enviromental variables */
-require('dotenv').config({ path: `${__dirname}/config/.env.development` });
-
 /* Dependencies */
 const path = require('path');
 const express = require('express');

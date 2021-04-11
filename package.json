@@ -20,7 +20,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon .",
+    "dev": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon .",
     "sass": "node-sass --watch --output-style compressed -o public/css assets/scss"
   },
   "repository": {
