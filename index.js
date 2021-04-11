@@ -4,11 +4,15 @@
 const path = require('path');
 const express = require('express');
 const methodOverride = require('method-override');
-/* Load database connection */
+/* Import database connection */
 const dbConnection = require('./database');
-/* Load session object */
+/* Import session object */
 const createSession = require('./session');
+/* Import middleware */
+const mw = require('./middleware')
+/* Import routing */
 const routes = require('./routes');
+const adminRoutes = require('./routes/admin.js');
 
 /* Create express app */
 const app = express();
@@ -30,6 +34,7 @@ app.use(createSession(sessionSecret, mongoURI));
 
 /* Handle routes */
 app.use('/', routes);
+app.use('/admin', mw.isLoggedIn, adminRoutes);
 
 /* Error middleware */
 app.use(function (err, req, res, next) {
