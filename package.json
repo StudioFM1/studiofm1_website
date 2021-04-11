@@ -20,7 +20,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index",
+    "dev": "nodemon .",
     "sass": "node-sass --watch --output-style compressed -o public/css assets/scss"
   },
   "repository": {
@@ -34,9 +34,15 @@
   },
   "homepage": "https://github.com/StudioFM1/studiofm1_website#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.0.0-beta3",
+    "connect-mongo": "^4.4.1",
+    "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.3"
   },
   "devDependencies": {

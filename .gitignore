@@ -1,4 +1,4 @@
-#vsCode
+#vscode
 .vscode
 
 # Logs
@@ -72,7 +72,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.development
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
