@@ -19,6 +19,7 @@
   ],
   "main": "index.js",
   "scripts": {
+    "preinstall": "npm i -g pm2",
     "server:watch": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon .",
     "sass:watch": "node-sass --source-map true ./assets/scss --output-style compressed -wo ./public/css",
     "dev": "concurrently  \" npm run sass:watch \" \" npm run server:watch  \"",
@@ -27,7 +28,7 @@
     "css:clean": "cleancss -o ./public/css/main.css ./public/css/main.css ",
     "delete-maps": "find ./public/css -name '*.map' -delete",
     "build": "npm run sass:compile && npm run css:autoprefix && npm run css:clean && npm run delete-maps",
-    "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && node ."
+    "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && pm2 start index.js"
   },
   "repository": {
     "type": "git",
@@ -59,7 +60,6 @@
     "node-sass": "^5.0.0",
     "nodemon": "^2.0.7",
     "postcss": "^8.2.9",
-    "postcss-cli": "^8.3.1",
-    "strip-comments": "^2.0.1"
+    "postcss-cli": "^8.3.1"
   }
 }
