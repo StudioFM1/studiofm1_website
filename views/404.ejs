@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head.ejs') %>
+</head>
+
+<body>
+    <%- include('./partials/header.ejs') %>
+    <main>
+        <section class="container my-5">
+            <div class="mx-auto text-center">
+                <h2 class="h1 mb-5"><%= title %></h2>
+                <p><%= message %></p>
+            </div>
+        </section>
+    </main>
+    <%- include('./partials/footer.ejs') %>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
