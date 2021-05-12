@@ -3,7 +3,7 @@
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-function createSession(sessionSecret, mongoURI) {
+const createSession = (sessionSecret, mongoURI) => {
     return session({
         secret: sessionSecret,
         resave: false,
