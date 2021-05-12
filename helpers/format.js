@@ -2,8 +2,6 @@
 
 /* Format an error before sending to the client */
 exports.clientError = err => {
-    if(err.status) return err;
-
     if (err.constructor.name === 'MongoError') {
         if (err.code === 11000) { // Duplicate key error
             let duplicate = Object.keys(err.keyPattern)[0];

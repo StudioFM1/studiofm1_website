@@ -28,8 +28,8 @@ app.use(express.json()); // Parse json middleware
 /* Connect to mongo database */
 const mongoURI = process.env.MONGO_URI;
 dbConnection(mongoURI)
-    .then(() => console.info('\x1b[34m%s\x1b[0m', 'Connected to mongo server'))
-    .catch(err => console.error('\x1b[31m%s\x1b[0m', err));
+.then(() => console.info('\x1b[34m%s\x1b[0m', 'Connected to mongo server'))
+.catch(err => console.error(err));
 
 /* Create session */
 const sessionSecret = process.env.SESSION_SECRET;
@@ -38,14 +38,14 @@ app.use(createSession(sessionSecret, mongoURI));
 /* Handle routes and errors */
 app.use('/', routes);
 app.use('/admin', mw.isLoggedIn, adminRoutes);
-app.use((err, req, res, next) => {
-    err = format.clientError(err);
+app.use((err, req, res, next) => { // handle errors
+    err = err.status ? err : format.clientError(err);
     if(err.status !== 404)
         return res.status(err.status).json({ errors: err.message });
-    
-    next(err);
 });
-app.use((req, res, next) => res.status(404).render('404', { title: 404, message: 'Not Found' })) // 404 page
+app.use((req, res, next) =>
+    res.status(404).render('404', { title: 404, message: 'Resource not found' })); // 404 page
 
 /* Start server */
-app.listen(process.env.PORT, () => console.info('\x1b[34m%s\x1b[0m', `Server listening at ${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`));
+app.listen(process.env.PORT, () =>
+    console.info('\x1b[34m%s\x1b[0m', `Server listening at ${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`));
