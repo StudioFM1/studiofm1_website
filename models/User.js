@@ -3,6 +3,7 @@
 /* Dependencies and files */
 const Mongoose = require('mongoose');
 const cipher = require('../helpers/encryption');
+const errorMsg = require('../messages/errors.json');
 
 /* Producer Schema */
 const userSchema = new Mongoose.Schema({
@@ -37,7 +38,12 @@ userSchema.pre('save', async function(next) {
             this.profile[prop] = cipher.encrypt(this.profile[prop]);
     }
     return;
-})
+});
+
+/* Validate producer's password methoid */
+userSchema.methods.validatePassword = function(password) {
+    return cipher.comparePassword(password, this.profile.password);
+}
 
 /* Producer model schema */
 const User = Mongoose.model('User', userSchema);
@@ -49,8 +55,20 @@ exports.insertUser = async data => {
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
     data.avatar = data.avatar || ''; // Add a default avatar
 
-    /* Create Producer instance */
     const newUser = new User({ profile: data });
-    /* Insert new producer */
     await newUser.save();
 };
+
+/* Validate user's login */
+exports.validateLogin = async ({ email, password }) => {
+    const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
+
+    if (!user)
+        throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+
+    const validated = await user.validatePassword(password);
+    if (!validated)
+        throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+
+    return { userId: user._id, username: cipher.decrypt(user.profile.username) };
+}

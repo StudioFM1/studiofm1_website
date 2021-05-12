@@ -40,8 +40,13 @@ exports.validateForm = formType => (req, res, next) => {
             throw { message: errorMsg.PASSWORD_MISSMATCH, status: 422 };
     }
 
+    /* Validate login form */
+    if (formType === 'login') {
+        if (req.body.email === '' || req.body.password === '')
+            throw { message: errorMsg.EMPTY_FIELDS, status: 422 };
+    }
     /* Validate registration form */
-    if (formType === 'registration') {
+    else if (formType === 'registration') {
         for(const key in req.body) {
             const value = req.body[key];
             if (key === 'email')

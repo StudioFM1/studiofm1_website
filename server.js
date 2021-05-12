@@ -40,8 +40,7 @@ app.use('/', routes);
 app.use('/admin', mw.isLoggedIn, adminRoutes);
 app.use((err, req, res, next) => { // handle errors
     err = err.status ? err : format.clientError(err);
-    if(err.status !== 404)
-        return res.status(err.status).json({ errors: err.message });
+    res.status(err.status).json({ error: err.message });
 });
 app.use((req, res, next) =>
     res.status(404).render('404', { title: 404, message: 'Resource not found' })); // 404 page
