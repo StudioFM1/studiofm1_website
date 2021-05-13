@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head.ejs') %>    
+</head>
+
+<body>
+    <%- include('../partials/adminHeader.ejs') %>
+    <div class="container my-5">
+        <main>
+            <div class="row">
+                <div class="col-12 col-lg-4 col-xl-3">
+                    <div class="card box-shadow text-center h-100 p-4">
+                        <div class="avatar-uploader mb-5" style="background-image: url('<%= user.avatar %>');">
+                            <input type="file" name="avatar" id="avatar" class="fileInput">
+                            <!-- <div class="upload-indicator"><i class="fas fa-file-upload"></i></div> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="user-about">
+                                <h5><%= user.firstName %> <%= user.lastName %></h5>
+                                <h6>(<%= user.role %>)</h6>
+                                <p><%= user.bio %></p>
+                            </div>
+                            <div class="user-contact">
+                                <h5>Contact:</h5>
+                                <h6><%= user.email %></h6>
+                                <h6><%= user.mobilePhone %></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8 col-xl-6">
+                    <div class="box-shadow h-100 p-4">
+                        <h2 class="mb-4">Profile</h2>
+                        <form id="profileForm" action="/admin/profile" method="post">
+                            <input type="hidden" name="userId" value="<%= user.userId %>">
+                            <div class="form-group">
+                                <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name">
+                                <label for="firstName" class="form-label">First name:</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name">
+                                <label for="lastName" class="form-label">Last name:</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="firstName" class="form-field" id="username" value="<%= user.username %>" placeholder="Username">
+                                <label for="username" class="form-label">Username:</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-field" id="email" value="<%= user.email %>" placeholder="Email">
+                                <label for="email" class="form-label">Email:</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone">
+                                <label for="mobilePhone" class="form-label">Mobile phone:</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
+                                <label for="bio" class="form-label">Bio:</label>
+                            </div>
+                            <div class="clearfix">
+                                <button id="submitButton" class="btn btn-primary float-end">Submit</button>
+                                <a id="editProfile" class="float-start" href="#">Edit profile</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-12 col-xl-3">
+                    <div class="box-shadow h-100 p-4">
+                        <h2 class="mb-4">Shows</h2>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>

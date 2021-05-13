@@ -11,8 +11,20 @@ const controller = require('../controllers/admin');
 const use = fn => (req, res, next) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
-/* Admin dashboard */
+/**
+ * @GET Admin dashboard
+ */
 router.get('/', use(controller.index));
+
+/**
+ * @GET Destroy session
+ */
+router.get('/logout', controller.user_logout);
+
+/**
+ * @GET user profile
+ */
+router.get('/users/:id', controller.user_profile_get);
 
 
 module.exports = router;

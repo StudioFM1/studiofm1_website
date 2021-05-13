@@ -9,18 +9,18 @@
     <%- include('./partials/header.ejs') %>
     <main>
         <section class="container my-5">
-            <div class="mx-auto sm-form">
+            <div class="mx-auto sm-form box-shadow">
                 <h2 class="h1 mb-5">Login</h2>
                 <form method="POST" action="/login">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="e.g. email@gmail.com">
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-field" id="email" placeholder="Email">
+                        <label for="email" class="form-label">Email:</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-field" id="password" placeholder="Password">
+                        <label for="password" class="form-label">Password:</label>
                     </div>
-                    <button class="btn btn-primary mb-3">Login</button>
+                    <button id="submit" class="btn btn-primary mb-3">Login</button>
                     <p><a href="/recover_password">Forgot password</a></p>
                 </form>
             </div>
@@ -28,5 +28,6 @@
     </main>
     <%- include('./partials/footer.ejs') %>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/request.js"></script>
 </body>
 </html>

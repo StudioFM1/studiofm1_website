@@ -7,28 +7,25 @@ const submitForm = async (submitButton) => {
     const formFields = new FormData(form);
 
     let data = {};
-    for (const [name, value] of formFields)
-        data[name] = value;
+    for (const [name, value] of formFields) data[name] = value;
 
-    let res = await  fetch(form.action, {
+    let res = await fetch(form.action, {
         method: form.method,
         headers: {
             'Content-type': 'application/json',
         },
         body: JSON.stringify(data),
     });
-    
+
     submitButton.disabled = false;
-    
+
     try {
         res = await res.json();
-    } catch(err) {
+    } catch (err) {
         throw err;
     }
-    
-    console.log(res)
-    if(res.redirect)
-        return window.location = res.redirect;
+
+    if (res.redirect) return (window.location = res.redirect);
 };
 
 /* When document is ready */

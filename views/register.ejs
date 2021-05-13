@@ -9,45 +9,45 @@
     <%- include('./partials/header.ejs') %>
     <main>
         <section class="container my-5">
-            <div class="mx-auto sm-form">
-                <h2 class="h1 mb-5">Register</h2>
+            <div class="mx-auto sm-form box-shadow">
+                <h2 class="h1 mb-4">Register</h2>
                 <form method="POST" action="/register">
-                    <div class="mb-3">
+                    <div class="form-group">
+                        <input type="text" name="firstName" class="form-field" id="username" placeholder="Username">
                         <label for="username" class="form-label">Username</label>
-                        <input id="username" type="text" class="form-control" name="username" placeholder="Enter your username" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input id="firstName" type="text" class="form-control" name="firstName" placeholder="Enter your first name..." required>
+                    <div class="form-group">
+                        <input type="text" name="firstName" class="form-field" id="firstName" placeholder="First name">
+                        <label for="firstName" class="form-label">First name</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input id="lastName" type="text" class="form-control" name="lastName" placeholder="Enter your last name..." required>
+                    <div class="form-group">
+                        <input type="text" name="lastName" class="form-field" id="lastName" placeholder="Last name">
+                        <label for="lastName" class="form-label">Last name</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="mobilePhone" class="form-label">Mobile Phone Number</label>
-                        <input id="mobilePhone" type="text" class="form-control" name="mobilePhone" placeholder="Enter your mobile phone number..." required>
+                    <div class="form-group">
+                        <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" placeholder="Mobile phone">
+                        <label for="mobilePhone" class="form-label">Mobile phone</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input id="email" type="email" class="form-control" name="email" placeholder="e.g. email@gmail.com" required>
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-field" id="email" placeholder="Email" required>
+                        <label for="email" class="form-label">Email Address</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-field" id="password" placeholder="Password" required>
                         <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Enter your password" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <input id="confirmPassword" type="password" class="form-control" name="confirmPassword" placeholder="Re-write your password" required>
+                    <div class="form-group">
+                        <input type="password" name="confirmPassword" class="form-field" id="confirmPassword" placeholder="Confirm password" required>
+                        <label for="password" class="form-label">Confirm Password</label>
                     </div>
-                    <div class="mb-3">
-                        <label>Role</label>
-                        <select name="role" class="form-select">
+                    <div class="form-group">
+                        <select name="role" class="form-select-field" placeholder="Role">
                             <option value="basic" selected>Basic</option>
                             <option value="author">Author</option>
                             <option value="editor">Editor (ΔΣ / ΡΟΗ)</option>
                             <option value="admin">Admin</option>
                           </select>
+                          <label for="role" class="form-label">Role</label>
                     </div>
                     <button id="submit" class="btn btn-primary mb-3">Register</button>
                 </form>
