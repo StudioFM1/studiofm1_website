@@ -30,7 +30,7 @@ const userSchema = new Mongoose.Schema({
  * @Middleware
  */
 userSchema.pre('save', async function(next) {
-    let fields = Object.keys(this.profile);
+    const fields = Object.keys(this.profile);
     for (const prop of fields) {
         if(prop === 'password')
             this.profile[prop] = await cipher.hashPassword(this.profile[prop]);
@@ -49,11 +49,11 @@ userSchema.methods.validatePassword = function(password) {
 const User = Mongoose.model('User', userSchema);
 
 
-/* Insert a new producer in the database */
+/* Insert a new user in the database */
 exports.insertUser = async data => {
     /* Defaults for bio, avatar & role */
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
-    data.avatar = data.avatar || ''; // Add a default avatar
+    data.avatar = data.avatar || '/images/avatars/default_avatar.jpg';
 
     const newUser = new User({ profile: data });
     await newUser.save();
@@ -71,4 +71,19 @@ exports.validateLogin = async ({ email, password }) => {
         throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
 
     return { userId: user._id, username: cipher.decrypt(user.profile.username) };
+}
+
+/* Get user's profile data */
+exports.getUserData = async id => {
+    /* Get user without password*/
+    const user = await User.findById(id, '-profile.password');
+
+    /* Decrypt data */
+    const fields = Object.keys(user.profile);
+    for (const prop of fields) {
+        if (prop === '$init' || prop === 'password') continue;
+        user.profile[prop] = cipher.decrypt(user.profile[prop]);
+    }
+
+    return user.profile;
 }
