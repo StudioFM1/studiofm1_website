@@ -19,17 +19,17 @@ router.get('/', use(controller.index));
 /**
  * @GET Destroy session
  */
-router.get('/logout', controller.user_logout);
+router.get('/logout', use(controller.user_logout));
 
 /**
  * @GET user profile
  */
-router.get('/users/:id', controller.user_profile_get);
+router.get('/users/:id', use(controller.user_profile_get));
 
 /**
  * @PUT update user profile
  */
-router.put('/users/:id', controller.user_profile_put);
+router.put('/users/:id', use(controller.user_profile_put));
 
 
 module.exports = router;

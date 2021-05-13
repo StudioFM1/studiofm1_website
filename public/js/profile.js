@@ -18,7 +18,7 @@ function toggleForm(editBtn) {
 
 /* Form request and submit form */
 const submitForm = async (submitButton) => {
-    // submitButton.disabled = true;
+    submitButton.disabled = true;
     const form = document.getElementById('profileForm');
     const formFields = new FormData(form);
 
@@ -59,8 +59,8 @@ document.onreadystatechange = () => {
         });
 
         submitButton.addEventListener('click', e => {
-            e.preventDefault(submitButton);
-            submitForm();
+            e.preventDefault();
+            submitForm(submitButton);
         });
     }
 };

@@ -19,9 +19,13 @@ const userSchema = new Mongoose.Schema({
         avatar: { type: String },
         bio: { type: String },
     },
+    status: {
+        isActive: { type: Boolean, default: true },
+        isVisible: { type: Boolean, default: false },
+        isVerified: { type: Boolean, default: false },
+    },
     shows: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Show' }],
     posts: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    isActive: { type: Boolean, default: true },
     addedBy: { type: Mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     createdAt: { type: Date, default: Date.now },
     modifiedAt: { type: Date, default: Date.now },
@@ -33,8 +37,11 @@ const userSchema = new Mongoose.Schema({
 userSchema.pre('save', async function () {
     const fields = Object.keys(this.profile);
     for (const prop of fields) {
-        if (prop === 'password') this.profile[prop] = await cipher.hashPassword(this.profile[prop]);
-        else this.profile[prop] = cipher.encrypt(this.profile[prop]);
+        if(prop === '$init') continue;
+        if (this.isModified(`profile.${prop}`)) {
+            if (prop === 'password') this.profile[prop] = await cipher.hashPassword(this.profile[prop]);
+            else this.profile[prop] = cipher.encrypt(this.profile[prop]);
+        }
     }
     return;
 });
@@ -74,7 +81,7 @@ exports.validateLogin = async ({ email, password }) => {
 /* Get user's profile data */
 exports.getUserData = async id => {
     /* Get user without password*/
-    const user = await User.findById(id, '-profile.password');
+    const user = await User.findById(id);
 
     /* Decrypt data */
     const fields = Object.keys(user.profile);
@@ -83,12 +90,16 @@ exports.getUserData = async id => {
         user.profile[prop] = cipher.decrypt(user.profile[prop]);
     }
 
-    return user;
+    return Object.assign({}, user.profile, user.status, user.shows);
 };
 
 /* Update user's data */
-exports.updateUserData = async id => {
-    /* Get user */
+exports.updateUserData = async (id, data) => {
+    /* Get user and assign changed properties */
     const user = await User.findById(id);
-    console.log(user);
+    Object.assign(user.profile, data);
+
+    await user.save();
+    
+    return Object.assign({}, user.profile, user.status, user.shows);
 };
