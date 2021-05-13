@@ -3,6 +3,7 @@
 /* Dependencies and files */
 const Mongoose = require('mongoose');
 const cipher = require('../helpers/encryption');
+const { getRandomGidi } = require('../helpers/avatars');
 const errorMsg = require('../messages/errors.json');
 
 /* Producer Schema */
@@ -53,8 +54,7 @@ const User = Mongoose.model('User', userSchema);
 exports.insertUser = async data => {
     /* Defaults for bio, avatar & role */
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
-    data.avatar = data.avatar || '/images/avatars/default_avatar.jpg';
-
+    data.avatar = await getRandomGidi();
     const newUser = new User({ profile: data });
     await newUser.save();
 };
