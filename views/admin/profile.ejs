@@ -12,10 +12,11 @@
             <div class="row">
                 <div class="col-12 col-lg-4 col-xl-3">
                     <div class="card box-shadow text-center h-100 p-4">
-                        <div class="avatar-uploader mb-5" style="background-image: url('<%= user.avatar %>');">
-                            <input type="file" name="avatar" id="avatar" class="fileInput">
-                            <!-- <div class="upload-indicator"><i class="fas fa-file-upload"></i></div> -->
-                        </div>
+                        <form id="avatarForm" action="/admin/users/avatar/<%= user.userId %>" method="PUT" enctype="multipart/form-data">
+                            <div class="avatar-uploader mb-5" style="background-image: url('<%= user.avatar %>');">
+                                <input type="file" accept="image/png, image/jpeg" name="avatar" id="avatar" class="fileInput">
+                            </div>
+                        </form>
                         <div class="card-body">
                             <div class="user-about">
                                 <h5><%= user.firstName %> <%= user.lastName %></h5>
@@ -33,31 +34,31 @@
                 <div class="col-12 col-lg-8 col-xl-6">
                     <div class="box-shadow h-100 p-4">
                         <h2 class="mb-4">Profile</h2>
-                        <form id="profileForm" action="/admin/profile" method="post">
+                        <form id="profileForm" action="/admin/users/<%= user.userId %>" method="PUT">
                             <input type="hidden" name="userId" value="<%= user.userId %>">
                             <div class="form-group">
                                 <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name">
-                                <label for="firstName" class="form-label">First name:</label>
+                                <label for="firstName" class="form-label">First name</label>
                             </div>
                             <div class="form-group">
                                 <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name">
-                                <label for="lastName" class="form-label">Last name:</label>
+                                <label for="lastName" class="form-label">Last name</label>
                             </div>
                             <div class="form-group">
                                 <input type="text" name="firstName" class="form-field" id="username" value="<%= user.username %>" placeholder="Username">
-                                <label for="username" class="form-label">Username:</label>
+                                <label for="username" class="form-label">Username</label>
                             </div>
                             <div class="form-group">
                                 <input type="email" name="email" class="form-field" id="email" value="<%= user.email %>" placeholder="Email">
-                                <label for="email" class="form-label">Email:</label>
+                                <label for="email" class="form-label">Email</label>
                             </div>
                             <div class="form-group">
                                 <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone">
-                                <label for="mobilePhone" class="form-label">Mobile phone:</label>
+                                <label for="mobilePhone" class="form-label">Mobile phone</label>
                             </div>
                             <div class="form-group">
                                 <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
-                                <label for="bio" class="form-label">Bio:</label>
+                                <label for="bio" class="form-label">Bio</label>
                             </div>
                             <div class="clearfix">
                                 <button id="submitButton" class="btn btn-primary float-end">Submit</button>
