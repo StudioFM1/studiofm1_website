@@ -12,13 +12,13 @@
             <div class="mx-auto sm-form box-shadow">
                 <h2 class="h1 mb-5">Login</h2>
                 <form method="POST" action="/login">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input id="email" type="email" class="form-control" name="email" placeholder="e.g. email@gmail.com">
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-field" id="email" placeholder="Email">
+                        <label for="email" class="form-label">Email:</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Enter your password">
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-field" id="password" placeholder="Password">
+                        <label for="password" class="form-label">Password:</label>
                     </div>
                     <button id="submit" class="btn btn-primary mb-3">Login</button>
                     <p><a href="/recover_password">Forgot password</a></p>
