@@ -26,5 +26,10 @@ router.get('/logout', controller.user_logout);
  */
 router.get('/users/:id', controller.user_profile_get);
 
+/**
+ * @PUT update user profile
+ */
+router.put('/users/:id', controller.user_profile_put);
+
 
 module.exports = router;

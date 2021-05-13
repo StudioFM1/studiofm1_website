@@ -30,21 +30,19 @@ const userSchema = new Mongoose.Schema({
 /**
  * @Middleware
  */
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function () {
     const fields = Object.keys(this.profile);
     for (const prop of fields) {
-        if(prop === 'password')
-            this.profile[prop] = await cipher.hashPassword(this.profile[prop]);
-        else
-            this.profile[prop] = cipher.encrypt(this.profile[prop]);
+        if (prop === 'password') this.profile[prop] = await cipher.hashPassword(this.profile[prop]);
+        else this.profile[prop] = cipher.encrypt(this.profile[prop]);
     }
     return;
 });
 
 /* Validate producer's password methoid */
-userSchema.methods.validatePassword = function(password) {
+userSchema.methods.validatePassword = function (password) {
     return cipher.comparePassword(password, this.profile.password);
-}
+};
 
 /* Producer model schema */
 const User = Mongoose.model('User', userSchema);
@@ -85,5 +83,12 @@ exports.getUserData = async id => {
         user.profile[prop] = cipher.decrypt(user.profile[prop]);
     }
 
-    return user.profile;
-}
+    return user;
+};
+
+/* Update user's data */
+exports.updateUserData = async id => {
+    /* Get user */
+    const user = await User.findById(id);
+    console.log(user);
+};

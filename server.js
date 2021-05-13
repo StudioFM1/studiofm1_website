@@ -21,9 +21,18 @@ const app = express();
 app.set('views', path.join(__dirname, 'views')); // Set views files path
 app.set('view engine', 'ejs'); // Set view engine
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
-
-app.use(methodOverride('_method')); // Override method middleware
 app.use(express.json()); // Parse json middleware
+/* Override methods (get POST from client and treat them like PUT or DELETE) */
+app.use(
+    methodOverride((req, res) => {
+        if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+            // look in urlencoded POST bodies and delete it
+            var method = req.body._method;
+            delete req.body._method;
+            return method;
+        }
+    })
+);
 
 /* Connect to mongo database */
 const mongoURI = process.env.MONGO_URI;

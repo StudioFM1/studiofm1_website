@@ -12,52 +12,53 @@
             <div class="row">
                 <div class="col-12 col-lg-4 col-xl-3">
                     <div class="card box-shadow text-center h-100 p-4">
-                        <form id="avatarForm" action="/admin/users/avatar/<%= user.userId %>" method="PUT" enctype="multipart/form-data">
-                            <div class="avatar-uploader mb-5" style="background-image: url('<%= user.avatar %>');">
+                        <form id="avatarForm" action="/admin/users/avatar/<%= user._id %>" method="PUT" enctype="multipart/form-data">
+                            <div class="avatar-uploader mb-5" style="background-image: url('<%= user.profile.avatar %>');">
                                 <input type="file" accept="image/png, image/jpeg" name="avatar" id="avatar" class="fileInput">
                             </div>
                         </form>
                         <div class="card-body">
                             <div class="user-about">
-                                <h5><%= user.firstName %> <%= user.lastName %></h5>
-                                <h6>(<%= user.role %>)</h6>
-                                <p><%= user.bio %></p>
+                                <h5><%= user.profile.firstName %> <%= user.profile.lastName %></h5>
+                                <h6>(<%= user.profile.role %>)</h6>
+                                <p><%= user.profile.bio %></p>
                             </div>
                             <div class="user-contact">
                                 <h5>Contact:</h5>
-                                <h6><%= user.email %></h6>
-                                <h6><%= user.mobilePhone %></h6>
+                                <h6><%= user.profile.email %></h6>
+                                <h6><%= user.profile.mobilePhone %></h6>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--  -->
                 <div class="col-12 col-lg-8 col-xl-6">
                     <div class="box-shadow h-100 p-4">
                         <h2 class="mb-4">Profile</h2>
-                        <form id="profileForm" action="/admin/users/<%= user.userId %>" method="PUT">
-                            <input type="hidden" name="userId" value="<%= user.userId %>">
+                        <form id="profileForm" action="/admin/users/<%= user._id %>" method="POST">
+                            <input type="hidden" name="_method" value="PUT"> <!-- Server uses this to override method -->
                             <div class="form-group">
-                                <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name">
+                                <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.profile.firstName %>" placeholder="First name">
                                 <label for="firstName" class="form-label">First name</label>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name">
+                                <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.profile.lastName %>" placeholder="Last name">
                                 <label for="lastName" class="form-label">Last name</label>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="firstName" class="form-field" id="username" value="<%= user.username %>" placeholder="Username">
+                                <input type="text" name="username" class="form-field" id="username" value="<%= user.profile.username %>" placeholder="Username">
                                 <label for="username" class="form-label">Username</label>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-field" id="email" value="<%= user.email %>" placeholder="Email">
+                                <input type="email" name="email" class="form-field" id="email" value="<%= user.profile.email %>" placeholder="Email">
                                 <label for="email" class="form-label">Email</label>
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone">
+                                <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.profile.mobilePhone %>" placeholder="Mobile phone">
                                 <label for="mobilePhone" class="form-label">Mobile phone</label>
                             </div>
                             <div class="form-group">
-                                <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
+                                <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.profile.bio %></textarea>
                                 <label for="bio" class="form-label">Bio</label>
                             </div>
                             <div class="clearfix">
