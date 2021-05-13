@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-/* Get a random goat for default avatar */
+/* Get a random tragi for default avatar */
 exports.getRandomGidi = () =>
     new Promise((resolve, reject) => {
         fs.readdir(`${__dirname}/../public/images/avatars/gidia`, (err, files) => {
