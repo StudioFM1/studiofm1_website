@@ -1,67 +1,70 @@
 {
-  "name": "studiofm1_website",
-  "version": "1.0.0",
-  "description": "The new Studio FM1 105.4 Website",
-  "keywords": [
-    "StudioFM1",
-    "105.4",
-    "Heraklion",
-    "Crete",
-    "TEI",
-    "HMU",
-    "Hellenic",
-    "Mediterranean",
-    "University",
-    "Technological",
-    "Educational",
-    "Institute",
-    "Radioactive"
-  ],
-  "main": "index.js",
-  "scripts": {
-    "preinstall": "npm i -g pm2",
-    "server:watch": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon ./server.js",
-    "sass:watch": "node-sass --source-map true ./assets/scss --output-style compressed -wo ./public/css",
-    "dev": "concurrently  \" npm run sass:watch \" \" npm run server:watch  \"",
-    "sass:compile": "node-sass --sourcemap=none ./assets/scss --output-style compressed -o ./public/css",
-    "css:autoprefix": "postcss --use autoprefixer -b 'defaults' -o ./public/css/main.css ./public/css/*.css",
-    "css:clean": "cleancss -o ./public/css/main.css ./public/css/main.css ",
-    "delete-maps": "find ./public/css -name '*.map' -delete",
-    "build": "npm run sass:compile && npm run css:autoprefix && npm run css:clean && npm run delete-maps",
-    "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && pm2 start ./server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/StudioFM1/studiofm1_website.git"
-  },
-  "author": "Babis Kolokouris <babis-k@outlook.com>, Adam Fragkiadakis <adamfrag@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/StudioFM1/studiofm1_website/issues"
-  },
-  "homepage": "https://github.com/StudioFM1/studiofm1_website#readme",
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.3",
-    "bcryptjs": "^2.4.3",
-    "bootstrap": "^5.0.0",
-    "connect-mongo": "^4.4.1",
-    "crypto-js": "^4.0.0",
-    "dotenv": "^8.6.0",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "font-awesome": "^4.7.0",
-    "jsonwebtoken": "^8.5.1",
-    "method-override": "^3.0.0",
-    "mongoose": "^5.12.8"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.2.5",
-    "clean-css": "^5.1.2",
-    "concurrently": "^6.1.0",
-    "node-sass": "^5.0.0",
-    "nodemon": "^2.0.7",
-    "postcss": "^8.2.15",
-    "postcss-cli": "^8.3.1"
-  }
+      "name": "studiofm1_website",
+      "version": "1.0.0",
+      "description": "The new Studio FM1 105.4 Website",
+      "keywords": [
+            "StudioFM1",
+            "105.4",
+            "Heraklion",
+            "Crete",
+            "TEI",
+            "HMU",
+            "Hellenic",
+            "Mediterranean",
+            "University",
+            "Technological",
+            "Educational",
+            "Institute",
+            "Radioactive"
+      ],
+      "main": "index.js",
+      "scripts": {
+            "preinstall": "npm i -g pm2",
+            "server:watch": "(for /F \"tokens=*\" %i in (./config/dev.env) do set %i) && nodemon ./server.js",
+            "sass:watch": "node-sass --source-map true ./assets/scss --output-style compressed -wo ./public/css",
+            "dev": "concurrently  \" npm run sass:watch \" \" npm run server:watch  \"",
+            "sass:compile": "node-sass --sourcemap=none ./assets/scss --output-style compressed -o ./public/css",
+            "css:autoprefix": "postcss --use autoprefixer -b 'defaults' -o ./public/css/main.css ./public/css/*.css",
+            "css:clean": "cleancss -o ./public/css/main.css ./public/css/main.css ",
+            "delete-maps": "find ./public/css -name '*.map' -delete",
+            "build": "npm run sass:compile && npm run css:autoprefix && npm run css:clean && npm run delete-maps",
+            "start": "npm run build && (for /F \"tokens=*\" %i in (./config/prod.env) do set %i) && pm2 start ./server.js"
+      },
+      "repository": {
+            "type": "git",
+            "url": "git+https://github.com/StudioFM1/studiofm1_website.git"
+      },
+      "contributors": [
+            "Adam Fragkiadakis <adamfrag@gmail.com>",
+            "Babis Kolokouris <babis-k@outlook.com>"
+      ],
+      "license": "ISC",
+      "bugs": {
+          "url": "https://github.com/StudioFM1/studiofm1_website/issues"
+      },
+      "homepage": "https://github.com/StudioFM1/studiofm1_website#readme",
+      "dependencies": {
+            "@fortawesome/fontawesome-free": "^5.15.3",
+            "bcryptjs": "^2.4.3",
+            "bootstrap": "^5.0.0",
+            "connect-mongo": "^4.4.1",
+            "crypto-js": "^4.0.0",
+            "dotenv": "^8.6.0",
+            "ejs": "^3.1.6",
+            "express": "^4.17.1",
+            "express-session": "^1.17.1",
+            "font-awesome": "^4.7.0",
+            "jsonwebtoken": "^8.5.1",
+            "method-override": "^3.0.0",
+            "mongoose": "^5.12.8"
+      },
+      "devDependencies": {
+            "autoprefixer": "^10.2.5",
+            "clean-css": "^5.1.2",
+            "concurrently": "^6.1.0",
+            "node-sass": "^5.0.0",
+            "nodemon": "^2.0.7",
+            "postcss": "^8.2.15",
+            "postcss-cli": "^8.3.1"
+      }
 }

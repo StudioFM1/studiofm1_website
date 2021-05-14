@@ -54,7 +54,6 @@ userSchema.methods.validatePassword = function (password) {
 /* Producer model schema */
 const User = Mongoose.model('User', userSchema);
 
-
 /* Insert a new user in the database */
 exports.insertUser = async data => {
     /* Defaults for bio, avatar & role */
@@ -68,15 +67,13 @@ exports.insertUser = async data => {
 exports.validateLogin = async ({ email, password }) => {
     const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
 
-    if (!user)
-        throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+    if (!user) throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
 
     const validated = await user.validatePassword(password);
-    if (!validated)
-        throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+    if (!validated) throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
 
     return { userId: user._id, username: cipher.decrypt(user.profile.username) };
-}
+};
 
 /* Get user's profile data */
 exports.getUserData = async id => {
