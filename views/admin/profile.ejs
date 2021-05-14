@@ -5,13 +5,14 @@
 </head>
 <body>
     <%- include('../partials/adminHeader.ejs') %>
-    <div class="container my-5">
+    <div class="container">
         <main>
-            <div class="row g-0 box-shadow">
-                <div class="col-12 col-lg-4 col-xl-3">
+            <div class="row py-5 g-0 box-shadow">
+                <h2 class="text-center">Profile</h2>
+                <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
                     <div class="card text-center h-100 p-4">
                         <form id="avatarForm" action="/admin/users/avatar/<%= user._id %>" method="PUT" enctype="multipart/form-data">
-                            <div class="avatar-uploader mb-5" style="background-image: url('<%= user.avatar %>');">
+                            <div class="avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
                                 <input type="file" accept="image/png, image/jpeg" name="avatar" id="avatar" class="fileInput">
                             </div>
                         </form>
@@ -23,12 +24,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-8 col-xl-6">
+                <div class="col-12 col-lg-8 col-xl-6 border-2 border-end border-light">
                     <div class="h-100 p-4">
-                        <h2 class="mb-4">Profile</h2>
                         <div id="message" class="alert alert-success d-none" role="alert"></div>
                         <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
-                            <!-- Server uses this to override method -->
+                            <!-- Method override -->
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name" required>
