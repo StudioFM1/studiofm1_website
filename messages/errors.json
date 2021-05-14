@@ -1,13 +1,12 @@
 {
     "UNEXPECTED_ERROR": "Something went wrong... :(",
-    "EMAIL_EXISTS": "A producer with this email already exists",
-    "EMAIL_ERROR": "Producer added but somthing went wrong with the email",
-    "INVALID_TOKEN": "Token is not valid",
+    "EMAIL_EXISTS": "A user with this email already exists",
+    "USERNAME_EXISTS": "This username is already taken",
     "CREDENTIALS_ERROR": "Invalid email or password.",
-    "PASSWORD_ERROR": "Invalid password.",
-    "EMPTY_FIELDS": "Please fill all the required(*) fields",
+    "EMPTY_FIELD": "This field is required",
+    "EMPTY_CURRENT_PASSWORD": "Confirm with old password",
+    "INVALID_CURRENT_PASSWORD": "The current password is invalid",
     "INVALID_EMAIL": "Please enter a valid email address",
     "INVALID_PASSWORD": "Your password must contain at least eight characters",
-    "PASSWORD_MISSMATCH": "The passwords do not match",
-    "PRODUCER_NONEXIST": "This producer does not exists"
+    "PASSWORD_MISSMATCH": "The passwords do not match"
 }

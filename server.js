@@ -47,12 +47,13 @@ app.use(createSession(sessionSecret, mongoURI));
 /* Handle routes and errors */
 app.use('/', routes);
 app.use('/admin', mw.isLoggedIn, adminRoutes);
-app.use((err, req, res, next) => { // handle errors
+app.use((err, req, res, next) => {
+    // handle errors
     err = err.status ? err : format.clientError(err);
-    res.status(err.status).json({ error: err.message });
+    res.status(err.status).json({ errors: err.msgs });
 });
 app.use((req, res, next) =>
-    res.status(404).render('404', { title: 404, message: 'Resource not found' })); // 404 page
+    res.status(404).render('404', { title: 404, msg: 'Resource not found' })); // 404 page
 
 /* Start server */
 app.listen(process.env.PORT, () =>

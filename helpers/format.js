@@ -1,5 +1,7 @@
 'use strict'
 
+const errorMsgs = require('../messages/errors.json');
+
 /* Format an error before sending to the client */
 exports.clientError = err => {
     console.log(err)
@@ -7,11 +9,11 @@ exports.clientError = err => {
         if (err.code === 11000) { // Duplicate key error
             let duplicate = Object.keys(err.keyPattern)[0];
             if(duplicate === 'profile.email')
-                return { message: 'A user with this email already exists', status: 409 }
+                return { msgs: [{ msg: errorMsgs.EMAIL_EXISTS, field: 'email' }], status: 409 };
             else if (duplicate === 'profile.username')
-                return { message: 'This username is already taken', status: 409 }
+                return { msgs: [{ msg: errorMsgs.USERNAME_EXISTS, field: 'username' }], status: 409 };
         }
     } else {
-        return { message: 'Something went wrong', status: 500 }
+        return { msgs: [{ msg: errorMsgs.UNEXPECTED_ERROR }], status: 500 };
     }
 }

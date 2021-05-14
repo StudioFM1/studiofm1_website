@@ -67,10 +67,24 @@ exports.insertUser = async data => {
 exports.validateLogin = async ({ email, password }) => {
     const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
 
-    if (!user) throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+    if (!user)
+        throw {
+            msgs: [
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'email' },
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'password' },
+            ],
+            status: 401,
+        };
 
     const validated = await user.validatePassword(password);
-    if (!validated) throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+    if (!validated)
+        throw {
+            msgs: [
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'email' },
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'password' },
+            ],
+            status: 401,
+        };
 
     return { userId: user._id, username: cipher.decrypt(user.profile.username) };
 };
@@ -87,16 +101,31 @@ exports.getUserData = async id => {
         user.profile[prop] = cipher.decrypt(user.profile[prop]);
     }
 
-    return Object.assign({}, user.profile, user.status, user.shows);
+    return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
 
 /* Update user's data */
 exports.updateUserData = async (id, data) => {
     /* Get user and assign changed properties */
     const user = await User.findById(id);
-    Object.assign(user.profile, data);
 
+    /* If there is a new password */
+    if (data.newPassword.length) {
+        /* Validate current password before proceeding */
+        const validated = await user.validatePassword(data.password);
+        if (!validated) throw { msgs: [{ msg: errorMsg.INVALID_CURRENT_PASSWORD, field: 'password' }], status: 401 };
+
+        /* Format object before assigning to the User instance */
+        data.password = data.newPassword;
+        delete data.newPassword;
+    } else {
+        /* If no new password, delete any reference of the object to passwords */
+        delete data.password;
+        delete data.newPassword;
+    }
+
+    Object.assign(user.profile, data);
     await user.save();
-    
-    return Object.assign({}, user.profile, user.status, user.shows);
+
+    return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
