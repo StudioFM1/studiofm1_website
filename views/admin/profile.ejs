@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <%- include('../partials/head.ejs') %>    
 </head>
-
 <body>
     <%- include('../partials/adminHeader.ejs') %>
     <div class="container my-5">
@@ -35,6 +33,7 @@
                 <div class="col-12 col-lg-8 col-xl-6">
                     <div class="box-shadow h-100 p-4">
                         <h2 class="mb-4">Profile</h2>
+                        <div id="message" class="alert alert-success d-none" role="alert"></div>
                         <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
                             <!-- Server uses this to override method -->
                             <input type="hidden" name="_method" value="PUT">
@@ -66,6 +65,21 @@
                             <div class="form-group">
                                 <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
                                 <label for="bio" class="form-label">Bio</label>
+                            </div>
+                            <div class="mb-4">
+                                <a class="collapseTrigger collapsed" data-bs-toggle="collapse" href="#collapsePassword" role="button" aria-expanded="false" aria-controls="collapseExample"><h6>Change password</h6></a>
+                                <div id="collapsePassword" class="collapse">
+                                    <div class="form-group">
+                                        <input type="password" name="newPassword" class="form-field" id="newPassword" placeholder="New password">
+                                        <label for="newPassword" class="form-label">New password</label>
+                                        <div class="errorTag" data-target-field="newPassword"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" class="form-field" id="password" placeholder="Current password" required>
+                                        <label for="password" class="form-label">Current password</label>
+                                        <div class="errorTag" data-target-field="password"></div>
+                                    </div>
+                                </div>
                             </div>
                             <button id="submit" class="btn btn-primary">Submit</button>
                         </form>

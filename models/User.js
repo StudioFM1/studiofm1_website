@@ -109,9 +109,24 @@ exports.getUserData = async id => {
 exports.updateUserData = async (id, data) => {
     /* Get user and assign changed properties */
     const user = await User.findById(id);
-    Object.assign(user.profile, data);
 
+    /* If there is a new password */
+    if (data.newPassword.length) {
+        /* Validate current password before proceeding */
+        const validated = await user.validatePassword(data.password);
+        if (!validated) throw { msgs: [{ msg: errorMsg.INVALID_CURRENT_PASSWORD, field: 'password' }], status: 401 };
+
+        /* Format object before assigning to the User instance */
+        data.password = data.newPassword;
+        delete data.newPassword;
+    } else {
+        /* If no new password, delete any reference of the object to passwords */
+        delete data.password;
+        delete data.newPassword;
+    }
+
+    Object.assign(user.profile, data);
     await user.save();
-    
-    return Object.assign({}, user.profile, user.status, user.shows);
+
+    return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };

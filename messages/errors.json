@@ -3,7 +3,9 @@
     "EMAIL_EXISTS": "A user with this email already exists",
     "USERNAME_EXISTS": "This username is already taken",
     "CREDENTIALS_ERROR": "Invalid email or password.",
-    "EMPTY_FIELDS": "This field is required",
+    "EMPTY_FIELD": "This field is required",
+    "EMPTY_CURRENT_PASSWORD": "Confirm with old password",
+    "INVALID_CURRENT_PASSWORD": "The current password is invalid",
     "INVALID_EMAIL": "Please enter a valid email address",
     "INVALID_PASSWORD": "Your password must contain at least eight characters",
     "PASSWORD_MISSMATCH": "The passwords do not match"

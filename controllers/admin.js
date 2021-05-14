@@ -1,6 +1,7 @@
 'use strict';
 
 const { getUserData, updateUserData } = require('../models/User');
+const successMsg = require('../messages/success.json');
 
 /* Render admin dashboard */
 exports.index = (req, res, next) => res.render('admin/dashboard', { title: 'Admin dashboard', user: req.session.user });
@@ -20,5 +21,5 @@ exports.user_profile_get = async (req, res, next) => {
 /* Update user's profile */
 exports.user_profile_put = async (req, res, next) => {
     const updatedUser = await updateUserData(req.params.id, req.body);
-    res.json({ data: updatedUser });
+    res.json({ success: successMsg.PROFILE_UPDATE });
 };

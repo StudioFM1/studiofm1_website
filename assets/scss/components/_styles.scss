@@ -1,3 +1,31 @@
 .box-shadow {
     box-shadow: 5px 5px 20px 0 rgba(0,0,0,.1)
 }
+
+.collapseTrigger {
+
+    position: relative;
+    color: $secondary;
+    padding-right: 20px;
+    display: inline-block;
+
+    &:hover {
+        color: $secondary;
+    }
+
+    &::after {
+        @extend .fas; // for font awsome use in ::after
+        transform: rotate(90deg);
+        content: fa-content($fa-var-angle-right);
+        position: absolute;
+        right: 0px;
+        top: 3px;
+        transition: rotate, .2s;
+    }
+
+    &.collapsed {
+        &::after {
+            transform: rotate(0);
+        }
+    }
+}

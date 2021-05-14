@@ -1,9 +1,26 @@
 'use strict'
 
+/**
+ * @description
+ * This script is used by the registration,
+ * login and profile update forms. It collects the 
+ * data from the form ande sends the corresponding 
+ * API request to the server for each form
+ * 
+ * On server response, the script redirects the browser
+ * if the response contains a redirect property, or displays 
+ * a feedback (success message or possible errors).
+ */
+
 /* Clear any message on the DOM */
 function clearMessages() {
+    /* Remove success messages */    
+    const message = document.getElementById('message');
+    message.classList.add('d-none');
+    message.innerText = '';
+
+    /* Remove errors */
     const fields = document.querySelectorAll('.form-field');
-    /* Remove error class from fields */
     fields.forEach(field => {
         if(field.classList.contains('error'))
             field.classList.remove('error');
@@ -19,8 +36,18 @@ function displayFeedback(data) {
     /* Clear previous messages */
     clearMessages();
 
+    if(data.success) {
+        const message = document.getElementById('message');
+        message.classList.remove('d-none');
+        message.innerText = data.success;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        /* Clear passwords */
+        document.getElementById('newPassword').value = '';
+        document.getElementById('password').value = '';
+    }
     /* Check for errors and display them if any */
-    if(data.errors?.length) {
+    else if(data.errors?.length) {
         for(const error of data.errors) {
             /* Get incorrect field and it's error tag */
             const field = document.getElementById(error.field);

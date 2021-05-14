@@ -24,14 +24,14 @@ exports.validateForm = formType => (req, res, next) => {
 
     /* Email validation */
     const validateEmail = email => {
-        if (email === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'email' });
+        if (email === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field: 'email' });
         else if (!email.match(emailRegex)) errors.push({ msg: errorMsg.INVALID_EMAIL, field: 'email' });
     };
 
     /* Password validation */
-    const validatePassword = password => {
-        if (password === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'password' });
-        else if (!password.match(passwordRegex)) errors.push({ msg: errorMsg.INVALID_PASSWORD, field: 'password' });
+    const validatePassword = (password, field) => {
+        if (password === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field });
+        else if (!password.match(passwordRegex)) errors.push({ msg: errorMsg.INVALID_PASSWORD, field });
     };
 
     /* Password confirmation */
@@ -41,23 +41,29 @@ exports.validateForm = formType => (req, res, next) => {
 
     /* Validate login form */
     if (formType === 'login') {
-        if (req.body.email === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'email' });
-        if (req.body.password === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'password' });
+        if (req.body.email === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field: 'email' });
+        if (req.body.password === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field: 'password' });
     } else if (formType === 'registration') {
         /* Validate registration form */
         for (const field in req.body) {
             const value = req.body[field];
             if (field === 'email') validateEmail(value);
-            else if (field === 'password') validatePassword(value);
+            else if (field === 'password') validatePassword(value, field);
             else if (field === 'confirmPassword') comparePasswords(req.body['password'], value);
-            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field });
+            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field });
         }
     } else if (formType === 'profile') {
         for(const field in req.body) {
             const value = req.body[field];
-            if(field === 'bio') continue;
-            if (field === 'email') validateEmail(value);
-            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field });
+            if (field === 'bio' || field === 'password') continue;
+            else if (field === 'email') validateEmail(value);
+            else if (field === 'newPassword') { // If there is a new password
+                if(value !== '') {
+                    if (req.body['password'] === '') errors.push({ msg: errorMsg.EMPTY_CURRENT_PASSWORD, field: 'password' })
+                    validatePassword(value, field);
+                }
+            }
+            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field });
         }
     }
 
