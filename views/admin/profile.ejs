@@ -7,9 +7,9 @@
     <%- include('../partials/adminHeader.ejs') %>
     <div class="container my-5">
         <main>
-            <div class="row">
+            <div class="row g-0 box-shadow">
                 <div class="col-12 col-lg-4 col-xl-3">
-                    <div class="card box-shadow text-center h-100 p-4">
+                    <div class="card text-center h-100 p-4">
                         <form id="avatarForm" action="/admin/users/avatar/<%= user._id %>" method="PUT" enctype="multipart/form-data">
                             <div class="avatar-uploader mb-5" style="background-image: url('<%= user.avatar %>');">
                                 <input type="file" accept="image/png, image/jpeg" name="avatar" id="avatar" class="fileInput">
@@ -18,20 +18,13 @@
                         <div class="card-body">
                             <div class="user-about">
                                 <h5><%= user.firstName %> <%= user.lastName %></h5>
-                                <h6>(<%= user.role %>)</h6>
-                                <p><%= user.bio %></p>
-                            </div>
-                            <div class="user-contact">
-                                <h5>Contact:</h5>
-                                <h6><%= user.email %></h6>
-                                <h6><%= user.mobilePhone %></h6>
+                                <h6><%= user.role %></h6>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--  -->
                 <div class="col-12 col-lg-8 col-xl-6">
-                    <div class="box-shadow h-100 p-4">
+                    <div class="h-100 p-4">
                         <h2 class="mb-4">Profile</h2>
                         <div id="message" class="alert alert-success d-none" role="alert"></div>
                         <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
@@ -88,7 +81,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-12 col-xl-3">
-                    <div class="box-shadow h-100 p-4">
+                    <div class="h-100 p-4">
                         <h2 class="mb-4">Shows</h2>
                     </div>
                 </div>
