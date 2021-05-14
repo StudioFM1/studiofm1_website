@@ -20,45 +20,42 @@ exports.isLoggedIn = (req, res, next) => {
 
 /* Validate forms */
 exports.validateForm = formType => (req, res, next) => {
+    let errors = [];
+
     /* Email validation */
-    const validateEmail = (email) => {
-        if (email === '') throw { message: errorMsg.EMPTY_FIELDS, status: 422 };
-        else if (!email.match(emailRegex))
-            throw { message: errorMsg.INVALID_EMAIL, status: 422 };
-    }
+    const validateEmail = email => {
+        if (email === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'email' });
+        else if (!email.match(emailRegex)) errors.push({ msg: errorMsg.INVALID_EMAIL, field: 'email' });
+    };
 
     /* Password validation */
-    const validatePassword = (password) => {
-        if (password === '') throw { message: errorMsg.EMPTY_FIELDS, status: 422 };
-        else if (!password.match(passwordRegex))
-            throw { message: errorMsg.INVALID_PASSWORD, status: 422 };
-    }
+    const validatePassword = password => {
+        if (password === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'password' });
+        else if (!password.match(passwordRegex)) errors.push({ msg: errorMsg.INVALID_PASSWORD, field: 'password' });
+    };
 
     /* Password confirmation */
     const comparePasswords = (password, confirmPassword) => {
-        if (confirmPassword !== password)
-            throw { message: errorMsg.PASSWORD_MISSMATCH, status: 422 };
-    }
+        if (confirmPassword !== password) errors.push({ msg: errorMsg.PASSWORD_MISSMATCH, field: 'confirmPassword' });
+    };
 
     /* Validate login form */
     if (formType === 'login') {
-        if (req.body.email === '' || req.body.password === '')
-            throw { message: errorMsg.EMPTY_FIELDS, status: 422 };
-    }
-    /* Validate registration form */
-    else if (formType === 'registration') {
-        for(const key in req.body) {
-            const value = req.body[key];
-            if (key === 'email')
-                validateEmail(value);
-            else if (key === 'password')
-                validatePassword(value);
-            else if (key === 'confirmPassword')
-                comparePasswords(req.body['password'], value);
-            else if (value === '')
-                throw { message: errorMsg.EMPTY_FIELDS, status: 422 };
+        if (req.body.email === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'email' });
+        if(req.body.password === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'password' });
+    } else if (formType === 'registration') {
+            /* Validate registration form */
+        for (const field in req.body) {
+            const value = req.body[field];
+            if (field === 'email') validateEmail(value);
+            else if (field === 'password') validatePassword(value);
+            else if (field === 'confirmPassword') comparePasswords(req.body['password'], value);
+            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field });
         }
     }
+
+    /* If there are errors... */
+    if (errors.length > 0) throw { msgs: errors, status: 422 };
 
     next();
 }

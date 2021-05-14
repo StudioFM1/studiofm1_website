@@ -13,12 +13,14 @@
                 <h2 class="h1 mb-5">Login</h2>
                 <form method="POST" action="/login">
                     <div class="form-group">
-                        <input type="email" name="email" class="form-field" id="email" placeholder="Email">
+                        <input type="email" name="email" class="form-field" id="email" placeholder="Email" required>
                         <label for="email" class="form-label">Email</label>
+                        <div class="errorTag" data-target-field="email"></div>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-field" id="password" placeholder="Password">
+                        <input type="password" name="password" class="form-field" id="password" placeholder="Password" required>
                         <label for="password" class="form-label">Password</label>
+                        <div class="errorTag" data-target-field="password"></div>
                     </div>
                     <button id="submit" class="btn btn-primary mb-3">Login</button>
                     <p><a href="/recover_password">Forgot password</a></p>
@@ -28,6 +30,6 @@
     </main>
     <%- include('./partials/footer.ejs') %>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/request.js"></script>
+    <script src="/js/form.js"></script>
 </body>
 </html>

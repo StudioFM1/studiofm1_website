@@ -6,7 +6,7 @@
 .form-group {
     position: relative;
     padding: 15px 0 0;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
   
 .form-field, .form-select-field {
@@ -30,6 +30,10 @@
         border-width: 3px;
         border-image: linear-gradient(to right, $primary, $secondary);
         border-image-slice: 1;
+    }
+
+    &.error {
+        border-bottom-color: $red;
     }
 }
 
@@ -128,4 +132,11 @@
     opacity: 0;
     cursor: pointer;
     z-index: 1;
+}
+
+.errorTag {
+    position: absolute;
+    right: 0;
+    bottom: .375rem;
+    color: $red;
 }

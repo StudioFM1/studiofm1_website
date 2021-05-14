@@ -69,11 +69,23 @@ exports.validateLogin = async ({ email, password }) => {
     const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
 
     if (!user)
-        throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+        throw {
+            msgs: [
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'email' },
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'password' },
+            ],
+            status: 401,
+        };
 
     const validated = await user.validatePassword(password);
     if (!validated)
-        throw { status: 401, message: errorMsg.CREDENTIALS_ERROR };
+        throw {
+            msgs: [
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'email' },
+                { msg: errorMsg.CREDENTIALS_ERROR, field: 'password' },
+            ],
+            status: 401,
+        };
 
     return { userId: user._id, username: cipher.decrypt(user.profile.username) };
 }
