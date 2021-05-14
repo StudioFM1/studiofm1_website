@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mw = require('../middleware');
 const controller = require('../controllers/admin');
 
 /**
@@ -29,7 +30,7 @@ router.get('/users/:id', use(controller.user_profile_get));
 /**
  * @PUT update user profile
  */
-router.put('/users/:id', use(controller.user_profile_put));
+router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_profile_put));
 
 
 module.exports = router;

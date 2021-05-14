@@ -35,37 +35,39 @@
                 <div class="col-12 col-lg-8 col-xl-6">
                     <div class="box-shadow h-100 p-4">
                         <h2 class="mb-4">Profile</h2>
-                        <form id="profileForm" action="/admin/users/<%= user._id %>" method="POST">
+                        <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
                             <!-- Server uses this to override method -->
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
-                                <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name">
+                                <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name" required>
                                 <label for="firstName" class="form-label">First name</label>
+                                <div class="errorTag" data-target-field="firstName"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name">
+                                <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name" required>
                                 <label for="lastName" class="form-label">Last name</label>
+                                <div class="errorTag" data-target-field="lastName"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="username" class="form-field" id="username" value="<%= user.username %>" placeholder="Username">
+                                <input type="text" name="username" class="form-field" id="username" value="<%= user.username %>" placeholder="Username" required>
                                 <label for="username" class="form-label">Username</label>
+                                <div class="errorTag" data-target-field="username"></div>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-field" id="email" value="<%= user.email %>" placeholder="Email">
+                                <input type="email" name="email" class="form-field" id="email" value="<%= user.email %>" placeholder="Email" required>
                                 <label for="email" class="form-label">Email</label>
+                                <div class="errorTag" data-target-field="email"></div>
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone">
+                                <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone" required>
                                 <label for="mobilePhone" class="form-label">Mobile phone</label>
+                                <div class="errorTag" data-target-field="mobilePhone"></div>
                             </div>
                             <div class="form-group">
                                 <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
                                 <label for="bio" class="form-label">Bio</label>
                             </div>
-                            <div class="clearfix">
-                                <button id="submitButton" class="btn btn-primary float-end">Submit</button>
-                                <a id="editProfile" class="float-start" href="#">Edit profile</a>
-                            </div>
+                            <button id="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -79,6 +81,6 @@
     </div>
     <%- include('../partials/footer.ejs') %>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/profile.js"></script>
+    <script src="/js/form.js"></script>
 </body>
 </html>

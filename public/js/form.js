@@ -18,7 +18,7 @@ function clearMessages() {
 function displayFeedback(data) {
     /* Clear previous messages */
     clearMessages();
-console.log(data)
+
     /* Check for errors and display them if any */
     if(data.errors?.length) {
         for(const error of data.errors) {
@@ -35,7 +35,7 @@ console.log(data)
 /* Form request and submit form */
 const submitForm = async (submitButton) => {
     submitButton.disabled = true;
-    const form = document.getElementsByTagName('form')[0];
+    const form = document.getElementById('userForm');
     const formFields = new FormData(form);
 
     let data = {};

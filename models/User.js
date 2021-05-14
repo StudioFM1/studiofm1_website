@@ -102,7 +102,7 @@ exports.getUserData = async id => {
         user.profile[prop] = cipher.decrypt(user.profile[prop]);
     }
 
-    return Object.assign({}, user.profile, user.status, user.shows);
+    return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
 
 /* Update user's data */

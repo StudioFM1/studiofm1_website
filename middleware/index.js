@@ -42,14 +42,21 @@ exports.validateForm = formType => (req, res, next) => {
     /* Validate login form */
     if (formType === 'login') {
         if (req.body.email === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'email' });
-        if(req.body.password === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'password' });
+        if (req.body.password === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field: 'password' });
     } else if (formType === 'registration') {
-            /* Validate registration form */
+        /* Validate registration form */
         for (const field in req.body) {
             const value = req.body[field];
             if (field === 'email') validateEmail(value);
             else if (field === 'password') validatePassword(value);
             else if (field === 'confirmPassword') comparePasswords(req.body['password'], value);
+            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field });
+        }
+    } else if (formType === 'profile') {
+        for(const field in req.body) {
+            const value = req.body[field];
+            if(field === 'bio') continue;
+            if (field === 'email') validateEmail(value);
             else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELDS, field });
         }
     }
