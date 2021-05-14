@@ -6,11 +6,18 @@ const { insertUser, validateLogin } = require('../models/User');
 exports.index = (req, res, next) =>
     res.render('homepage', { title: 'Studio FM1 105.4' });
 
-/* Render register page */
+/**
+ * @description
+ * Render registration page
+ */
 exports.register_user_get = (req, res, next) =>
     res.render('register', { title: 'Create account' });
 
-/* Register a new user */
+/**
+ * @description
+ * Create a new user
+ * redirect client to admin
+ */
 exports.register_user_post = async (req, res, next) => {
     /* Insert producer and return email & password */
     await insertUser(req.body);
@@ -18,7 +25,12 @@ exports.register_user_post = async (req, res, next) => {
     res.status(201).json({ redirect: '/admin' });
 }
 
-/* Login a user */
+/**
+ * @description
+ * Valdiate user's login data
+ * Load user in session
+ * redirect client to admin
+ */
 exports.login_user_post = async (req, res, next) => {
     /* Find and validate user */
     const user = await validateLogin(req.body);

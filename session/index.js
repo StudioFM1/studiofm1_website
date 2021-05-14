@@ -3,6 +3,13 @@
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
+/**
+ * Creates a session for the app
+ * 
+ * @param {*} sessionSecret The session key
+ * @param {*} mongoURI The mongo URI (duh!)
+ * @returns session object
+ */
 const createSession = (sessionSecret, mongoURI) => {
     return session({
         secret: sessionSecret,

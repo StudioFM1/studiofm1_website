@@ -3,22 +3,41 @@
 const errorMsg = require('../messages/errors.json');
 
 /* Email & password formats */
-const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 const passwordRegex = /^(?=.*[a-z]).{8,}$/;
 
-/* Is registration allowed */
+/**
+ * Checks if registration is allowed
+ * 
+ * @param {object} req request obj
+ * @param {object} res response obj
+ * @param {function} next next function (moves to the next middleware)
+ * @returns either moves to next middleware if registration is allowed or reditrects home
+ */
 exports.isAllowed = (req, res, next) => {
     if(process.env.REGISTRATION === 'ALLOWED') return next();
     res.redirect('/');
 }
 
-/* Checks if user is logged in */
+/**
+ * Checks if a user is logged in
+ * 
+ * @param {object} req request obj
+ * @param {object} res response obj
+ * @param {function} next next function (moves to the next middleware)
+ * @returns either moves to next middleware or renders login page
+ */
 exports.isLoggedIn = (req, res, next) => {
     if (req.session.user) return next();
     res.render('login', { title: 'Studio FM1 Login' });
 };
 
-/* Validate forms */
+/**
+ * Validates forms
+ * 
+ * @param {string} formType What for is it, registration, login or profile 
+ * @returns a function that validates the from. If there is any error the error is throwd to be handled from next middleware
+ */
 exports.validateForm = formType => (req, res, next) => {
     let errors = [];
 
@@ -39,8 +58,8 @@ exports.validateForm = formType => (req, res, next) => {
         if (confirmPassword !== password) errors.push({ msg: errorMsg.PASSWORD_MISSMATCH, field: 'confirmPassword' });
     };
 
-    /* Validate login form */
     if (formType === 'login') {
+        /* Validate login form */
         if (req.body.email === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field: 'email' });
         if (req.body.password === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field: 'password' });
     } else if (formType === 'registration') {
@@ -53,17 +72,18 @@ exports.validateForm = formType => (req, res, next) => {
             else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field });
         }
     } else if (formType === 'profile') {
-        for(const field in req.body) {
+        /* Validate profile update */
+        for (const field in req.body) {
             const value = req.body[field];
             if (field === 'bio' || field === 'password') continue;
             else if (field === 'email') validateEmail(value);
-            else if (field === 'newPassword') { // If there is a new password
-                if(value !== '') {
-                    if (req.body['password'] === '') errors.push({ msg: errorMsg.EMPTY_CURRENT_PASSWORD, field: 'password' })
+            else if (field === 'newPassword') {
+                // If there is a new password
+                if (value !== '') {                    
+                    if (req.body['password'] === '') errors.push({ msg: errorMsg.EMPTY_CURRENT_PASSWORD, field: 'password' });
                     validatePassword(value, field);
                 }
-            }
-            else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field });
+            } else if (value === '') errors.push({ msg: errorMsg.EMPTY_FIELD, field });
         }
     }
 

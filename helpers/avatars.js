@@ -2,7 +2,12 @@
 
 const fs = require('fs');
 
-/* Get a random tragi for default avatar */
+/**
+ * Reads the /public/gidia directory
+ * and picks a random file
+ * 
+ * @returns the random file
+ */
 exports.getRandomGidi = () =>
     new Promise((resolve, reject) => {
         fs.readdir(`${__dirname}/../public/images/avatars/gidia`, (err, files) => {

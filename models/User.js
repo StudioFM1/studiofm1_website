@@ -1,12 +1,13 @@
 'use strict';
 
-/* Dependencies and files */
 const Mongoose = require('mongoose');
 const cipher = require('../helpers/encryption');
 const { getRandomGidi } = require('../helpers/avatars');
 const errorMsg = require('../messages/errors.json');
 
-/* Producer Schema */
+/**
+ * @description: The User model schema
+ */
 const userSchema = new Mongoose.Schema({
     profile: {
         email: { type: String, unique: true, required: true },
@@ -32,21 +33,29 @@ const userSchema = new Mongoose.Schema({
 });
 
 /**
- * @Middleware
+ * Middleware function that encrypts 
+ * user profile data before saving
+ * 
+ * @param {function} next The next() function to move on save
  */
-userSchema.pre('save', async function () {
+userSchema.pre('save', async function (next) {
     const fields = Object.keys(this.profile);
     for (const prop of fields) {
-        if(prop === '$init') continue;
+        if (prop === '$init') continue;
         if (this.isModified(`profile.${prop}`)) {
             if (prop === 'password') this.profile[prop] = await cipher.hashPassword(this.profile[prop]);
             else this.profile[prop] = cipher.encrypt(this.profile[prop]);
         }
     }
-    return;
+    next();
 });
 
-/* Validate producer's password methoid */
+/**
+ * Validate's user's password
+ * 
+ * @param {string} password The password to be validated 
+ * @returns true or false
+ */
 userSchema.methods.validatePassword = function (password) {
     return cipher.comparePassword(password, this.profile.password);
 };
@@ -54,16 +63,28 @@ userSchema.methods.validatePassword = function (password) {
 /* Producer model schema */
 const User = Mongoose.model('User', userSchema);
 
-/* Insert a new user in the database */
+/**
+ * Inserts a new user in the database
+ * 
+ * @param {object} data the user's data
+ * 
+ */
 exports.insertUser = async data => {
     /* Defaults for bio, avatar & role */
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
     data.avatar = await getRandomGidi();
+
     const newUser = new User({ profile: data });
     await newUser.save();
 };
 
-/* Validate user's login */
+/**
+ * Validate's user's try to login
+ * 
+ * @param {string} email The email of the user 
+ * @param {string} password The password of the user 
+ * @returns returns an object with the user's id and username
+ */
 exports.validateLogin = async ({ email, password }) => {
     const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
 
@@ -89,9 +110,14 @@ exports.validateLogin = async ({ email, password }) => {
     return { userId: user._id, username: cipher.decrypt(user.profile.username) };
 };
 
-/* Get user's profile data */
+/**
+ * Finds a user in the database 
+ * and return it's data
+ * 
+ * @param {string} id the Mongoose object ID 
+ * @returns the user that corresponds to that id
+ */
 exports.getUserData = async id => {
-    /* Get user without password*/
     const user = await User.findById(id);
 
     /* Decrypt data */
@@ -104,18 +130,22 @@ exports.getUserData = async id => {
     return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
 
-/* Update user's data */
+/**
+ * Finds a user in the database 
+ * and updates its data
+ * 
+ * @param {string} id the Mongoose object ID 
+ * @param {object} data the new data
+ * @returns the updated user that corresponds to that ID
+ */
 exports.updateUserData = async (id, data) => {
-    /* Get user and assign changed properties */
     const user = await User.findById(id);
 
     /* If there is a new password */
     if (data.newPassword.length) {
-        /* Validate current password before proceeding */
         const validated = await user.validatePassword(data.password);
         if (!validated) throw { msgs: [{ msg: errorMsg.INVALID_CURRENT_PASSWORD, field: 'password' }], status: 401 };
 
-        /* Format object before assigning to the User instance */
         data.password = data.newPassword;
         delete data.newPassword;
     } else {

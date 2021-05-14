@@ -1,9 +1,12 @@
 'use strict';
 
-/* Load dependencies */
 const Mongoose = require('mongoose');
 
-/* Connect to mongo database Promise */
+/**
+ * Creates a mongoDB connection
+ * 
+ * @param {string} mongoURI The mongo URI (duh!)
+ */
 const connectToMongo = async mongoURI => {
     try {
         await Mongoose.connect(mongoURI, {

@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 const mw = require('../middleware');
@@ -9,26 +11,25 @@ const controller = require('../controllers');
  * catch any possible errors
  */
 
-const use = fn => (req, res, next) =>
-    Promise.resolve(fn(req, res, next)).catch(next);
+const use = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
 /**
- * @GET homepage
+ * @GET Homepage
  */
 router.get('/', use(controller.index));
 
 /**
- * @GET Register page
+ * @GET Registration page
  */
 router.get('/register', mw.isAllowed, use(controller.register_user_get));
 
 /**
- * @POST Register user
+ * @POST User registration data
  */
 router.post('/register', mw.isAllowed, use(mw.validateForm('registration')), use(controller.register_user_post));
 
 /**
- * @POST Login user
+ * @POST User login data
  */
 router.post('/login', use(mw.validateForm('login')), use(controller.login_user_post));
 

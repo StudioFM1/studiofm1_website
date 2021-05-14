@@ -1,28 +1,26 @@
 'use strict';
 
-/* Dependencies */
 const path = require('path');
 const express = require('express');
 const methodOverride = require('method-override');
-/* Import database connection */
 const dbConnection = require('./database');
-/* Import session object */
 const createSession = require('./session');
-/* Import middleware */
-const mw = require('./middleware')
-/* Import routing */
+const mw = require('./middleware');
 const routes = require('./routes');
 const adminRoutes = require('./routes/admin.js');
-/* Error formatter */
 const format = require('./helpers/format');
 
-/* Create express app */
+/**
+ * @description
+ * Create an express app
+ * Set view engine and static files path
+ * Parse json and override POST methods to PUT or DELETE
+ */
 const app = express();
-app.set('views', path.join(__dirname, 'views')); // Set views files path
-app.set('view engine', 'ejs'); // Set view engine
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
-app.use(express.json()); // Parse json middleware
-/* Override methods (get POST from client and treat them like PUT or DELETE) */
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 app.use(
     methodOverride((req, res) => {
         if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -34,17 +32,28 @@ app.use(
     })
 );
 
-/* Connect to mongo database */
+/**
+ * @description
+ * Connect to database
+ */
 const mongoURI = process.env.MONGO_URI;
 dbConnection(mongoURI)
 .then(() => console.info('\x1b[34m%s\x1b[0m', 'Connected to mongo server'))
 .catch(err => console.error(err));
 
-/* Create session */
+/**
+ * @description
+ * Use session
+ */
 const sessionSecret = process.env.SESSION_SECRET;
 app.use(createSession(sessionSecret, mongoURI));
 
-/* Handle routes and errors */
+/**
+ * @description
+ * Handle requests
+ * and possible errors generated
+ * from those requests
+ */
 app.use('/', routes);
 app.use('/admin', mw.isLoggedIn, adminRoutes);
 app.use((err, req, res, next) => {
@@ -55,6 +64,10 @@ app.use((err, req, res, next) => {
 app.use((req, res, next) =>
     res.status(404).render('404', { title: 404, msg: 'Resource not found' })); // 404 page
 
-/* Start server */
+
+/**
+ * @description
+ * Start server
+ */
 app.listen(process.env.PORT, () =>
     console.info('\x1b[34m%s\x1b[0m', `Server listening at ${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`));
