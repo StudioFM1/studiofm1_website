@@ -138,3 +138,10 @@
     bottom: .375rem;
     color: $red;
 }
+
+.toggle-password-view {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    cursor: pointer;
+}
