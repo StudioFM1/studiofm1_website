@@ -9,6 +9,7 @@
         <section class="container my-5">
             <div class="mx-auto sm-form box-shadow">
                 <h2 class="h1 mb-4">Register</h2>
+                <div id="message" class="alert alert-success d-none" role="alert"></div>
                 <form id="userForm" method="POST" action="/register">
                     <div class="form-group">
                         <input type="text" name="username" class="form-field" id="username" placeholder="Username" required>
@@ -64,7 +65,14 @@
         </section>
     </main>
     <%- include('./partials/footer.ejs') %>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/js/form.js"></script>
+    <script>
+        /* Add event listeners when content is loaded */
+        window.addEventListener('DOMContentLoaded', () => {
+            addUserFormEvents();
+            addAvatarFormEvents();
+        });
+    </script>
 </body>
 </html>

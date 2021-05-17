@@ -60,7 +60,7 @@ function displayFeedback(data) {
 }
 
 /* Form request and submit form */
-const submitForm = async (submitButton) => {
+const submitForm = async submitButton => {
     submitButton.disabled = true;
     const form = document.getElementById('userForm');
     const formFields = new FormData(form);
@@ -87,68 +87,58 @@ const submitForm = async (submitButton) => {
     return res;
 };
 
-/* When document is ready */
-document.onreadystatechange = () => {
-    if (document.readyState == 'complete') {
-        /* Add event listeners on form fields to erase any error message on focus change */
-        const fields = document.querySelectorAll('.form-field');
-        fields.forEach(field => {
-            field.addEventListener('focus', () => {
-                if (field.classList.contains('error')) {
-                    const errorTag = [...document.querySelectorAll('.errorTag')].find(el => el.dataset.targetField === field.id);
-                    field.classList.remove('error');
-                    errorTag.innerText = '';
-                }
-            });
+/* Add nescessary event listeners on form */
+function addUserFormEvents() {
+    /* Remove errors on focus */
+    const fields = document.querySelectorAll('.form-field');
+    fields.forEach(field => {
+        field.addEventListener('focus', () => {
+            if (field.classList.contains('error')) {
+                const errorTag = [...document.querySelectorAll('.errorTag')].find(el => el.dataset.targetField === field.id);
+                field.classList.remove('error');
+                errorTag.innerText = '';
+            }
+        });
+    });
+
+    /* Show the eye on input or focus */
+    const passwords = [...document.getElementsByTagName('input')].filter(el => el.type === 'password');
+    passwords.forEach(field => {
+        const eye = [...document.querySelectorAll('.toggle-password-view')].find(el => el.dataset.targetField === field.id);
+        
+        field.addEventListener('input', () => {
+            if (field.value.length && eye.classList.contains('d-none')) eye.classList.remove('d-none');
+            else if (!field.value.length && !eye.classList.contains('d-none')) eye.classList.add('d-none');
         });
 
-        /* Add event listeners to password fiels to display the visibility toggle on input */
-        const passwords = [...document.getElementsByTagName('input')].filter(el => el.type === 'password');
-        passwords.forEach(field => {
-            field.addEventListener('input', () => {
-                const eye = [...document.querySelectorAll('.toggle-password-view')].find(el => el.dataset.targetField === field.id);
-                if(field.value.length && eye.classList.contains('d-none'))
-                    eye.classList.remove('d-none');
-                else if(!field.value.length && !eye.classList.contains('d-none'))
-                    eye.classList.add('d-none');
-            });
-            
-            field.addEventListener('focus', () => {
-                const eye = [...document.querySelectorAll('.toggle-password-view')].find(el => el.dataset.targetField === field.id);
-                if(field.value.length && eye.classList.contains('d-none'))
-                    eye.classList.remove('d-none');
-            });
+        field.addEventListener('focus', () => {
+            if (field.value.length && eye.classList.contains('d-none')) eye.classList.remove('d-none');
         });
+    });
 
-        /* Add event listeners on password view elements (eyes) */
+    /* Change the password field type to text when pressed, reset to password when released */
+    const eyes = document.querySelectorAll('.toggle-password-view');
+    eyes.forEach(eye => {
+        /* While clicked set password input type to text to show password */
+        eye.addEventListener('mousedown', () => (document.getElementById(eye.dataset.targetField).type = 'text'));
+
+        /* On release reset to hide password */
+        eye.addEventListener('mouseup', () => (document.getElementById(eye.dataset.targetField).type = 'password'));
+    });
+
+    /* Submit form, display feedback if any or redirect in any */
+    const submit = document.getElementById('submit');
+    submit.addEventListener('click', async e => {
+        e.preventDefault();
+        /* Submit query and get response */
+        const res = await submitForm(submit);
+        /* Hide the eyes */
         const eyes = document.querySelectorAll('.toggle-password-view');
         eyes.forEach(eye => {
-            /* While clicked set password input type to text to show password */
-            eye.addEventListener('mousedown', () =>
-                document.getElementById(eye.dataset.targetField).type = 'text'
-            );
-
-            /* On release reset to hide password */
-            eye.addEventListener('mouseup', () =>
-                document.getElementById(eye.dataset.targetField).type = 'password'
-            );
+            if (!eye.classList.contains('d-none')) eye.classList.add('d-none');
         });
-
-        /* Add event listener on submit button to submit form */
-        const submit = document.getElementById('submit');
-        submit.addEventListener('click', async e => {
-            e.preventDefault();
-            /* Submit query and get response */
-            const res = await submitForm(submit);
-            /* Hide the eyes */
-            const eyes = document.querySelectorAll('.toggle-password-view');
-            eyes.forEach(eye => {
-                if(!eye.classList.contains('d-none'))
-                    eye.classList.add('d-none');
-            });
-            /* Redirect or display feedback */
-            if (res.redirect) return (window.location = res.redirect);
-            displayFeedback(res);
-        });
-    }
-};
+        /* Redirect or display feedback */
+        if (res.redirect) return (window.location = res.redirect);
+        displayFeedback(res);
+    });
+}

@@ -40,7 +40,7 @@
       ],
       "license": "ISC",
       "bugs": {
-          "url": "https://github.com/StudioFM1/studiofm1_website/issues"
+            "url": "https://github.com/StudioFM1/studiofm1_website/issues"
       },
       "homepage": "https://github.com/StudioFM1/studiofm1_website#readme",
       "dependencies": {
@@ -48,6 +48,7 @@
             "bcryptjs": "^2.4.3",
             "bootstrap": "^5.0.0",
             "connect-mongo": "^4.4.1",
+            "cropperjs": "^1.5.11",
             "crypto-js": "^4.0.0",
             "dotenv": "^8.6.0",
             "ejs": "^3.1.6",

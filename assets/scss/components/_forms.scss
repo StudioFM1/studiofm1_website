@@ -107,17 +107,24 @@
         top: 0;
         padding-top: 15px;
         padding-left: 3px;
+        color: $secondary;
         background-color: rgba($primary, .9);
         border-radius: 50%;
         height: 50px;
         width: 50px;
+        transition: backgroundColor, .2s;
     }
 
     &:hover {
+        box-shadow: inset 0 0 240px rgba(0,0,0,.75);
+
         &::before {
             content: 'Upload image';
         }
-        box-shadow: inset 0 0 240px rgba(0,0,0,.75);
+        &::after {
+            color: $primary;
+            background-color: rgba($secondary, .9);
+        }
     }
 }
 
@@ -144,4 +151,16 @@
     top: 25px;
     right: 0;
     cursor: pointer;
+}
+
+#avatarForm {
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+#avatarButtons {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%);
 }
