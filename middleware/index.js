@@ -1,5 +1,6 @@
 'use strict';
 
+const img = require('../helpers/images');
 const errorMsg = require('../messages/errors.json');
 
 /* Email & password formats */
@@ -91,4 +92,14 @@ exports.validateForm = formType => (req, res, next) => {
     if (errors.length > 0) throw { msgs: errors, status: 422 };
 
     next();
+}
+
+/**
+ * 
+ */
+exports.uploadAvatar = (req, res, next) => {
+    img.uploadAvatar(req, res, (err) => {
+        if(err) throw err;
+        next();
+    });
 }

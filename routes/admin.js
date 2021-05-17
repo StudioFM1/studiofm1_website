@@ -32,4 +32,6 @@ router.get('/users/:id', use(controller.user_profile_get));
  */
 router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_profile_put));
 
+router.post('/users/avatar/:id', use(mw.uploadAvatar), use(controller.user_avatar_put));
+
 module.exports = router;

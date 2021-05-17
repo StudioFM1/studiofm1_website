@@ -1,5 +1,5 @@
 /* Get rounded canvas */
-function getRoundedCanvas(sourceCanvas) {
+const getRoundedCanvas = (sourceCanvas) => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const width = sourceCanvas.width;
@@ -17,14 +17,14 @@ function getRoundedCanvas(sourceCanvas) {
 }
 
 /* Crop image and return rounded canvas */
-function cropImage(cropper) {
+const cropImage = (cropper) => {
     /* Crop, Round image and Show */
     const croppedCanvas = cropper.getCroppedCanvas({ width: 210, height: 210 });
     return getRoundedCanvas(croppedCanvas);
 }
 
 /* Show new image as avatar, show edit and submit buttons */
-function modifyForm(roundedCanvas) {
+const modifyForm = (roundedCanvas) => {
     /* Get form elements */
     const avatarButtons = document.getElementById('avatarButtons');
     const avatarFigure = document.getElementById('avatarFigure');
@@ -47,21 +47,32 @@ function modifyForm(roundedCanvas) {
     if (avatarButtons.classList.contains('d-none')) avatarButtons.classList.remove('d-none');
 }
 
+/* Form request and submit form */
+const submitAvatarForm = submitButton =>
+    new Promise((resolve, reject) => {
+        const form = document.getElementById('avatarForm');
+        const formFields = new FormData(form);
+        let data = {};
+        for (const [name, value] of formFields) data[name] = value;
+
+        fetch(form.action, {
+            method: form.method,
+            body: formFields,
+        })
+        .then(res => res.json())
+        .then(data => resolve(data))
+        .catch(err => reject(err))
+    });
+
 /* Load nescessary linteners for avatar load, crop and upload */
-function addAvatarFormEvents() {
-    /* File input */
-    const fileInput = document.getElementById('avatarInput');
-    /* Modal element and Bootstap Modal instance */
+const addAvatarFormEvents = () => {
+    /* Modal elements */
     const avatarModal = document.getElementById('avatarModal');
     const modalInstance = new bootstrap.Modal(avatarModal, { keyboard: false });
-    /* New avatar img element */
-    const image = document.getElementById('newAvatar');
-    /* Crop button */
-    const cropButton = document.getElementById('cropButton');
+    const image = document.getElementById('newAvatar'); // Image in modal-content
 
     /* Cropper variables */
     let cropper = null;
-    let croppable = false;
     let cropBoxData = null;
     let canvasData = null;
 
@@ -74,7 +85,7 @@ function addAvatarFormEvents() {
             dragMode: 'move',
             movable: true,
             ready: () => {
-                croppable = true;
+                cropper.zoomTo(1);
                 cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
             },
         });
@@ -88,16 +99,29 @@ function addAvatarFormEvents() {
     });
 
     /* On file input change, load new Avatar on modal body and show modal */
+    const fileInput = document.getElementById('avatarInput');
     fileInput.addEventListener('change', () => {
         image.src = URL.createObjectURL(fileInput.files[0]);
         modalInstance.show();
     });
 
     /* On crop button click, crop iamge, modify form elements, hide modal */
+    const cropButton = document.getElementById('cropButton');
     cropButton.addEventListener('click', () => {
-        if (!croppable) return;
         const roundedCanvas = cropImage(cropper);
         modifyForm(roundedCanvas);
         modalInstance.hide();
+    });
+
+    /* Submit avatar form, display feedback if in any */
+    const submitAvatar = document.getElementById('submitAvatar');
+    submitAvatar.addEventListener('click', async e => {
+        e.preventDefault();   /* Submit query and get response */
+        try {
+            const res = await submitAvatarForm(submitAvatar);
+            console.log(res)
+        } catch(err) {
+            console.error(err)
+        }
     });
 }

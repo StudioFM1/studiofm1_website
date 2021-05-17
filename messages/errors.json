@@ -8,5 +8,7 @@
     "INVALID_CURRENT_PASSWORD": "The current password is invalid",
     "INVALID_EMAIL": "Please enter a valid email address",
     "INVALID_PASSWORD": "Your password must contain at least eight characters",
-    "PASSWORD_MISSMATCH": "The passwords do not match"
+    "PASSWORD_MISSMATCH": "The passwords do not match",
+    "IMAGE_TOO_LARGE": "The image you tried to upload is too large",
+    "IMG_TYPE": "Image files only allowed (jpeg, png, gif)"
 }

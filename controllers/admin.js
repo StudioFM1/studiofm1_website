@@ -36,3 +36,7 @@ exports.user_profile_put = async (req, res, next) => {
     const updatedUser = await updateUserData(req.params.id, req.body);
     res.json({ success: successMsg.PROFILE_UPDATE });
 };
+
+exports.user_avatar_put = async (req, res, next) => {
+    console.log(123);
+};

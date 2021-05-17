@@ -17,9 +17,10 @@
                 <h2 class="text-center">Profile</h2>
                 <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
                     <div class="card text-center h-100 p-4">
-                        <form id="avatarForm" action="/admin/users/avatar/<%= user._id %>" method="POST" enctype="multipart/form-data">
+                        <form id="avatarForm" class="mb-3" action="/admin/users/avatar/<%= user._id %>" method="POST" enctype="multipart/form-data">
+                            <!-- Method override -->
                             <div id="avatarFigure" class="avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
-                                <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="avatar" id="avatarInput" class="fileInput">
+                                <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="avatarInput" id="avatarInput" class="fileInput">
                             </div>
                             <div id="avatarButtons" class="btn-group d-none" role="group">
                                 <button id="submitAvatar" class="btn btn-primary">Submit</button>

@@ -13,8 +13,8 @@
  */
 
 /* Clear any message on the DOM */
-function clearMessages() {
-    /* Remove success messages */    
+const clearMessages = () => {
+    /* Remove success messages */
     const message = document.getElementById('message');
     message.classList.add('d-none');
     message.innerText = '';
@@ -22,21 +22,20 @@ function clearMessages() {
     /* Remove errors */
     const fields = document.querySelectorAll('.form-field');
     fields.forEach(field => {
-        if(field.classList.contains('error'))
-            field.classList.remove('error');
+        if (field.classList.contains('error')) field.classList.remove('error');
     });
 
     /* Remove error messages */
     const errorTags = document.querySelectorAll('.errorTag');
-    errorTags.forEach(tag => tag.innerText = '');
-}
+    errorTags.forEach(tag => (tag.innerText = ''));
+};
 
 /* Dispaly feedback from the server */
-function displayFeedback(data) {
+const displayFeedback = data => {
     /* Clear previous messages */
     clearMessages();
 
-    if(data.success) {
+    if (data.success) {
         const message = document.getElementById('message');
         message.classList.remove('d-none');
         message.innerText = data.success;
@@ -45,10 +44,9 @@ function displayFeedback(data) {
         /* Clear passwords */
         document.getElementById('newPassword').value = '';
         document.getElementById('password').value = '';
-    }
+    } else if (data.errors?.length) {
     /* Check for errors and display them if any */
-    else if(data.errors?.length) {
-        for(const error of data.errors) {
+        for (const error of data.errors) {
             /* Get incorrect field and it's error tag */
             const field = document.getElementById(error.field);
             const errorTag = [...document.querySelectorAll('.errorTag')].find(el => el.dataset.targetField === error.field);
@@ -57,7 +55,7 @@ function displayFeedback(data) {
             errorTag.innerText = error.msg;
         }
     }
-}
+};
 
 /* Form request and submit form */
 const submitForm = async submitButton => {
@@ -88,7 +86,7 @@ const submitForm = async submitButton => {
 };
 
 /* Add nescessary event listeners on form */
-function addUserFormEvents() {
+const addUserFormEvents = () => {
     /* Remove errors on focus */
     const fields = document.querySelectorAll('.form-field');
     fields.forEach(field => {
@@ -105,7 +103,7 @@ function addUserFormEvents() {
     const passwords = [...document.getElementsByTagName('input')].filter(el => el.type === 'password');
     passwords.forEach(field => {
         const eye = [...document.querySelectorAll('.toggle-password-view')].find(el => el.dataset.targetField === field.id);
-        
+
         field.addEventListener('input', () => {
             if (field.value.length && eye.classList.contains('d-none')) eye.classList.remove('d-none');
             else if (!field.value.length && !eye.classList.contains('d-none')) eye.classList.add('d-none');
@@ -141,4 +139,4 @@ function addUserFormEvents() {
         if (res.redirect) return (window.location = res.redirect);
         displayFeedback(res);
     });
-}
+};

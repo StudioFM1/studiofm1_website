@@ -2,7 +2,7 @@
 
 const Mongoose = require('mongoose');
 const cipher = require('../helpers/encryption');
-const { getRandomGidi } = require('../helpers/avatars');
+const { getRandomGidi } = require('../helpers/images');
 const errorMsg = require('../messages/errors.json');
 
 /**
