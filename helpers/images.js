@@ -6,22 +6,25 @@ const multer = require('multer');
 const errorMsg = require('../messages/errors.json');
 
 /* Set storage for avatars */
-const avatarStorage = multer.diskStorage({
-    destination: `${__dirname}/../uploads/`,
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, `${__dirname}/../uploads`);
+    },
     filename: (req, file, cb) => {
-        cb(null, `avatar_${req.session.user.userId}${path.extname(file.originalname)}`);
+        console.log(file);
+        cb(null, `${file.fieldname}_${req.session.user.userId}${path.extname(file.originalname)}`);
     },
 });
 
 /* Check file type */
 const checkFileType = (file, cb) => {
     /* Allowed file types */
-    const fileTypes = /jpeg|jpg|png|webp|gif/;
+    const fileTypes = /jpeg|jpg|png|gif/;
     /* Check extension and mime type of file */
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = fileTypes.test(file.mimetype);
 
-    return mimetype && extname ? cb(null, true) : cb(errorMsg.IMG_TYPE);
+    return mimetype && extname ? cb(null, true) : cb(errorMsg.IMG_TYPE, false);
 };
 
 /**
@@ -41,10 +44,10 @@ exports.getRandomGidi = () =>
     });
 
 /* */
-exports.uploadAvatar = multer({
-    storage: avatarStorage,
-    limits: { fileSize: 10000000 }, // 1 megabyte
+exports.upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1000 * 1000 }, // 1 megabyte
     fileFilter: (req, file, cb) => {
-        checkFileType(file, cb);
+        return checkFileType(file, cb);
     },
-}).single('avatarInput'); // Name of file input in form
+});

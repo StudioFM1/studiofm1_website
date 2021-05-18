@@ -10,7 +10,7 @@ const errorMsgs = require('../messages/errors.json');
  * @returns formatted error object
  */
 exports.clientError = err => {
-    console.log(err)
+    console.log(err, 6437);
     if (err.constructor.name === 'MongoError') {
         if (err.code === 11000) { // Duplicate key error
             let duplicate = Object.keys(err.keyPattern)[0];

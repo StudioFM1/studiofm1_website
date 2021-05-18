@@ -47,6 +47,12 @@ const modifyForm = (roundedCanvas) => {
     if (avatarButtons.classList.contains('d-none')) avatarButtons.classList.remove('d-none');
 }
 
+/* Validate size is up to 5 MB */
+const sizeOk = (file) => {
+    const fileSize = parseFloat(((file.size/1024)/1024).toFixed(4)); // MB
+    return fileSize > 0 ? false : true;
+}
+
 /* Form request and submit form */
 const submitAvatarForm = submitButton =>
     new Promise((resolve, reject) => {
@@ -99,10 +105,15 @@ const addAvatarFormEvents = () => {
     });
 
     /* On file input change, load new Avatar on modal body and show modal */
-    const fileInput = document.getElementById('avatarInput');
+    const fileInput = document.getElementById('userAvatar');
     fileInput.addEventListener('change', () => {
-        image.src = URL.createObjectURL(fileInput.files[0]);
-        modalInstance.show();
+        const file = fileInput.files[0];
+        if (sizeOk(file)) {
+            image.src = URL.createObjectURL(file);
+            modalInstance.show();
+        } else {
+            console.error('Too large file');
+        }
     });
 
     /* On crop button click, crop iamge, modify form elements, hide modal */

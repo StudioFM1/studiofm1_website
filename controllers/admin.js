@@ -7,9 +7,8 @@ const successMsg = require('../messages/success.json');
 exports.index = (req, res, next) => res.render('admin/dashboard', { title: 'Admin dashboard', user: req.session.user });
 
 /**
- * @description
  * Destroy session
- * redirect client home
+ * Redirect client to home
  */
 exports.user_logout = async (req, res, next) => {
     await req.session.destroy();
@@ -17,7 +16,6 @@ exports.user_logout = async (req, res, next) => {
 }
 
 /**
- * @description
  * Get user's profile data
  * Render user's profile page
  */
@@ -27,10 +25,8 @@ exports.user_profile_get = async (req, res, next) => {
 };
 
 /**
- * @description
  * Update user's data
- * Send success message
- * in response
+ * Send success message in response
  */
 exports.user_profile_put = async (req, res, next) => {
     const updatedUser = await updateUserData(req.params.id, req.body);
@@ -38,5 +34,6 @@ exports.user_profile_put = async (req, res, next) => {
 };
 
 exports.user_avatar_put = async (req, res, next) => {
-    console.log(123);
+    if (res.locals.fileErrors.length) throw res.locals.fileErrors;
+    res.send({ ok: 'ok' });
 };

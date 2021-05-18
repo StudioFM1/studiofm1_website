@@ -20,7 +20,7 @@
                         <form id="avatarForm" class="mb-3" action="/admin/users/avatar/<%= user._id %>" method="POST" enctype="multipart/form-data">
                             <!-- Method override -->
                             <div id="avatarFigure" class="avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
-                                <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="avatarInput" id="avatarInput" class="fileInput">
+                                <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="userAvatar" id="userAvatar" class="fileInput">
                             </div>
                             <div id="avatarButtons" class="btn-group d-none" role="group">
                                 <button id="submitAvatar" class="btn btn-primary">Submit</button>

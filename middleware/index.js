@@ -96,10 +96,12 @@ exports.validateForm = formType => (req, res, next) => {
 
 /**
  * 
- */
+ */ 
 exports.uploadAvatar = (req, res, next) => {
-    img.uploadAvatar(req, res, (err) => {
-        if(err) throw err;
+    res.locals.fileErrors = [];
+    
+    img.upload.single('userAvatar')(req, res, err => {
+        if (err) res.locals.fileErrors.push(err);
         next();
-    });
-}
+    })
+};
