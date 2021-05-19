@@ -61,8 +61,7 @@ app.use((err, req, res, next) => {
     err = err.status ? err : format.clientError(err);
     res.status(err.status).json({ errors: err.msgs });
 });
-app.use((req, res, next) =>
-    res.status(404).render('404', { title: 404, msg: 'Resource not found' })); // 404 page
+app.use((req, res, next) => res.status(404).render('404', { title: 404, msg: 'Resource not found' })); // 404 page
 
 
 /**

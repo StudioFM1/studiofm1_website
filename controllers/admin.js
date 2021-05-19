@@ -1,6 +1,6 @@
 'use strict';
 
-const { getUserData, updateUserData } = require('../models/User');
+const { getUserData, updateUserData, updateUserAvatar } = require('../models/User');
 const successMsg = require('../messages/success.json');
 
 /* Render admin dashboard */
@@ -33,7 +33,7 @@ exports.user_profile_put = async (req, res, next) => {
     res.json({ success: successMsg.PROFILE_UPDATE });
 };
 
-exports.user_avatar_put = async (req, res, next) => {
-    if (res.locals.fileErrors.length) throw res.locals.fileErrors;
-    res.send({ ok: 'ok' });
+exports.user_avatar_post = async (req, res, next) => {
+    await updateUserAvatar(req.params.id, req.fileName);
+    res.json({ success: 'Avatar updated successfully' });
 };

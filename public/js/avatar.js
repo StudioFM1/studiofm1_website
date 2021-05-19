@@ -1,5 +1,23 @@
+/* Log messages about the avatar form submission */
+const logMessage = (data) => {
+    const avatarMessage = document.getElementById('avatarMessage');
+    if (data.errors?.length) {
+        avatarMessage.innerHTML = data.errors[0].msg;
+        avatarMessage.setAttribute('class', 'alert alert-danger');
+    }
+    else if (data.success) {
+        avatarMessage.setAttribute('class', 'alert alert-success');
+        avatarMessage.innerHTML = data.success;
+    }
+
+    /* Hide avatar buttons */
+    // const avatarButtons = document.getElementById('avatarButtons');
+    // if(!avatarButtons.classList.contains('d-none'))
+    //     avatarButtons.classList.add('d-none')
+};
+
 /* Get rounded canvas */
-const getRoundedCanvas = (sourceCanvas) => {
+const getRoundedCanvas = sourceCanvas => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const width = sourceCanvas.width;
@@ -14,17 +32,17 @@ const getRoundedCanvas = (sourceCanvas) => {
     context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
     context.fill();
     return canvas;
-}
+};
 
 /* Crop image and return rounded canvas */
-const cropImage = (cropper) => {
+const cropImage = cropper => {
     /* Crop, Round image and Show */
     const croppedCanvas = cropper.getCroppedCanvas({ width: 210, height: 210 });
     return getRoundedCanvas(croppedCanvas);
-}
+};
 
 /* Show new image as avatar, show edit and submit buttons */
-const modifyForm = (roundedCanvas) => {
+const modifyForm = roundedCanvas => {
     /* Get form elements */
     const avatarButtons = document.getElementById('avatarButtons');
     const avatarFigure = document.getElementById('avatarFigure');
@@ -45,13 +63,13 @@ const modifyForm = (roundedCanvas) => {
 
     avatarFigure.style.backgroundImage = `url("${roundedCanvas.toDataURL('image/png', 0.1)}")`;
     if (avatarButtons.classList.contains('d-none')) avatarButtons.classList.remove('d-none');
-}
+};
 
 /* Validate size is up to 5 MB */
-const sizeOk = (file) => {
-    const fileSize = parseFloat(((file.size/1024)/1024).toFixed(4)); // MB
-    return fileSize > 0 ? false : true;
-}
+const sizeOk = file => {
+    const fileSize = parseFloat((file.size / 1024 / 1024).toFixed(4)); // MB
+    return fileSize > 5 ? false : true;
+};
 
 /* Form request and submit form */
 const submitAvatarForm = submitButton =>
@@ -65,9 +83,9 @@ const submitAvatarForm = submitButton =>
             method: form.method,
             body: formFields,
         })
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err))
+            .then(res => res.json())
+            .then(data => resolve(data))
+            .catch(err => reject(err));
     });
 
 /* Load nescessary linteners for avatar load, crop and upload */
@@ -112,7 +130,7 @@ const addAvatarFormEvents = () => {
             image.src = URL.createObjectURL(file);
             modalInstance.show();
         } else {
-            console.error('Too large file');
+            logMessage({ error: 'The file is too large. Please choose a file up to <b>5 MB</b>' });
         }
     });
 
@@ -127,12 +145,13 @@ const addAvatarFormEvents = () => {
     /* Submit avatar form, display feedback if in any */
     const submitAvatar = document.getElementById('submitAvatar');
     submitAvatar.addEventListener('click', async e => {
-        e.preventDefault();   /* Submit query and get response */
+        e.preventDefault(); /* Submit query and get response */
+        
         try {
             const res = await submitAvatarForm(submitAvatar);
-            console.log(res)
-        } catch(err) {
-            console.error(err)
+            logMessage(res);
+        } catch (err) {
+            logMessage(err);
         }
     });
-}
+};

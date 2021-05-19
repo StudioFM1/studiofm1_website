@@ -11,8 +11,9 @@ const storage = multer.diskStorage({
         cb(null, `${__dirname}/../uploads`);
     },
     filename: (req, file, cb) => {
-        console.log(file);
-        cb(null, `${file.fieldname}_${req.session.user.userId}${path.extname(file.originalname)}`);
+        const fileName = `${file.fieldname}_${req.session.user.userId}${path.extname(file.originalname)}`;
+        cb(null, fileName);
+        req.fileName = fileName;
     },
 });
 
@@ -46,7 +47,7 @@ exports.getRandomGidi = () =>
 /* */
 exports.upload = multer({
     storage: storage,
-    limits: { fileSize: 5 * 1000 * 1000 }, // 1 megabyte
+    limits: { fileSize: 5 * 1000 * 1000 }, // 5 megabyte
     fileFilter: (req, file, cb) => {
         return checkFileType(file, cb);
     },

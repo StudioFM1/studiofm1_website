@@ -126,7 +126,7 @@ exports.getUserData = async id => {
         if (prop === '$init' || prop === 'password') continue;
         user.profile[prop] = cipher.decrypt(user.profile[prop]);
     }
-
+console.log(user.profile);
     return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
 
@@ -159,3 +159,15 @@ exports.updateUserData = async (id, data) => {
 
     return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
+
+/**
+ * 
+ */
+exports.updateUserAvatar = async (userId, fileName) => {
+    let user = await User.findById(userId);
+    console.log(fileName)
+    if (user) {
+        user.profile.avatar = `${__dirname}/../uploads/${fileName}`;
+        await user.save();
+    }
+}
