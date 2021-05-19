@@ -17,8 +17,7 @@
                 <h2 class="text-center">Profile</h2>
                 <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
                     <div class="card text-center h-100 p-4">
-                        <form id="avatarForm" class="mb-3" action="/admin/users/avatar/<%= user._id %>" method="POST" enctype="multipart/form-data">
-                            <!-- Method override -->
+                        <form id="avatarForm" class="mb-3" action="/admin/users/upload/<%= user._id %>" method="POST" enctype="multipart/form-data">
                             <div id="avatarFigure" class="avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
                                 <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="userAvatar" id="userAvatar" class="fileInput">
                             </div>
@@ -39,7 +38,6 @@
                     <div class="h-100 p-4">
                         <div id="message" class="alert alert-success d-none" role="alert"></div>
                         <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
-                            <!-- Method override -->
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name" required>
@@ -99,7 +97,6 @@
             </div>
         </main>
     </div>
-    <!-- Avatar Modal -->
     <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -109,7 +106,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <img src="#" alt="new user avatar" id="newAvatar">
+                        <img src="<%= user.avatar %>" alt="new user avatar" id="newAvatar">
                     </div>
                 </div>
                 <div class="modal-footer">

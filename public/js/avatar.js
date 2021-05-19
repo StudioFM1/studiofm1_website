@@ -72,7 +72,7 @@ const sizeOk = file => {
 };
 
 /* Form request and submit form */
-const submitAvatarForm = submitButton =>
+const submitAvatarForm = () =>
     new Promise((resolve, reject) => {
         const form = document.getElementById('avatarForm');
         const formFields = new FormData(form);
@@ -148,7 +148,9 @@ const addAvatarFormEvents = () => {
         e.preventDefault(); /* Submit query and get response */
         
         try {
-            const res = await submitAvatarForm(submitAvatar);
+            submitAvatar.disabled = true;
+            const res = await submitAvatarForm();
+            submitAvatar.disabled = false;
             logMessage(res);
         } catch (err) {
             logMessage(err);

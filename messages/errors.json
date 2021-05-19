@@ -10,5 +10,5 @@
     "INVALID_PASSWORD": "Your password must contain at least eight characters",
     "PASSWORD_MISSMATCH": "The passwords do not match",
     "IMAGE_TOO_LARGE": "The image you tried to upload is too large",
-    "IMG_TYPE": "Image files only allowed (jpeg, png, gif)"
+    "IMG_TYPE": "Only JPEG, PNG and GIF types are allowed"
 }

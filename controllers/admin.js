@@ -4,7 +4,9 @@ const { getUserData, updateUserData, updateUserAvatar } = require('../models/Use
 const successMsg = require('../messages/success.json');
 
 /* Render admin dashboard */
-exports.index = (req, res, next) => res.render('admin/dashboard', { title: 'Admin dashboard', user: req.session.user });
+exports.index = (req, res, next) => {
+    res.render('admin/dashboard', { title: 'Admin dashboard', user: req.session.user });
+};
 
 /**
  * Destroy session
@@ -20,7 +22,6 @@ exports.user_logout = async (req, res, next) => {
  * Render user's profile page
  */
 exports.user_profile_get = async (req, res, next) => {
-    console.log(333);
     const user = await getUserData(req.params.id);
     res.render('admin/profile', { title: 'My profile', user: user });
 };

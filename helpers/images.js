@@ -29,7 +29,7 @@ exports.checkFileType = (file, cb) => {
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = fileTypes.test(file.mimetype);
 
-    return mimetype && extname ? cb(null, true) : cb(errorMsg.IMG_TYPE, false);
+    return mimetype && extname ? cb(null, true) : cb({ msgs: [{ msg: errorMsg.IMG_TYPE }], status: 400 }, false);
 };
 
 /**

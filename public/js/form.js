@@ -58,32 +58,25 @@ const displayFeedback = data => {
 };
 
 /* Form request and submit form */
-const submitForm = async submitButton => {
-    submitButton.disabled = true;
-    const form = document.getElementById('userForm');
-    const formFields = new FormData(form);
+const submitForm = () =>
+    new Promise((resolve, reject) => {
+        const form = document.getElementById('userForm');
+        const formFields = new FormData(form);
 
-    let data = {};
-    for (const [name, value] of formFields) data[name] = value;
+        let data = {};
+        for (const [name, value] of formFields) data[name] = value;
 
-    let res = await fetch(form.action, {
-        method: form.method,
-        headers: {
-            'Content-type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        fetch(form.action, {
+            method: form.method,
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(res => res.json())
+            .then(data => resolve(data))
+            .catch(err => reject(err));
     });
-
-    submitButton.disabled = false;
-
-    try {
-        res = await res.json();
-    } catch (err) {
-        throw err;
-    }
-
-    return res;
-};
 
 /* Add nescessary event listeners on form */
 const addUserFormEvents = () => {
@@ -128,15 +121,22 @@ const addUserFormEvents = () => {
     const submit = document.getElementById('submit');
     submit.addEventListener('click', async e => {
         e.preventDefault();
-        /* Submit query and get response */
-        const res = await submitForm(submit);
-        /* Hide the eyes */
-        const eyes = document.querySelectorAll('.toggle-password-view');
-        eyes.forEach(eye => {
-            if (!eye.classList.contains('d-none')) eye.classList.add('d-none');
-        });
-        /* Redirect or display feedback */
-        if (res.redirect) return (window.location = res.redirect);
-        displayFeedback(res);
+
+        try {
+            /* Submit query and get response */
+            submit.disabled = false;
+            const res = await submitForm();
+            submit.disabled = false;
+            /* Hide the eyes */
+            const eyes = document.querySelectorAll('.toggle-password-view');
+            eyes.forEach(eye => {
+                if (!eye.classList.contains('d-none')) eye.classList.add('d-none');
+            });
+            /* Redirect or display feedback */
+            if (res.redirect) return (window.location = res.redirect);
+            displayFeedback(res);
+        } catch (err) {
+            console.log(err);
+        }
     });
 };
