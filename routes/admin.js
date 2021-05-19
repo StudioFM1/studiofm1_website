@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const mw = require('../middleware');
+const imgMw = require('../middleware/images');
 const controller = require('../controllers/admin');
 
 /**
@@ -32,6 +33,6 @@ router.get('/users/:id', use(controller.user_profile_get));
  */
 router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_profile_put));
 
-router.post('/users/avatar/:id', mw.uploadAvatar, use(controller.user_avatar_post));
+router.post('/users/avatar/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.user_avatar_post));
 
 module.exports = router;

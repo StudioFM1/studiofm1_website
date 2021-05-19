@@ -20,6 +20,7 @@ exports.user_logout = async (req, res, next) => {
  * Render user's profile page
  */
 exports.user_profile_get = async (req, res, next) => {
+    console.log(333);
     const user = await getUserData(req.params.id);
     res.render('admin/profile', { title: 'My profile', user: user });
 };

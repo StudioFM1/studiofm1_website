@@ -6,7 +6,7 @@ const multer = require('multer');
 const errorMsg = require('../messages/errors.json');
 
 /* Set storage for avatars */
-const storage = multer.diskStorage({
+exports.storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, `${__dirname}/../uploads`);
     },
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 });
 
 /* Check file type */
-const checkFileType = (file, cb) => {
+exports.checkFileType = (file, cb) => {
     /* Allowed file types */
     const fileTypes = /jpeg|jpg|png|gif/;
     /* Check extension and mime type of file */
@@ -43,12 +43,3 @@ exports.getRandomGidi = () =>
             resolve(`/images/avatars/gidia/${files[randomIndex]}`);
         });
     });
-
-/* */
-exports.upload = multer({
-    storage: storage,
-    limits: { fileSize: 5 * 1000 * 1000 }, // 5 megabyte
-    fileFilter: (req, file, cb) => {
-        return checkFileType(file, cb);
-    },
-});

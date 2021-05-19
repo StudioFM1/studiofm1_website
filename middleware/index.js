@@ -1,6 +1,5 @@
 'use strict';
 
-const img = require('../helpers/images');
 const errorMsg = require('../messages/errors.json');
 
 /* Email & password formats */
@@ -80,7 +79,7 @@ exports.validateForm = formType => (req, res, next) => {
             else if (field === 'email') validateEmail(value);
             else if (field === 'newPassword') {
                 // If there is a new password
-                if (value !== '') {                    
+                if (value !== '') {
                     if (req.body['password'] === '') errors.push({ msg: errorMsg.EMPTY_CURRENT_PASSWORD, field: 'password' });
                     validatePassword(value, field);
                 }
@@ -93,13 +92,3 @@ exports.validateForm = formType => (req, res, next) => {
 
     next();
 }
-
-/**
- * 
- */ 
-exports.uploadAvatar = (req, res, next) => {
-    img.upload.single('userAvatar')(req, res, err => {
-        if (err) return next(err);
-        next();
-    });
-};
