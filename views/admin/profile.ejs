@@ -40,45 +40,45 @@
                         <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
-                                <input type="text" name="firstName" class="form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name" required>
+                                <input type="text" name="firstName" class="fm1-form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name" required>
                                 <label for="firstName" class="form-label">First name</label>
                                 <div class="errorTag" data-target-field="firstName"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="lastName" class="form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name" required>
+                                <input type="text" name="lastName" class="fm1-form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name" required>
                                 <label for="lastName" class="form-label">Last name</label>
                                 <div class="errorTag" data-target-field="lastName"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="username" class="form-field" id="username" value="<%= user.username %>" placeholder="Username" required>
+                                <input type="text" name="username" class="fm1-form-field" id="username" value="<%= user.username %>" placeholder="Username" required>
                                 <label for="username" class="form-label">Username</label>
                                 <div class="errorTag" data-target-field="username"></div>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-field" id="email" value="<%= user.email %>" placeholder="Email" required>
+                                <input type="email" name="email" class="fm1-form-field" id="email" value="<%= user.email %>" placeholder="Email" required>
                                 <label for="email" class="form-label">Email</label>
                                 <div class="errorTag" data-target-field="email"></div>
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone" required>
+                                <input type="tel" name="mobilePhone" class="fm1-form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone" required>
                                 <label for="mobilePhone" class="form-label">Mobile phone</label>
                                 <div class="errorTag" data-target-field="mobilePhone"></div>
                             </div>
                             <div class="form-group">
-                                <textarea name="bio" class="form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
+                                <textarea name="bio" class="fm1-form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
                                 <label for="bio" class="form-label">Bio</label>
                             </div>
                             <div class="mb-4">
                                 <a class="collapseTrigger collapsed" data-bs-toggle="collapse" href="#collapsePassword" role="button" aria-expanded="false" aria-controls="collapsePassword"><h6>Change password</h6></a>
                                 <div id="collapsePassword" class="collapse">
                                     <div class="form-group">
-                                        <input type="password" name="newPassword" class="form-field" id="newPassword" placeholder="New password">
+                                        <input type="password" name="newPassword" class="fm1-form-field" id="newPassword" placeholder="New password">
                                         <label for="newPassword" class="form-label">New password</label>
                                         <div class="toggle-password-view d-none" data-target-field="newPassword"><i class="fas fa-eye"></i></div>
                                         <div class="errorTag" data-target-field="newPassword"></div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password" class="form-field" id="password" placeholder="Current password" required>
+                                        <input type="password" name="password" class="fm1-form-field" id="password" placeholder="Current password" required>
                                         <label for="password" class="form-label">Current password</label>
                                         <div class="toggle-password-view d-none" data-target-field="password"><i class="fas fa-eye"></i></div>
                                         <div class="errorTag" data-target-field="password"></div>

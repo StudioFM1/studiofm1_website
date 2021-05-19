@@ -20,7 +20,7 @@ const clearMessages = () => {
     message.innerText = '';
 
     /* Remove errors */
-    const fields = document.querySelectorAll('.form-field');
+    const fields = document.querySelectorAll('.fm1-form-field');
     fields.forEach(field => {
         if (field.classList.contains('error')) field.classList.remove('error');
     });
@@ -81,7 +81,7 @@ const submitForm = () =>
 /* Add nescessary event listeners on form */
 const addUserFormEvents = () => {
     /* Remove errors on focus */
-    const fields = document.querySelectorAll('.form-field');
+    const fields = document.querySelectorAll('.fm1-form-field');
     fields.forEach(field => {
         field.addEventListener('focus', () => {
             if (field.classList.contains('error')) {

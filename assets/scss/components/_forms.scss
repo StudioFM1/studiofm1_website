@@ -9,7 +9,7 @@
     margin-bottom: 25px;
 }
   
-.form-field, .form-select-field {
+.fm1-form-field, .fm1-form-select-field {
     width: 100%;
     border: 0;
     border-bottom: 2px solid $secondary;
@@ -37,7 +37,7 @@
     }
 }
 
-.form-field {
+.fm1-form-field {
     &::placeholder {
         color: transparent;
     }
@@ -54,7 +54,7 @@
     }
 }
 
-.form-select-field {
+.fm1-form-select-field {
     padding: .375rem 2.25rem .375rem 0;
     background-color: $white;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
