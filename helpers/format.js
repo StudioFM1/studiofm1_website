@@ -5,9 +5,7 @@ const errorMsgs = require('../messages/errors.json');
 /**
  * Formats the error so that it can 
  * be interpretated from the client
- * 
- * @param {object} err 
- * @returns formatted error object
+ * returns formatted error object
  */
 exports.clientError = err => {
     console.log(err);

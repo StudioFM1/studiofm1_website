@@ -8,11 +8,7 @@ const passwordRegex = /^(?=.*[a-z]).{8,}$/;
 
 /**
  * Checks if registration is allowed
- * 
- * @param {object} req request obj
- * @param {object} res response obj
- * @param {function} next next function (moves to the next middleware)
- * @returns either moves to next middleware if registration is allowed or reditrects home
+ * returns either moves to next middleware if registration is allowed or reditrects home
  */
 exports.isAllowed = (req, res, next) => {
     if(process.env.REGISTRATION === 'ALLOWED') return next();
@@ -21,11 +17,7 @@ exports.isAllowed = (req, res, next) => {
 
 /**
  * Checks if a user is logged in
- * 
- * @param {object} req request obj
- * @param {object} res response obj
- * @param {function} next next function (moves to the next middleware)
- * @returns either moves to next middleware or renders login page
+ * returns either moves to next middleware or renders login page
  */
 exports.isLoggedIn = (req, res, next) => {
     if (req.session.user) return next();
@@ -34,9 +26,7 @@ exports.isLoggedIn = (req, res, next) => {
 
 /**
  * Validates forms
- * 
- * @param {string} formType What for is it, registration, login or profile 
- * @returns a function that validates the from. If there is any error the error is throwd to be handled from next middleware
+ * returns a function that validates the from. If there is any error the error is throwd to be handled from next middleware
  */
 exports.validateForm = formType => (req, res, next) => {
     let errors = [];

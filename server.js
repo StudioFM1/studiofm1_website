@@ -11,7 +11,6 @@ const adminRoutes = require('./routes/admin.js');
 const format = require('./helpers/format');
 
 /**
- * @description
  * Create an express app
  * Set view engine and static files path
  * Parse json and override POST methods to PUT or DELETE
@@ -33,7 +32,6 @@ app.use(
 );
 
 /**
- * @description
  * Connect to database
  */
 const mongoURI = process.env.MONGO_URI;
@@ -42,14 +40,12 @@ dbConnection(mongoURI)
 .catch(err => console.error(err));
 
 /**
- * @description
  * Use session
  */
 const sessionSecret = process.env.SESSION_SECRET;
 app.use(createSession(sessionSecret, mongoURI));
 
 /**
- * @description
  * Handle requests
  * and possible errors generated
  * from those requests
@@ -65,7 +61,6 @@ app.use((req, res, next) => res.status(404).render('404', { title: 404, msg: 'Re
 
 
 /**
- * @description
  * Start server
  */
 app.listen(process.env.PORT, () =>

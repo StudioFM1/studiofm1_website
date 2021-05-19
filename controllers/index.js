@@ -7,14 +7,12 @@ exports.index = (req, res, next) =>
     res.render('homepage', { title: 'Studio FM1 105.4' });
 
 /**
- * @description
  * Render registration page
  */
 exports.register_user_get = (req, res, next) =>
     res.render('register', { title: 'Create account' });
 
 /**
- * @description
  * Create a new user
  * redirect client to admin
  */
@@ -26,7 +24,6 @@ exports.register_user_post = async (req, res, next) => {
 }
 
 /**
- * @description
  * Valdiate user's login data
  * Load user in session
  * redirect client to admin

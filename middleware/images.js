@@ -5,7 +5,10 @@ const img = require('../helpers/images');
 const sharp = require('sharp');
 sharp.cache(false);
 
-/* */
+/**
+ * Upload avatar
+ * Check file type and size
+ */
 exports.uploadAvatar = (req, res, next) => {
     multer({
         storage: img.storage,
@@ -19,7 +22,9 @@ exports.uploadAvatar = (req, res, next) => {
     });
 };
 
-/* */
+/**
+ * Optimize uploaded image
+ */
 exports.optimizeAvatar = (req, res, next) => {
     const inputPath = `${__dirname}/../uploads/${req.fileName}`;
     const outputPath = `${__dirname}/../public/images/avatars/${req.fileName}`;

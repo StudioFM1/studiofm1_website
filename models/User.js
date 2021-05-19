@@ -6,7 +6,7 @@ const { getRandomGidi } = require('../helpers/images');
 const errorMsg = require('../messages/errors.json');
 
 /**
- * @description: The User model schema
+ * The User model schema
  */
 const userSchema = new Mongoose.Schema({
     profile: {
@@ -52,9 +52,7 @@ userSchema.pre('save', async function (next) {
 
 /**
  * Validate's user's password
- * 
- * @param {string} password The password to be validated 
- * @returns true or false
+ * returns true or false
  */
 userSchema.methods.validatePassword = function (password) {
     return cipher.comparePassword(password, this.profile.password);
@@ -65,9 +63,6 @@ const User = Mongoose.model('User', userSchema);
 
 /**
  * Inserts a new user in the database
- * 
- * @param {object} data the user's data
- * 
  */
 exports.insertUser = async data => {
     /* Defaults for bio, avatar & role */
@@ -80,10 +75,7 @@ exports.insertUser = async data => {
 
 /**
  * Validate's user's try to login
- * 
- * @param {string} email The email of the user 
- * @param {string} password The password of the user 
- * @returns returns an object with the user's id and username
+ * returns returns an object with the user's id and username
  */
 exports.validateLogin = async ({ email, password }) => {
     const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
@@ -113,9 +105,7 @@ exports.validateLogin = async ({ email, password }) => {
 /**
  * Finds a user in the database 
  * and return it's data
- * 
- * @param {string} id the Mongoose object ID 
- * @returns the user that corresponds to that id
+ * returns the user that corresponds to that id
  */
 exports.getUserData = async id => {
     const user = await User.findById(id);
@@ -133,10 +123,7 @@ exports.getUserData = async id => {
 /**
  * Finds a user in the database 
  * and updates its data
- * 
- * @param {string} id the Mongoose object ID 
- * @param {object} data the new data
- * @returns the updated user that corresponds to that ID
+ * returns the updated user that corresponds to that ID
  */
 exports.updateUserData = async (id, data) => {
     const user = await User.findById(id);
@@ -161,7 +148,7 @@ exports.updateUserData = async (id, data) => {
 };
 
 /**
- * 
+ * Updates the user's avatar
  */
 exports.updateUserAvatar = async (userId, fileName) => {
     let user = await User.findById(userId);

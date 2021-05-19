@@ -4,8 +4,6 @@ const Mongoose = require('mongoose');
 
 /**
  * Creates a mongoDB connection
- * 
- * @param {string} mongoURI The mongo URI (duh!)
  */
 const connectToMongo = async mongoURI => {
     try {

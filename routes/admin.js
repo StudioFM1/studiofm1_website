@@ -33,6 +33,9 @@ router.get('/users/:id', use(controller.user_profile_get));
  */
 router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_profile_put));
 
+/**
+ * @POST Update user avatar
+ */
 router.post('/users/avatar/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.user_avatar_post));
 
 module.exports = router;
