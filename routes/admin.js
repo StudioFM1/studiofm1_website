@@ -24,6 +24,11 @@ router.get('/', use(controller.index));
 router.get('/logout', use(controller.user_logout));
 
 /**
+ * @GET Users
+ */
+router.get('/users', use(controller.users_get));
+
+/**
  * @GET User profile data
  */
 router.get('/users/:id', use(controller.user_profile_get));

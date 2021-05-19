@@ -3,6 +3,35 @@
 const errorMsgs = require('../messages/errors.json');
 
 /**
+ * Sort the users array
+ * according to the given template
+ */
+exports.sortUsers = (users, template = 'role') => {
+    let sortedusers = {};
+
+    if(template === 'active') {
+        sortedusers = {
+            active: users.filter(user => user.status.isActive),
+            inactive: users.filter(user => !user.status.isActive),
+        }
+    } else if(template === 'verified') {
+        sortedusers = {
+            verified: users.filter(user => user.status.isVerified),
+            unverified: users.filter(user => !user.status.isVerified),
+        }
+    } else {
+        sortedusers = {
+            admins: users.filter(user => user.profile.role === 'admin'),
+            editors: users.filter(user => user.profile.role === 'editor'),
+            authors: users.filter(user => user.profile.role === 'author'),
+            basics: users.filter(user => user.profile.role === 'basic')
+        }
+    }
+
+    return sortedusers;
+}
+
+/**
  * Formats the error so that it can 
  * be interpretated from the client
  * returns formatted error object

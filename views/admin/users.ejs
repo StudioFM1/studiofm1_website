@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
+<body>
+    <%- include('../partials/adminHeader.ejs') %>
+    <div class="container-fluid">
+        <main>
+            <% if (template === 'active') { %>
+                <%- include('../partials/templates/usersByActiveStatus.ejs') %>
+            <% } else if (template === 'verified') { %>
+                <%- include('../partials/templates/usersByVerifiedStatus.ejs') %>
+            <% } else { %>
+                <%- include('../partials/templates/usersByRole.ejs') %>
+            <% } %>
+        </main>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
+</body>
+</html>
