@@ -103,6 +103,24 @@ exports.validateLogin = async ({ email, password }) => {
 };
 
 /**
+ * Get all users from the databas
+ */
+exports.getUsers = async () => {
+    const users = await User.find();
+
+    users.forEach(user => {
+        /* Decrypt data */
+        const fields = Object.keys(user.profile);
+        for (const prop of fields) {
+            if (prop === '$init' || prop === 'password') continue;
+            user.profile[prop] = cipher.decrypt(user.profile[prop]);
+        }
+    });
+
+    return users;
+}
+
+/**
  * Finds a user in the database 
  * and return it's data
  * returns the user that corresponds to that id
