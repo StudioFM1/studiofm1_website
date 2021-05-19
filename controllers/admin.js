@@ -23,13 +23,9 @@ exports.user_logout = async (req, res, next) => {
  * Render a user list
  */
 exports.users_get = async (req, res, next) => {
-    const template = req.query?.template || 'role';
     const users = await UserModel.getUsers();
-
-    const sortedUsers = format.sortUsers(users, template);
-
-    res.render('admin/users', { title: 'Producers', template, user: req.session.user, users: sortedUsers })
-}
+    res.render('admin/users', { title: 'Producers', user: req.session.user, users });
+};
 
 /**
  * Get user's profile data

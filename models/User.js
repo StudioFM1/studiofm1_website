@@ -117,7 +117,9 @@ exports.getUsers = async () => {
         }
     });
 
-    return users;
+    users.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname
+
+    return { active: [...users.filter(user => user.status.isActive)], inactive: [...users.filter(user => !user.status.isActive)] };
 }
 
 /**

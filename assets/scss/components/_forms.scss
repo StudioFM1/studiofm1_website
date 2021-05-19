@@ -76,17 +76,20 @@
     background-color: #f4f4f4;
 }
 
-.avatar-uploader {
-    position: relative;
+.avatar-figure {
     background-size: cover;
     background-position: 50%;
     background-repeat: no-repeat;
-    font-size: 1.3rem;
     margin-left: auto;
     margin-right: auto;
     width: 210px;
     height: 210px;
     border-radius: 50%;
+}
+
+.avatar-uploader {
+    position: relative;
+    font-size: 1.3rem;
     transition: box-shadow, 0.2s;
 
     &::before {
