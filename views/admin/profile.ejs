@@ -13,7 +13,7 @@
     <%- include('../partials/adminHeader.ejs') %>
     <div class="container">
         <main class="py-5">
-            <div class="row g-0 box-shadow">
+            <div class="row g-0 box-shadow py-5">
                 <h2 class="text-center">Profile</h2>
                 <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
                     <div class="card text-center h-100 p-4">
@@ -36,7 +36,6 @@
                 </div>
                 <div class="col-12 col-lg-8 col-xl-6 border-2 border-end border-light">
                     <div class="h-100 p-4">
-                        <div id="message" class="alert alert-success d-none" role="alert"></div>
                         <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
@@ -74,13 +73,11 @@
                                     <div class="form-group">
                                         <input type="password" name="newPassword" class="fm1-form-field" id="newPassword" placeholder="New password">
                                         <label for="newPassword" class="form-label">New password</label>
-                                        <div class="toggle-password-view d-none" data-target-field="newPassword"><i class="fas fa-eye"></i></div>
                                         <div class="errorTag" data-target-field="newPassword"></div>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password" class="fm1-form-field" id="password" placeholder="Current password" required>
                                         <label for="password" class="form-label">Current password</label>
-                                        <div class="toggle-password-view d-none" data-target-field="password"><i class="fas fa-eye"></i></div>
                                         <div class="errorTag" data-target-field="password"></div>
                                     </div>
                                 </div>

@@ -51,5 +51,5 @@ exports.user_profile_put = async (req, res, next) => {
  */
 exports.user_avatar_post = async (req, res, next) => {
     await UserModel.updateUserAvatar(req.params.id, req.fileName);
-    res.json({ success: 'Avatar updated successfully' });
+    res.json({});
 };

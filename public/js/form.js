@@ -12,48 +12,20 @@
  * a feedback (success message or possible errors).
  */
 
-/* Clear any message on the DOM */
-const clearMessages = () => {
-    /* Remove success messages */
-    const message = document.getElementById('message');
-    message.classList.add('d-none');
-    message.innerText = '';
-
-    /* Remove errors */
-    const fields = document.querySelectorAll('.fm1-form-field');
-    fields.forEach(field => {
-        if (field.classList.contains('error')) field.classList.remove('error');
-    });
-
-    /* Remove error messages */
-    const errorTags = document.querySelectorAll('.errorTag');
-    errorTags.forEach(tag => (tag.innerText = ''));
-};
-
 /* Dispaly feedback from the server */
-const displayFeedback = data => {
-    /* Clear previous messages */
-    clearMessages();
+const logFormErrors = errors => {
+    /* Remove error messages and classes */
+    document.querySelectorAll('.fm1-form-field').forEach(field => field.classList.remove('error'));
+    document.querySelectorAll('.errorTag').forEach(tag => (tag.innerText = ''));
 
-    if (data.success) {
-        const message = document.getElementById('message');
-        message.classList.remove('d-none');
-        message.innerText = data.success;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        /* Clear passwords */
-        document.getElementById('newPassword').value = '';
-        document.getElementById('password').value = '';
-    } else if (data.errors?.length) {
     /* Check for errors and display them if any */
-        for (const error of data.errors) {
-            /* Get incorrect field and it's error tag */
-            const field = document.getElementById(error.field);
-            const errorTag = [...document.querySelectorAll('.errorTag')].find(el => el.dataset.targetField === error.field);
+    for (const error of errors) {
+        /* Get incorrect field and it's error tag */
+        const field = document.getElementById(error.field);
+        const errorTag = [...document.querySelectorAll('.errorTag')].find(el => el.dataset.targetField === error.field);
 
-            field.classList.add('error');
-            errorTag.innerText = error.msg;
-        }
+        field.classList.add('error');
+        errorTag.innerText = error.msg;
     }
 };
 
@@ -92,31 +64,6 @@ const addUserFormEvents = () => {
         });
     });
 
-    /* Show the eye on input or focus */
-    const passwords = [...document.getElementsByTagName('input')].filter(el => el.type === 'password');
-    passwords.forEach(field => {
-        const eye = [...document.querySelectorAll('.toggle-password-view')].find(el => el.dataset.targetField === field.id);
-
-        field.addEventListener('input', () => {
-            if (field.value.length && eye.classList.contains('d-none')) eye.classList.remove('d-none');
-            else if (!field.value.length && !eye.classList.contains('d-none')) eye.classList.add('d-none');
-        });
-
-        field.addEventListener('focus', () => {
-            if (field.value.length && eye.classList.contains('d-none')) eye.classList.remove('d-none');
-        });
-    });
-
-    /* Change the password field type to text when pressed, reset to password when released */
-    const eyes = document.querySelectorAll('.toggle-password-view');
-    eyes.forEach(eye => {
-        /* While clicked set password input type to text to show password */
-        eye.addEventListener('mousedown', () => (document.getElementById(eye.dataset.targetField).type = 'text'));
-
-        /* On release reset to hide password */
-        eye.addEventListener('mouseup', () => (document.getElementById(eye.dataset.targetField).type = 'password'));
-    });
-
     /* Submit form, display feedback if any or redirect in any */
     const submit = document.getElementById('submit');
     submit.addEventListener('click', async e => {
@@ -132,9 +79,10 @@ const addUserFormEvents = () => {
             eyes.forEach(eye => {
                 if (!eye.classList.contains('d-none')) eye.classList.add('d-none');
             });
-            /* Redirect or display feedback */
+            /* Redirect if needed, display errors on error, reload on success */
             if (res.redirect) return (window.location = res.redirect);
-            displayFeedback(res);
+            else if (res.errors?.length) logFormErrors(res.errors);
+            else location.reload();
         } catch (err) {
             console.log(err);
         }

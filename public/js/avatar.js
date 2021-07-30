@@ -1,19 +1,8 @@
 /* Log messages about the avatar form submission */
-const logMessage = (data) => {
+const logAvatarError = error => {
     const avatarMessage = document.getElementById('avatarMessage');
-    if (data.errors?.length) {
-        avatarMessage.innerHTML = data.errors[0].msg;
-        avatarMessage.setAttribute('class', 'alert alert-danger');
-    }
-    else if (data.success) {
-        avatarMessage.setAttribute('class', 'alert alert-success');
-        avatarMessage.innerHTML = data.success;
-    }
-
-    /* Hide avatar buttons */
-    // const avatarButtons = document.getElementById('avatarButtons');
-    // if(!avatarButtons.classList.contains('d-none'))
-    //     avatarButtons.classList.add('d-none')
+    avatarMessage.innerHTML = error;
+    avatarMessage.setAttribute('class', 'alert alert-danger');
 };
 
 /* Get rounded canvas */
@@ -130,7 +119,7 @@ const addAvatarFormEvents = () => {
             image.src = URL.createObjectURL(file);
             modalInstance.show();
         } else {
-            logMessage({ error: 'The file is too large. Please choose a file up to <b>5 MB</b>' });
+            logAvatarError('The file is too large. Please choose a file up to <b>5 MB</b>');
         }
     });
 
@@ -146,14 +135,16 @@ const addAvatarFormEvents = () => {
     const submitAvatar = document.getElementById('submitAvatar');
     submitAvatar.addEventListener('click', async e => {
         e.preventDefault(); /* Submit query and get response */
-        
+
         try {
             submitAvatar.disabled = true;
             const res = await submitAvatarForm();
             submitAvatar.disabled = false;
-            logMessage(res);
+
+            if (res.errors?.length) return logAvatarError(...res.errors);
+            location.reload();
         } catch (err) {
-            logMessage(err);
+            logAvatarError(err);
         }
     });
 };
