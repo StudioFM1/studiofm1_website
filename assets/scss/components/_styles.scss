@@ -9,12 +9,12 @@
 
     &::after {
         @extend .fas; // for font awsome use in ::after
-        transform: rotate(90deg);
         content: fa-content($fa-var-angle-right);
         position: absolute;
         right: 0px;
-        top: 3px;
+        top: 5px;
         transition: rotate, .2s;
+        transform: rotate(90deg);
     }
 
     &.collapsed {
@@ -22,5 +22,25 @@
             transform: rotate(0);
         }
     }
+}
+
+.admin-header {
+    background-color: $orange-500;
+    color: $white;
+}
+
+.editor-header {
+    background-color: $cyan-500;
+    color: $white;
+}
+
+.author-header {
+    background-color: $indigo-500;
+    color: $white;
+}
+
+.basic-header {
+    background-color: $green-500;
+    color: $white;
 }
         

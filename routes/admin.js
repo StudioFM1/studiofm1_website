@@ -24,6 +24,11 @@ router.get('/', use(controller.index));
 router.get('/logout', use(controller.user_logout));
 
 /**
+ * @GET Users
+ */
+router.get('/users', use(controller.users_get));
+
+/**
  * @GET User profile data
  */
 router.get('/users/:id', use(controller.user_profile_get));
@@ -37,5 +42,10 @@ router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_pr
  * @POST Update user avatar
  */
 router.post('/users/upload/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.user_avatar_post));
+
+/**
+ * @POST Update user status
+ */
+router.post('/users/status/:id', use(controller.user_status_post));
 
 module.exports = router;

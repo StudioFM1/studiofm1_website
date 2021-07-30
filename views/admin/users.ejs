@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
+<body>
+    <%- include('../partials/adminHeader.ejs') %>
+    <div class="container">
+        <main class="p-5">
+            <% if(users.active && users.active.length) { %>
+                <h2>Active Producers</h2>
+                <section>
+                    <div class="row">
+                        <% users.active.forEach(user => { %>
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <div class="card text-center position-relative bg-light">
+                                    <h5 class="card-header <%= user.profile.role %>-header py-2"><%= user.profile.role %></h5>
+                                    <div class="avatar-figure my-3" style="background-image: url('<%= user.profile.avatar %>');"></div>
+                                    <div class="card-body py-3">
+                                        <h5 class="card-title"><%= user.profile.firstName %><br><%= user.profile.lastName %></h5>
+                                        <h6>#<%= user.profile.username %></h6>
+                                    </div>
+                                    <a class="stretched-link" data-bs-toggle="modal" href="#userInfoModal" role="button"></a>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </section>
+            <% } %>
+            <% if(users.inactive && users.inactive.length) { %>
+                <h2>Inactive Producers</h2>
+                <section>
+                    <div class="row">
+                        <% users.inactive.forEach(user => { %>
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <div class="card text-center position-relative bg-light">
+                                    <h5 class="card-header <%= user.profile.role %>-header py-2"><%= user.profile.role %></h5>
+                                    <div class="avatar-figure my-3" style="background-image: url('<%= user.profile.avatar %>');"></div>
+                                    <div class="card-body py-3">
+                                        <h5 class="card-title"><%= user.profile.firstName %><br><%= user.profile.lastName %></h5>
+                                        <h6>#<%= user.profile.username %></h6>
+                                    </div>
+                                    <a href="#" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </section>
+            <% } %>
+        </main>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+    <%- include('../partials/modals/userInfoModal.ejs') %>
+    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
+</body>
+</html>

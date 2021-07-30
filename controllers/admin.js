@@ -1,6 +1,7 @@
 'use strict';
 
-const { getUserData, updateUserData, updateUserAvatar } = require('../models/User');
+const UserModel = require('../models/User');
+const format = require('../helpers/format');
 const successMsg = require('../messages/success.json');
 
 /* Render admin dashboard */
@@ -18,12 +19,21 @@ exports.user_logout = async (req, res, next) => {
 }
 
 /**
+ * Get a list of user
+ * Render a user list
+ */
+exports.users_get = async (req, res, next) => {
+    const users = await UserModel.getUsers();
+    res.render('admin/users', { title: 'Producers', user: req.session.user, users });
+};
+
+/**
  * Get user's profile data
  * Render user's profile page
  */
 exports.user_profile_get = async (req, res, next) => {
-    const user = await getUserData(req.params.id);
-    res.render('admin/profile', { title: 'My profile', user: user });
+    const user = await UserModel.getUserData(req.params.id);
+    res.render('admin/profile', { title: 'My profile', user });
 };
 
 /**
@@ -31,11 +41,25 @@ exports.user_profile_get = async (req, res, next) => {
  * Send success message in response
  */
 exports.user_profile_put = async (req, res, next) => {
-    const updatedUser = await updateUserData(req.params.id, req.body);
+    const updatedUser = await UserModel.updateUserData(req.params.id, req.body);
     res.json({ success: successMsg.PROFILE_UPDATE });
 };
 
+/**
+ * Saves new avatar's path
+ * responds with a success message
+ */
 exports.user_avatar_post = async (req, res, next) => {
-    await updateUserAvatar(req.params.id, req.fileName);
-    res.json({ success: 'Avatar updated successfully' });
+    await UserModel.updateUserAvatar(req.params.id, req.fileName);
+    res.json({});
 };
+
+/**
+ * Updates user's status
+ * End request
+ */
+exports.user_status_post = async (req, res, next) => {
+    console.log(req.params.id, req.body)
+    await UserModel.updateUserStatus(req.params.id, req.body);
+    res.end();
+}

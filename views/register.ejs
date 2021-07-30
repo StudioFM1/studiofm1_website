@@ -5,51 +5,49 @@
 </head>
 <body>
     <%- include('./partials/header.ejs') %>
-    <main>
+    <main class="py-5">
         <section class="container my-5">
             <div class="mx-auto sm-form box-shadow">
                 <h2 class="h1 mb-4">Register</h2>
                 <div id="message" class="alert alert-success d-none" role="alert"></div>
                 <form id="userForm" method="POST" action="/register">
                     <div class="form-group">
-                        <input type="text" name="username" class="form-field" id="username" placeholder="Username" required>
+                        <input type="text" name="username" class="fm1-form-field" id="username" placeholder="Username" required>
                         <label for="username" class="form-label">Username</label>
                         <div class="errorTag" data-target-field="username"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="firstName" class="form-field" id="firstName" placeholder="First name" required>
+                        <input type="text" name="firstName" class="fm1-form-field" id="firstName" placeholder="First name" required>
                         <label for="firstName" class="form-label">First name</label>
                         <div class="errorTag" data-target-field="firstName"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="lastName" class="form-field" id="lastName" placeholder="Last name" required>
+                        <input type="text" name="lastName" class="fm1-form-field" id="lastName" placeholder="Last name" required>
                         <label for="lastName" class="form-label">Last name</label>
                         <div class="errorTag" data-target-field="lastName"></div>
                     </div>
                     <div class="form-group">
-                        <input type="tel" name="mobilePhone" class="form-field" id="mobilePhone" placeholder="Mobile phone" required>
+                        <input type="tel" name="mobilePhone" class="fm1-form-field" id="mobilePhone" placeholder="Mobile phone" required>
                         <label for="mobilePhone" class="form-label">Mobile phone</label>
                         <div class="errorTag" data-target-field="mobilePhone"></div>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" class="form-field" id="email" placeholder="Email" required>
+                        <input type="email" name="email" class="fm1-form-field" id="email" placeholder="Email" required>
                         <label for="email" class="form-label">Email Address</label>
                         <div class="errorTag" data-target-field="email"></div>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-field" id="password" placeholder="Password" required>
+                        <input type="password" name="password" class="fm1-form-field" id="password" placeholder="Password" required>
                         <label for="password" class="form-label">Password</label>
-                        <div class="toggle-password-view d-none" data-target-field="password"><i class="fas fa-eye"></i></div>
                         <div class="errorTag" data-target-field="password"></div>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="confirmPassword" class="form-field" id="confirmPassword" placeholder="Confirm password" required>
+                        <input type="password" name="confirmPassword" class="fm1-form-field" id="confirmPassword" placeholder="Confirm password" required>
                         <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <div class="toggle-password-view d-none" data-target-field="confirmPassword"><i class="fas fa-eye"></i></div>
                         <div class="errorTag" data-target-field="confirmPassword"></div>
                     </div>
                     <div class="form-group">
-                        <select name="role" class="form-select-field" placeholder="Role" required>
+                        <select name="role" class="fm1-form-select-field" placeholder="Role" required>
                             <option value="basic" selected>Basic</option>
                             <option value="author">Author</option>
                             <option value="editor">Editor (ΔΣ / ΡΟΗ)</option>
