@@ -74,11 +74,6 @@ const addUserFormEvents = () => {
             submit.disabled = false;
             const res = await submitForm();
             submit.disabled = false;
-            /* Hide the eyes */
-            const eyes = document.querySelectorAll('.toggle-password-view');
-            eyes.forEach(eye => {
-                if (!eye.classList.contains('d-none')) eye.classList.add('d-none');
-            });
             /* Redirect if needed, display errors on error, reload on success */
             if (res.redirect) return (window.location = res.redirect);
             else if (res.errors?.length) logFormErrors(res.errors);
