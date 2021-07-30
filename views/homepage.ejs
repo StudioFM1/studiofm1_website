@@ -5,18 +5,11 @@
 </head>
 <body>
     <%- include('./partials/header.ejs') %>
-    <main>
-        <!-- <section>
-        <div class="hero">
-            <div class="hero-text">
-                <h1>I am John Doe</h1>
-                <p>And I'm a Photographer</p>
-                <button>Hire me</button>
-            </div>
-        </div>
-    </section> -->
+    <main class="mt-2 mb-2">
+        <%- include('./partials/musicplayer.ejs') %>
     </main>
     <%- include('./partials/footer.ejs') %>
+    <script src="/js/player.js"></script>
     <script src="/js/vendors/bootstrap.bundle.min.js"></script>
 </body>
 </html>
