@@ -53,3 +53,13 @@ exports.user_avatar_post = async (req, res, next) => {
     await UserModel.updateUserAvatar(req.params.id, req.fileName);
     res.json({});
 };
+
+/**
+ * Updates user's status
+ * End request
+ */
+exports.user_status_post = async (req, res, next) => {
+    console.log(req.params.id, req.body)
+    await UserModel.updateUserStatus(req.params.id, req.body);
+    res.end();
+}

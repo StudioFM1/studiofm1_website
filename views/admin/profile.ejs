@@ -30,6 +30,10 @@
                             <div class="user-about">
                                 <h5><%= user.firstName %> <%= user.lastName %></h5>
                                 <h6><%= user.role %></h6>
+                                <div class="form-switch">
+                                    <input class="form-check-input" type="checkbox" id="isVisible" name="isVisible" <%= user.isVisible ? "checked" : "" %> />
+                                    <label class="form-check-label fm1-switch" for="isVisible">Public Visibility</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,7 +86,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button id="submit" class="btn btn-primary">Submit</button>
+                            <button id="submit" class="btn btn-primary">Update</button>
                         </form>
                     </div>
                 </div>
@@ -105,6 +109,20 @@
         window.addEventListener('DOMContentLoaded', () => {
             addUserFormEvents();
             addAvatarFormEvents();
+
+            const visibilitySwitch = document.getElementById('isVisible');
+            visibilitySwitch.addEventListener('click', e => {
+                e.target.disabled = true;
+                fetch('/admin/users/status/<%= user._id %>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({ isVisible: e.target.checked }),
+                })
+                .then(() => e.target.disabled = false)
+                .catch(err => reject(err));
+            });
         });
     </script>
 </body>

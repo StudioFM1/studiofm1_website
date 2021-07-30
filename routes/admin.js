@@ -43,4 +43,9 @@ router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_pr
  */
 router.post('/users/upload/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.user_avatar_post));
 
+/**
+ * @POST Update user status
+ */
+router.post('/users/status/:id', use(controller.user_status_post));
+
 module.exports = router;

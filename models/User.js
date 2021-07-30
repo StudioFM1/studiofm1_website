@@ -35,8 +35,6 @@ const userSchema = new Mongoose.Schema({
 /**
  * Middleware function that encrypts 
  * user profile data before saving
- * 
- * @param {function} next The next() function to move on save
  */
 userSchema.pre('save', async function (next) {
     const fields = Object.keys(this.profile);
@@ -170,10 +168,19 @@ exports.updateUserData = async (id, data) => {
 /**
  * Updates the user's avatar
  */
-exports.updateUserAvatar = async (userId, fileName) => {
-    let user = await User.findById(userId);
+exports.updateUserAvatar = async (id, fileName) => {
+    let user = await User.findById(id);
     if (user) {
         user.profile.avatar = `/images/avatars/${fileName}`;
         await user.save();
     }
+}
+
+/**
+ * Update the user's status
+ */
+exports.updateUserStatus = async (id, data) => {
+    const user = await User.findById(id);
+    Object.assign(user.status, data);
+    await user.save();
 }
