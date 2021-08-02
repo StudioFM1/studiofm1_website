@@ -11,7 +11,7 @@
             <a class="nav-link active" aria-current="page" href="/admin">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/users">Producers</a>
+            <a class="nav-link" href="/admin/producers">Producers</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/shows">Shows</a>
@@ -27,9 +27,9 @@
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><%= user.username %></a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="/admin/users/<%=user.userId%>">Profile</a></li>
+            <a class="nav-link dropdown-toggle" href="#" id="producerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><%= producer.username %></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="producerDropdown">
+              <li><a class="dropdown-item" href="/admin/producers/<%=producer.producerId%>">Profile</a></li>
               <li><a class="dropdown-item" href="/admin/logout">Log out</a></li>
             </ul>
           </li>

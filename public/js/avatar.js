@@ -112,7 +112,7 @@ const addAvatarFormEvents = () => {
     });
 
     /* On file input change, load new Avatar on modal body and show modal */
-    const fileInput = document.getElementById('userAvatar');
+    const fileInput = document.getElementById('producerAvatar');
     fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
         if (sizeOk(file)) {

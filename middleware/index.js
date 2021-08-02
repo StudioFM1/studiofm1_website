@@ -16,11 +16,11 @@ exports.isAllowed = (req, res, next) => {
 }
 
 /**
- * Checks if a user is logged in
+ * Checks if a producer is logged in
  * returns either moves to next middleware or renders login page
  */
 exports.isLoggedIn = (req, res, next) => {
-    if (req.session.user) return next();
+    if (req.session.producer) return next();
     res.render('login', { title: 'Studio FM1 Login' });
 };
 

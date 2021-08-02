@@ -32,7 +32,7 @@ const logFormErrors = errors => {
 /* Form request and submit form */
 const submitForm = () =>
     new Promise((resolve, reject) => {
-        const form = document.getElementById('userForm');
+        const form = document.getElementById('producerForm');
         const formFields = new FormData(form);
 
         let data = {};
@@ -51,7 +51,7 @@ const submitForm = () =>
     });
 
 /* Add nescessary event listeners on form */
-const addUserFormEvents = () => {
+const addProducerFormEvents = () => {
     /* Remove errors on focus */
     const fields = document.querySelectorAll('.fm1-form-field');
     fields.forEach(field => {

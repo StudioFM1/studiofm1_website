@@ -1,20 +1,20 @@
 'use strict';
 
-const UserModel = require('../models/User');
+const ProducerModel = require('../models/Producer');
 const successMsg = require('../messages/success.json');
 
 /* Render admin dashboard */
 exports.index = (req, res, next) => {
-    res.render('admin/dashboard', { title: 'Admin dashboard', user: req.session.user });
+    res.render('admin/dashboard', { title: 'Admin dashboard', producer: req.session.producer });
 };
 
 /**
- * Create a new user
+ * Create a new producer
  * redirect client to admin
  */
-exports.register_user_post = async (req, res, next) => {
+exports.register_producer_post = async (req, res, next) => {
     /* Insert producer and return email & password */
-    await UserModel.insertUser(req.body);
+    await ProducerModel.insertProducer(req.body);
     /* Send response to client */
     res.json({});
 };
@@ -23,35 +23,35 @@ exports.register_user_post = async (req, res, next) => {
  * Destroy session
  * Redirect client to home
  */
-exports.user_logout = async (req, res, next) => {
+exports.producer_logout = async (req, res, next) => {
     await req.session.destroy();
     res.redirect('/');
 };
 
 /**
- * Get a list of user
- * Render a user list
+ * Get a list of producers
+ * Render a producer list
  */
-exports.users_get = async (req, res, next) => {
-    const users = await UserModel.getUsers();
-    res.render('admin/users', { title: 'Producers', user: req.session.user, users });
+exports.producers_get = async (req, res, next) => {
+    const producers = await ProducerModel.getProducers();
+    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producers });
 };
 
 /**
- * Get user's profile data
- * Render user's profile page
+ * Get producer's profile data
+ * Render producer's profile page
  */
-exports.user_profile_get = async (req, res, next) => {
-    const user = await UserModel.getUserData(req.params.id);
-    res.render('admin/profile', { title: 'My profile', user });
+exports.producer_profile_get = async (req, res, next) => {
+    const producer = await ProducerModel.getProducerData(req.params.id);
+    res.render('admin/profile', { title: 'My profile', producer });
 };
 
 /**
- * Update user's data
+ * Update producer's data
  * Send success message in response
  */
-exports.user_profile_put = async (req, res, next) => {
-    await UserModel.updateUserData(req.params.id, req.body);
+exports.producer_profile_put = async (req, res, next) => {
+    await ProducerModel.updateProducerData(req.params.id, req.body);
     res.json({ success: successMsg.PROFILE_UPDATE });
 };
 
@@ -59,16 +59,16 @@ exports.user_profile_put = async (req, res, next) => {
  * Saves new avatar's path
  * responds with a success message
  */
-exports.user_avatar_post = async (req, res, next) => {
-    await UserModel.updateUserAvatar(req.params.id, req.fileName);
+exports.producer_avatar_post = async (req, res, next) => {
+    await ProducerModel.updateProducerAvatar(req.params.id, req.fileName);
     res.json({});
 };
 
 /**
- * Updates user's status
+ * Updates producer's status
  * End request
  */
-exports.user_status_post = async (req, res, next) => {
-    const user = await UserModel.updateUserStatus(req.params.id, req.body);
-    res.json(user);
+exports.producer_status_post = async (req, res, next) => {
+    const producer = await ProducerModel.updateProducerStatus(req.params.id, req.body);
+    res.json(producer);
 };

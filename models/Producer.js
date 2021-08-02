@@ -6,9 +6,9 @@ const { getRandomGidi } = require('../helpers/images');
 const errorMsg = require('../messages/errors.json');
 
 /**
- * The User model schema
+ * The Producer model schema
  */
-const userSchema = new Mongoose.Schema({
+const producerSchema = new Mongoose.Schema({
     profile: {
         email: { type: String, unique: true, required: true },
         password: { type: String, required: true },
@@ -27,16 +27,16 @@ const userSchema = new Mongoose.Schema({
     },
     shows: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Show' }],
     posts: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    addedBy: { type: Mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    addedBy: { type: Mongoose.Schema.Types.ObjectId, ref: 'Producer', default: null },
     createdAt: { type: Date, default: Date.now },
     modifiedAt: { type: Date, default: Date.now },
 });
 
 /**
- * Middleware function that encrypts 
- * user profile data before saving
+ * Middleware function that encrypts
+ * producer profile data before saving
  */
-userSchema.pre('save', async function (next) {
+producerSchema.pre('save', async function (next) {
     const fields = Object.keys(this.profile);
     for (const prop of fields) {
         if (prop === '$init') continue;
@@ -49,37 +49,37 @@ userSchema.pre('save', async function (next) {
 });
 
 /**
- * Validate's user's password
+ * Validate's producer's password
  * returns true or false
  */
-userSchema.methods.validatePassword = function (password) {
+producerSchema.methods.validatePassword = function (password) {
     return cipher.comparePassword(password, this.profile.password);
 };
 
 /* Producer model schema */
-const User = Mongoose.model('User', userSchema);
+const Producer = Mongoose.model('Producer', producerSchema);
 
 /**
- * Inserts a new user in the database
+ * Inserts a new producer in the database
  */
-exports.insertUser = async data => {
+exports.insertProducer = async data => {
     /* Defaults for bio, avatar & role */
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
     data.password = data.password || Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 6);
     data.avatar = await getRandomGidi();
 
-    const newUser = new User({ profile: data });
-    await newUser.save();
+    const newProducer = new Producer({ profile: data });
+    await newProducer.save();
 };
 
 /**
- * Validate's user's try to login
- * returns returns an object with the user's id and username
+ * Validate's producer's try to login
+ * returns returns an object with the producer's id and username
  */
 exports.validateLogin = async ({ email, password }) => {
-    const user = await User.findOne({ 'profile.email': cipher.encrypt(email) });
+    const producer = await Producer.findOne({ 'profile.email': cipher.encrypt(email) });
 
-    if (!user)
+    if (!producer)
         throw {
             msgs: [
                 { msg: errorMsg.CREDENTIALS_ERROR, field: 'email' },
@@ -88,7 +88,7 @@ exports.validateLogin = async ({ email, password }) => {
             status: 401,
         };
 
-    const validated = await user.validatePassword(password);
+    const validated = await producer.validatePassword(password);
     if (!validated)
         throw {
             msgs: [
@@ -98,59 +98,59 @@ exports.validateLogin = async ({ email, password }) => {
             status: 401,
         };
 
-    return { userId: user._id, username: cipher.decrypt(user.profile.username) };
+    return { producerId: producer._id, username: cipher.decrypt(producer.profile.username) };
 };
 
 /**
- * Get all users from the databas
+ * Get all producers from the databas
  */
-exports.getUsers = async () => {
-    const users = await User.find();
+exports.getProducers = async () => {
+    const producers = await Producer.find();
 
-    users.forEach(user => {
+    producers.forEach(producer => {
         /* Decrypt data */
-        const fields = Object.keys(user.profile);
+        const fields = Object.keys(producer.profile);
         for (const prop of fields) {
             if (prop === '$init' || prop === 'password') continue;
-            user.profile[prop] = cipher.decrypt(user.profile[prop]);
+            producer.profile[prop] = cipher.decrypt(producer.profile[prop]);
         }
     });
 
-    users.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname
+    producers.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname
 
-    return users;
-    // return { active: [...users.filter(user => user.status.isActive)], inactive: [...users.filter(user => !user.status.isActive)] };
+    return producers;
+    // return { active: [...producers.filter(producer => producer.status.isActive)], inactive: [...producers.filter(producer => !producer.status.isActive)] };
 };
 
 /**
- * Finds a user in the database
+ * Finds a producer in the database
  * and return it's data
- * returns the user that corresponds to that id
+ * returns the producer that corresponds to that id
  */
-exports.getUserData = async id => {
-    const user = await User.findById(id);
+exports.getProducerData = async id => {
+    const producer = await Producer.findById(id);
 
     /* Decrypt data */
-    const fields = Object.keys(user.profile);
+    const fields = Object.keys(producer.profile);
     for (const prop of fields) {
         if (prop === '$init' || prop === 'password') continue;
-        user.profile[prop] = cipher.decrypt(user.profile[prop]);
+        producer.profile[prop] = cipher.decrypt(producer.profile[prop]);
     }
 
-    return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
+    return { _id: producer._id, ...producer.profile, ...producer.status, shows: producer.shows };
 };
 
 /**
- * Finds a user in the database
+ * Finds a producer in the database
  * and updates its data
- * returns the updated user that corresponds to that ID
+ * returns the updated producer that corresponds to that ID
  */
-exports.updateUserData = async (id, data) => {
-    const user = await User.findById(id);
+exports.updateProducerData = async (id, data) => {
+    const producer = await Producer.findById(id);
 
     /* If there is a new password */
     if (data.newPassword.length) {
-        const validated = await user.validatePassword(data.password);
+        const validated = await producer.validatePassword(data.password);
         if (!validated) throw { msgs: [{ msg: errorMsg.INVALID_CURRENT_PASSWORD, field: 'password' }], status: 401 };
 
         data.password = data.newPassword;
@@ -161,29 +161,29 @@ exports.updateUserData = async (id, data) => {
         delete data.newPassword;
     }
 
-    Object.assign(user.profile, data);
-    await user.save();
+    Object.assign(producer.profile, data);
+    await producer.save();
 
-    // return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
+    // return { _id: producer._id, ...producer.profile, ...producer.status, shows: producer.shows };
 };
 
 /**
- * Updates the user's avatar
+ * Updates the producer's avatar
  */
-exports.updateUserAvatar = async (id, fileName) => {
-    let user = await User.findById(id);
-    if (user) {
-        user.profile.avatar = `/images/avatars/${fileName}`;
-        await user.save();
+exports.updateProducerAvatar = async (id, fileName) => {
+    let producer = await Producer.findById(id);
+    if (producer) {
+        producer.profile.avatar = `/images/avatars/${fileName}`;
+        await producer.save();
     }
 };
 
 /**
- * Update the user's status
+ * Update the producer's status
  */
-exports.updateUserStatus = async (id, data) => {
-    const user = await User.findById(id);
-    Object.assign(user.status, data);
-    await user.save();
-    return { _id: user._id, status: user.status };
+exports.updateProducerStatus = async (id, data) => {
+    const producer = await Producer.findById(id);
+    Object.assign(producer.status, data);
+    await producer.save();
+    return { _id: producer._id, status: producer.status };
 };

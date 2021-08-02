@@ -17,9 +17,9 @@
                 <h2 class="text-center">Profile</h2>
                 <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
                     <div class="card text-center h-100 p-4">
-                        <form id="avatarForm" class="mb-3" action="/admin/users/upload/<%= user._id %>" method="POST" enctype="multipart/form-data">
-                            <div id="avatarFigure" class="avatar large-avatar avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
-                                <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="userAvatar" id="userAvatar" class="fileInput">
+                        <form id="avatarForm" class="mb-3" action="/admin/producers/upload/<%= producer._id %>" method="POST" enctype="multipart/form-data">
+                            <div id="avatarFigure" class="avatar large-avatar avatar-uploader mb-3" style="background-image: url('<%= producer.avatar %>');">
+                                <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="producerAvatar" id="producerAvatar" class="fileInput">
                             </div>
                             <div id="avatarButtons" class="btn-group d-none" role="group">
                                 <button id="submitAvatar" class="btn btn-primary">Submit</button>
@@ -27,11 +27,11 @@
                         </form>
                         <div class="card-body">
                             <div id="avatarMessage" class="alert alert-danger d-none" role="alert"></div>
-                            <div class="user-about">
-                                <h5><%= user.firstName %> <%= user.lastName %></h5>
-                                <h6><%= user.role %></h6>
+                            <div>
+                                <h5><%= producer.firstName %> <%= producer.lastName %></h5>
+                                <h6><%= producer.role %></h6>
                                 <div class="form-switch">
-                                    <input class="form-check-input" type="checkbox" id="isVisible" name="isVisible" <%= user.isVisible ? "checked" : "" %> />
+                                    <input class="form-check-input" type="checkbox" id="isVisible" name="isVisible" <%= producer.isVisible ? "checked" : "" %> />
                                     <label class="form-check-label fm1-switch" for="isVisible">Public Visibility</label>
                                 </div>
                             </div>
@@ -40,35 +40,35 @@
                 </div>
                 <div class="col-12 col-lg-8 col-xl-6 border-2 border-end border-light">
                     <div class="h-100 p-4">
-                        <form id="userForm" action="/admin/users/<%= user._id %>" method="POST">
+                        <form id="producerForm" action="/admin/producers/<%= producer._id %>" method="POST">
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
-                                <input type="text" name="firstName" class="fm1-form-field" id="firstName" value="<%= user.firstName %>" placeholder="First name" required>
+                                <input type="text" name="firstName" class="fm1-form-field" id="firstName" value="<%= producer.firstName %>" placeholder="First name" required>
                                 <label for="firstName" class="form-label">First name</label>
                                 <div class="errorTag" data-target-field="firstName"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="lastName" class="fm1-form-field" id="lastName" value="<%= user.lastName %>" placeholder="Last name" required>
+                                <input type="text" name="lastName" class="fm1-form-field" id="lastName" value="<%= producer.lastName %>" placeholder="Last name" required>
                                 <label for="lastName" class="form-label">Last name</label>
                                 <div class="errorTag" data-target-field="lastName"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="username" class="fm1-form-field" id="username" value="<%= user.username %>" placeholder="Username" required>
+                                <input type="text" name="username" class="fm1-form-field" id="username" value="<%= producer.username %>" placeholder="Username" required>
                                 <label for="username" class="form-label">Username</label>
                                 <div class="errorTag" data-target-field="username"></div>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="fm1-form-field" id="email" value="<%= user.email %>" placeholder="Email" required>
+                                <input type="email" name="email" class="fm1-form-field" id="email" value="<%= producer.email %>" placeholder="Email" required>
                                 <label for="email" class="form-label">Email</label>
                                 <div class="errorTag" data-target-field="email"></div>
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="mobilePhone" class="fm1-form-field" id="mobilePhone" value="<%= user.mobilePhone %>" placeholder="Mobile phone" required>
+                                <input type="tel" name="mobilePhone" class="fm1-form-field" id="mobilePhone" value="<%= producer.mobilePhone %>" placeholder="Mobile phone" required>
                                 <label for="mobilePhone" class="form-label">Mobile phone</label>
                                 <div class="errorTag" data-target-field="mobilePhone"></div>
                             </div>
                             <div class="form-group">
-                                <textarea name="bio" class="fm1-form-field" id="bio" placeholder="Bio..."><%= user.bio %></textarea>
+                                <textarea name="bio" class="fm1-form-field" id="bio" placeholder="Bio..."><%= producer.bio %></textarea>
                                 <label for="bio" class="form-label">Bio</label>
                             </div>
                             <div class="mb-4">
@@ -107,14 +107,14 @@
     <script>
         /* Add event listeners when content is loaded */
         window.addEventListener('DOMContentLoaded', () => {
-            addUserFormEvents();
+            addProducerFormEvents();
             addAvatarFormEvents();
 
             /* Change producer's public visibility */
             const isVisible = document.getElementById('isVisible');
             isVisible.addEventListener('click', e => {
                 e.target.disabled = true;
-                fetch('/admin/users/status/<%= user._id %>', {
+                fetch('/admin/producers/status/<%= producer._id %>', {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',

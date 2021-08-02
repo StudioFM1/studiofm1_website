@@ -19,38 +19,38 @@ const use = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(
 router.get('/', use(controller.index));
 
 /**
- * @POST User registration data
+ * @POST Producer registration data
  */
-router.post('/register', use(mw.validateForm('registration')), use(controller.register_user_post));
+router.post('/register', use(mw.validateForm('registration')), use(controller.register_producer_post));
 
 /**
  * @GET Destroy session
  */
-router.get('/logout', use(controller.user_logout));
+router.get('/logout', use(controller.producer_logout));
 
 /**
- * @GET Users
+ * @GET Producers
  */
-router.get('/users', use(controller.users_get));
+router.get('/producers', use(controller.producers_get));
 
 /**
- * @GET User profile data
+ * @GET Producer profile data
  */
-router.get('/users/:id', use(controller.user_profile_get));
+router.get('/producers/:id', use(controller.producer_profile_get));
 
 /**
- * @PUT Update user profile
+ * @PUT Update producer profile
  */
-router.put('/users/:id', use(mw.validateForm('profile')), use(controller.user_profile_put));
+router.put('/producers/:id', use(mw.validateForm('profile')), use(controller.producer_profile_put));
 
 /**
- * @POST Update user avatar
+ * @POST Update producer avatar
  */
-router.post('/users/upload/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.user_avatar_post));
+router.post('/producers/upload/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.producer_avatar_post));
 
 /**
- * @POST Update user status
+ * @POST Update producer status
  */
-router.post('/users/status/:id', use(controller.user_status_post));
+router.post('/producers/status/:id', use(controller.producer_status_post));
 
 module.exports = router;

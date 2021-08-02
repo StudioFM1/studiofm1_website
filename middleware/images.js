@@ -16,7 +16,7 @@ exports.uploadAvatar = (req, res, next) => {
         fileFilter: (req, file, cb) => {
             return img.checkFileType(file, cb);
         },
-    }).single('userAvatar')(req, res, err => {
+    }).single('producerAvatar')(req, res, err => {
         if (err) return next(err);
         next();
     });

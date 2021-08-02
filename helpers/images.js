@@ -13,7 +13,7 @@ exports.storage = multer.diskStorage({
         cb(null, `${__dirname}/../uploads`);
     },
     filename: (req, file, cb) => {
-        const fileName = `${file.fieldname}_${req.session.user.userId}${path.extname(file.originalname)}`;
+        const fileName = `${file.fieldname}_${req.session.producer.producerId}${path.extname(file.originalname)}`;
         cb(null, fileName);
         req.fileName = fileName;
     },

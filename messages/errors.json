@@ -1,6 +1,6 @@
 {
     "UNEXPECTED_ERROR": "Something went wrong... :(",
-    "EMAIL_EXISTS": "A user with this email already exists",
+    "EMAIL_EXISTS": "A producer with this email already exists",
     "USERNAME_EXISTS": "This username is already taken",
     "CREDENTIALS_ERROR": "Invalid email or password.",
     "EMPTY_FIELD": "This field is required",
