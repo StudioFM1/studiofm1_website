@@ -65,6 +65,7 @@ const User = Mongoose.model('User', userSchema);
 exports.insertUser = async data => {
     /* Defaults for bio, avatar & role */
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
+    data.password = data.password || Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 6);
     data.avatar = await getRandomGidi();
 
     const newUser = new User({ profile: data });
@@ -117,11 +118,12 @@ exports.getUsers = async () => {
 
     users.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname
 
-    return { active: [...users.filter(user => user.status.isActive)], inactive: [...users.filter(user => !user.status.isActive)] };
-}
+    return users;
+    // return { active: [...users.filter(user => user.status.isActive)], inactive: [...users.filter(user => !user.status.isActive)] };
+};
 
 /**
- * Finds a user in the database 
+ * Finds a user in the database
  * and return it's data
  * returns the user that corresponds to that id
  */
@@ -139,7 +141,7 @@ exports.getUserData = async id => {
 };
 
 /**
- * Finds a user in the database 
+ * Finds a user in the database
  * and updates its data
  * returns the updated user that corresponds to that ID
  */
@@ -162,7 +164,7 @@ exports.updateUserData = async (id, data) => {
     Object.assign(user.profile, data);
     await user.save();
 
-    return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
+    // return { _id: user._id, ...user.profile, ...user.status, shows: user.shows };
 };
 
 /**
@@ -174,7 +176,7 @@ exports.updateUserAvatar = async (id, fileName) => {
         user.profile.avatar = `/images/avatars/${fileName}`;
         await user.save();
     }
-}
+};
 
 /**
  * Update the user's status
@@ -183,4 +185,5 @@ exports.updateUserStatus = async (id, data) => {
     const user = await User.findById(id);
     Object.assign(user.status, data);
     await user.save();
-}
+    return { _id: user._id, status: user.status };
+};

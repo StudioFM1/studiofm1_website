@@ -1,12 +1,22 @@
 'use strict';
 
 const UserModel = require('../models/User');
-const format = require('../helpers/format');
 const successMsg = require('../messages/success.json');
 
 /* Render admin dashboard */
 exports.index = (req, res, next) => {
     res.render('admin/dashboard', { title: 'Admin dashboard', user: req.session.user });
+};
+
+/**
+ * Create a new user
+ * redirect client to admin
+ */
+exports.register_user_post = async (req, res, next) => {
+    /* Insert producer and return email & password */
+    await UserModel.insertUser(req.body);
+    /* Send response to client */
+    res.json({});
 };
 
 /**
@@ -16,7 +26,7 @@ exports.index = (req, res, next) => {
 exports.user_logout = async (req, res, next) => {
     await req.session.destroy();
     res.redirect('/');
-}
+};
 
 /**
  * Get a list of user
@@ -41,7 +51,7 @@ exports.user_profile_get = async (req, res, next) => {
  * Send success message in response
  */
 exports.user_profile_put = async (req, res, next) => {
-    const updatedUser = await UserModel.updateUserData(req.params.id, req.body);
+    await UserModel.updateUserData(req.params.id, req.body);
     res.json({ success: successMsg.PROFILE_UPDATE });
 };
 
@@ -59,7 +69,6 @@ exports.user_avatar_post = async (req, res, next) => {
  * End request
  */
 exports.user_status_post = async (req, res, next) => {
-    console.log(req.params.id, req.body)
-    await UserModel.updateUserStatus(req.params.id, req.body);
-    res.end();
-}
+    const user = await UserModel.updateUserStatus(req.params.id, req.body);
+    res.json(user);
+};

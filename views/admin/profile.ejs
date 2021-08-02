@@ -18,7 +18,7 @@
                 <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
                     <div class="card text-center h-100 p-4">
                         <form id="avatarForm" class="mb-3" action="/admin/users/upload/<%= user._id %>" method="POST" enctype="multipart/form-data">
-                            <div id="avatarFigure" class="avatar-figure avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
+                            <div id="avatarFigure" class="avatar large-avatar avatar-uploader mb-3" style="background-image: url('<%= user.avatar %>');">
                                 <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="userAvatar" id="userAvatar" class="fileInput">
                             </div>
                             <div id="avatarButtons" class="btn-group d-none" role="group">
@@ -110,8 +110,9 @@
             addUserFormEvents();
             addAvatarFormEvents();
 
-            const visibilitySwitch = document.getElementById('isVisible');
-            visibilitySwitch.addEventListener('click', e => {
+            /* Change producer's public visibility */
+            const isVisible = document.getElementById('isVisible');
+            isVisible.addEventListener('click', e => {
                 e.target.disabled = true;
                 fetch('/admin/users/status/<%= user._id %>', {
                     method: 'POST',

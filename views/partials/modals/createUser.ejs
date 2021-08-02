@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <%- include('./partials/head.ejs') %>
-</head>
-<body>
-    <%- include('./partials/header.ejs') %>
-    <main class="py-5">
-        <section class="container my-5">
-            <div class="mx-auto sm-form box-shadow">
-                <h2 class="h1 mb-4">Register</h2>
-                <form id="userForm" method="POST" action="/register">
+<!-- Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="createUserModalLabel">Create producer</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="userForm" method="POST" action="/admin/register">
+            <div class="modal-body">
                     <div class="form-group">
                         <input type="text" name="username" class="fm1-form-field" id="username" placeholder="Username" required>
                         <label for="username" class="form-label">Username</label>
@@ -36,16 +34,6 @@
                         <div class="errorTag" data-target-field="email"></div>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="fm1-form-field" id="password" placeholder="Password" required>
-                        <label for="password" class="form-label">Password</label>
-                        <div class="errorTag" data-target-field="password"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="confirmPassword" class="fm1-form-field" id="confirmPassword" placeholder="Confirm password" required>
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <div class="errorTag" data-target-field="confirmPassword"></div>
-                    </div>
-                    <div class="form-group">
                         <select name="role" class="fm1-form-select-field" placeholder="Role" required>
                             <option value="basic" selected>Basic</option>
                             <option value="author">Author</option>
@@ -55,20 +43,12 @@
                         <label for="role" class="form-label">Role</label>
                         <div class="errorTag" data-target-field="role"></div>
                     </div>
-                    <button id="submit" class="btn btn-primary mb-3">Register</button>
-                    <p>Or <a href="/admin">Log in</a></p>
-                </form>
             </div>
-        </section>
-    </main>
-    <%- include('./partials/footer.ejs') %>
-    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="/js/form.js"></script>
-    <script>
-        /* Add event listeners when content is loaded */
-        window.addEventListener('DOMContentLoaded', () => {
-            addUserFormEvents();
-        });
-    </script>
-</body>
-</html>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="submit" class="btn btn-primary">Create Producer</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>

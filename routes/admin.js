@@ -19,6 +19,11 @@ const use = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(
 router.get('/', use(controller.index));
 
 /**
+ * @POST User registration data
+ */
+router.post('/register', use(mw.validateForm('registration')), use(controller.register_user_post));
+
+/**
  * @GET Destroy session
  */
 router.get('/logout', use(controller.user_logout));
