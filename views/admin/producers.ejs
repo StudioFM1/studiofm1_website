@@ -14,9 +14,9 @@
                         <div class="dropdown me-2">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="bulkActionsButton" data-bs-toggle="dropdown" aria-expanded="false">Bulk Actions</button>
                             <ul class="dropdown-menu" aria-labelledby="bulkActionsButton">
-                                <li><a class="dropdown-item" href="#">Assign Role</a></li>
-                                <li><a class="dropdown-item" href="#">Change Status</a></li>
-                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="role" href="#">Assign Role</a></li>
+                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="status" href="#">Change Status</a></li>
+                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="delete" href="#">Delete</a></li>
                             </ul>
                         </div>
                         <div class="dropdown me-2">
@@ -43,7 +43,6 @@
                                     <th scope="col">
                                         <div class="form-check">
                                             <input class="form-check-input master-checkbox" type="checkbox" data-role="<%= prop %>">
-                                            <label class="form-check-label" for="flexCheckDefault"></label>
                                         </div>
                                     </th>
                                     <th scope="col"><a href="#">Name</a></th>
@@ -57,8 +56,7 @@
                                     <tr id="<%= producer._id %>">
                                         <td class="fm1-td">
                                             <div class="form-check">
-                                                <input class="form-check-input <%= prop %>-checkbox" type="checkbox" data-id="<%= producer._id %>">
-                                                <label class="form-check-label" for="flexCheckDefault"></label>
+                                                <input class="form-check-input action-checkbox" type="checkbox" data-role="<%= prop %>" data-producer="<%= JSON.stringify(producer) %>">
                                             </div>
                                         </td>
                                         <td class="fm1-td"><img class="avatar small-avatar me-3" src="<%= producer.profile.avatar %>" alt="avatar"> <%= producer.profile.firstName %> <%= producer.profile.lastName %></td>
@@ -86,15 +84,16 @@
     </div>
     <%- include('../partials/footer.ejs') %>
     <%- include('../partials/modals/createProducer.ejs') %>
-    <%- include('../partials/modals/deleteProducer.ejs') %>
-    <%- include('../partials/modals/producerStatus.ejs') %>
+    <%- include('../partials/modals/actionModal.ejs') %>
     <script src="/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/js/form.js"></script>
+    <script src="/js/new_producers.js"></script>
     <!-- <script src="/js/producers.js"></script> -->
     <script>
         /* Add event listeners when content is loaded */
         window.addEventListener('DOMContentLoaded', () => {
             addProducerFormEvents();
+            addCheckboxEvents();
             // addModalEvents();
         });
     </script>
