@@ -19,11 +19,6 @@ const use = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(
 router.get('/', use(controller.index));
 
 /**
- * @POST Producer registration data
- */
-router.post('/register', use(mw.validateForm('registration')), use(controller.register_producer_post));
-
-/**
  * @GET Destroy session
  */
 router.get('/logout', use(controller.producer_logout));
@@ -47,6 +42,11 @@ router.put('/producers/:id', use(mw.validateForm('profile')), use(controller.pro
  * @POST Update producer avatar
  */
 router.post('/producers/upload/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.producer_avatar_post));
+
+/**
+ * @POST Producer registration data
+ */
+router.post('/register', use(mw.validateForm('registration')), use(controller.register_producer_post));
 
 /**
  * @POST Update producer status

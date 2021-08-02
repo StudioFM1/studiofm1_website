@@ -164,7 +164,7 @@ exports.updateProducerData = async (id, data) => {
     Object.assign(producer.profile, data);
     await producer.save();
 
-    // return { _id: producer._id, ...producer.profile, ...producer.status, shows: producer.shows };
+    return { producerId: producer._id, username: cipher.decrypt(producer.profile.username) };
 };
 
 /**

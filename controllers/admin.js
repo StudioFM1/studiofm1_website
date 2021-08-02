@@ -9,17 +9,6 @@ exports.index = (req, res, next) => {
 };
 
 /**
- * Create a new producer
- * redirect client to admin
- */
-exports.register_producer_post = async (req, res, next) => {
-    /* Insert producer and return email & password */
-    await ProducerModel.insertProducer(req.body);
-    /* Send response to client */
-    res.json({});
-};
-
-/**
  * Destroy session
  * Redirect client to home
  */
@@ -51,7 +40,8 @@ exports.producer_profile_get = async (req, res, next) => {
  * Send success message in response
  */
 exports.producer_profile_put = async (req, res, next) => {
-    await ProducerModel.updateProducerData(req.params.id, req.body);
+    const producer = await ProducerModel.updateProducerData(req.params.id, req.body);
+    req.session.producer = producer;
     res.json({ success: successMsg.PROFILE_UPDATE });
 };
 
@@ -61,6 +51,17 @@ exports.producer_profile_put = async (req, res, next) => {
  */
 exports.producer_avatar_post = async (req, res, next) => {
     await ProducerModel.updateProducerAvatar(req.params.id, req.fileName);
+    res.json({});
+};
+
+/**
+ * Create a new producer
+ * redirect client to admin
+ */
+exports.register_producer_post = async (req, res, next) => {
+    /* Insert producer and return email & password */
+    await ProducerModel.insertProducer(req.body);
+    /* Send response to client */
     res.json({});
 };
 
