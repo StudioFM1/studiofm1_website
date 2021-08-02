@@ -1,0 +1,44 @@
+<% for(const role in producers) { %>
+    <% if(producers[role].length) { %>
+        <h4><%= role.charAt(0).toUpperCase() + role.slice(1); %> Role</h4>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"><a href="#">Name</a></th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% producers[role].forEach((producer, index) => { %>
+                    <tr id="<%= producer._id %>">
+                        <th class="fm1-td" scope="row"><%= index + 1 %></th>
+                        <td class="fm1-td"><img class="avatar small-avatar me-3" src="<%= producer.profile.avatar %>" alt="avatar"> <%= producer.profile.firstName %> <%= producer.profile.lastName %></td>
+                        <td class="fm1-td"><%= producer.profile.role %></td>
+                        <td class="fm1-td">
+                            <span id="<%= producer._id %>_statusIndicator" class="text-<%= producer.status.isActive ? 'success' : 'danger' %> me-3"><i class="fas fa-circle"></i></span>
+                            <span id="<%= producer._id %>_statusTextIndicator"><%= producer.status.isActive ? "Active" : "Inactive" %></span>
+                        </td>
+                        <td class="fm1-td">
+                            Tel: <a href="tel:<%= producer.profile.mobilePhone %>"><%= producer.profile.mobilePhone %></a>
+                            <br>
+                            Email: <a href="mailto:<%= producer.profile.email %>"><%= producer.profile.email %></a>
+                        </td>
+                        <td class="fm1-td">
+                            <div class="form-check">
+                                <input class="form-check-input producer-checkbox" type="checkbox" id="<%= producer.profile._id %>_checkbox">
+                                <label class="form-check-label" for="flexCheckDefault"></label>
+                            </div>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <div class="clearfix">
+            <span class="float-end">Total producers: <%= producers[role].length %></span>
+        </div>
+    <% } %>
+<% } %>

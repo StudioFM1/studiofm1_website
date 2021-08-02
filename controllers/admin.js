@@ -22,8 +22,24 @@ exports.producer_logout = async (req, res, next) => {
  * Render a producer list
  */
 exports.producers_get = async (req, res, next) => {
-    const producers = await ProducerModel.getProducers();
-    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producers });
+    const view = req.query.view;
+
+    /* Get and group producers */
+    let producers = await ProducerModel.getProducers();
+    if (view === 'roleView')
+        producers = {
+            admin: [...producers.filter(producer => producer.profile.role === 'admin')],
+            editor: [...producers.filter(producer => producer.profile.role === 'editor')],
+            author: [...producers.filter(producer => producer.profile.role === 'authors')],
+            basic: [...producers.filter(producer => producer.profile.role === 'basic')],
+        };
+    else if (view === 'statusView')
+        producers = {
+            active: [...producers.filter(producer => producer.status.isActive)],
+            inactive: [...producers.filter(producer => !producer.status.isActive)],
+        };
+
+    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producers, view });
 };
 
 /**

@@ -137,3 +137,16 @@
     bottom: .375rem;
     color: $red;
 }
+
+.search-form {
+    position: relative;
+}
+
+.search-btn {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    background: none;
+	border: none;
+}

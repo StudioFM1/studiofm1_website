@@ -119,7 +119,6 @@ exports.getProducers = async () => {
     producers.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname
 
     return producers;
-    // return { active: [...producers.filter(producer => producer.status.isActive)], inactive: [...producers.filter(producer => !producer.status.isActive)] };
 };
 
 /**
