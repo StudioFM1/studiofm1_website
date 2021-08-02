@@ -25,21 +25,24 @@ exports.producers_get = async (req, res, next) => {
     const view = req.query.view;
 
     /* Get and group producers */
-    let producers = await ProducerModel.getProducers();
-    if (view === 'roleView')
-        producers = {
+    const producers = await ProducerModel.getProducers();
+    let producerObject = {};
+
+    if (view === 'defaultView') producerObject = { producers };
+    else if (view === 'roleView')
+        producerObject = {
             admin: [...producers.filter(producer => producer.profile.role === 'admin')],
             editor: [...producers.filter(producer => producer.profile.role === 'editor')],
-            author: [...producers.filter(producer => producer.profile.role === 'authors')],
+            author: [...producers.filter(producer => producer.profile.role === 'author')],
             basic: [...producers.filter(producer => producer.profile.role === 'basic')],
         };
     else if (view === 'statusView')
-        producers = {
+        producerObject = {
             active: [...producers.filter(producer => producer.status.isActive)],
             inactive: [...producers.filter(producer => !producer.status.isActive)],
         };
 
-    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producers, view });
+    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producerObject });
 };
 
 /**
