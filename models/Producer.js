@@ -62,13 +62,13 @@ const Producer = Mongoose.model('Producer', producerSchema);
 /**
  * Inserts a new producer in the database
  */
-exports.insertProducer = async data => {
+exports.insertProducer = async (data, addedBy) => {
     /* Defaults for bio, avatar & role */
     data.bio = data.bio || 'Another StudioFM1 105.4 producer';
     data.password = data.password || Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(2, 6);
     data.avatar = await getRandomGidi();
 
-    const newProducer = new Producer({ profile: data });
+    const newProducer = new Producer({ profile: data, addedBy });
     await newProducer.save();
 };
 

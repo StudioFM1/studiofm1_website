@@ -1,0 +1,53 @@
+<div class="modal fade" id="createProducerModal" tabindex="-1" aria-labelledby="createProducerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createProducerModalLabel">Create Producer Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="fm1_form" method="POST" action="/admin/producers/register">
+            <div class="form-group">
+                <input type="text" name="username" class="fm1-form-field" id="username" placeholder="Username" required>
+                <label for="username" class="form-label">Username</label>
+                <div class="errorTag" data-target-field="username"></div>
+            </div>
+            <div class="form-group">
+                <input type="text" name="firstName" class="fm1-form-field" id="firstName" placeholder="First name" required>
+                <label for="firstName" class="form-label">First name</label>
+                <div class="errorTag" data-target-field="firstName"></div>
+            </div>
+            <div class="form-group">
+                <input type="text" name="lastName" class="fm1-form-field" id="lastName" placeholder="Last name" required>
+                <label for="lastName" class="form-label">Last name</label>
+                <div class="errorTag" data-target-field="lastName"></div>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="mobilePhone" class="fm1-form-field" id="mobilePhone" placeholder="Mobile phone" required>
+                <label for="mobilePhone" class="form-label">Mobile phone</label>
+                <div class="errorTag" data-target-field="mobilePhone"></div>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="fm1-form-field" id="email" placeholder="Email" required>
+                <label for="email" class="form-label">Email Address</label>
+                <div class="errorTag" data-target-field="email"></div>
+            </div>
+            <div class="form-group">
+                <select name="role" class="fm1-form-select-field" placeholder="Role" required>
+                    <option value="basic" selected>Basic</option>
+                    <option value="author">Author</option>
+                    <option value="editor">Editor (ΔΣ / ΡΟΗ)</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <label for="role" class="form-label">Role</label>
+                <div class="errorTag" data-target-field="role"></div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="submit" class="btn btn-primary">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>

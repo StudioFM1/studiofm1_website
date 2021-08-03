@@ -1,7 +1,7 @@
 'use strict';
 
 const ProducerModel = require('../models/Producer');
-const successMsg = require('../messages/success.json');
+const format = require('../helpers/format');
 
 /* Render admin dashboard */
 exports.index = (req, res, next) => {
@@ -23,16 +23,11 @@ exports.producer_logout = async (req, res, next) => {
  */
 exports.producers_get = async (req, res, next) => {
     const view = req.query.view;
-    const sorting = req.query.sorting || 'ascending';
+    const sortingMethod = req.query.sorting || 'ascending';
 
     /* Get and group producers */
-    const producers = await ProducerModel.getProducers(sorting);
+    const producers = format.sortProducers(await ProducerModel.getProducers(), sortingMethod);
 
-    if (sorting && sorting === 'descending')
-        producers.sort((a, b) => b.profile.lastName.localeCompare(a.profile.lastName)); // Sort by lastname - descending
-    else
-        producers.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname - ascending
-   
     let producerObject = {};
     switch (view) {
         case 'roleView':
@@ -53,8 +48,8 @@ exports.producers_get = async (req, res, next) => {
             producerObject = { producers };
     }
 
-    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producerObject, sorting });
-};;
+    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producerObject, sortingMethod });
+};
 
 /**
  * Create a new producer
@@ -62,7 +57,7 @@ exports.producers_get = async (req, res, next) => {
  */
 exports.register_producer_post = async (req, res, next) => {
     /* Insert producer and return email & password */
-    await ProducerModel.insertProducer(req.body);
+    await ProducerModel.insertProducer(req.body, req.session.producer.producerId);
     /* Send response to client */
     res.json(200);
 };

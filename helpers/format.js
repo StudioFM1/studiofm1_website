@@ -24,3 +24,31 @@ exports.clientError = err => {
         return { msgs: [{ msg: errorMsgs.UNEXPECTED_ERROR }], status: 500 };
     }
 };
+
+exports.sortProducers = (producers, sortingMethod) => {
+    switch (sortingMethod) {
+        case 'lastname_descending':
+            producers.sort((a, b) => b.profile.lastName.localeCompare(a.profile.lastName));
+            break;
+        case 'firstname_ascending':
+            producers.sort((a, b) => a.profile.firstName.localeCompare(b.profile.firstName)); // Sort by lastname - ascending
+            break;
+        case 'firstname_descending':
+            producers.sort((a, b) => b.profile.firstName.localeCompare(a.profile.firstName));
+            break;
+        case 'creation_ascending':
+            producers.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+            break;
+        case 'creation_descending':
+            producers.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+            break;
+        default:
+            producers.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname - ascending
+    }
+
+    return producers;
+};
+
+exports.formatDate = date => {
+    return `${date.getDay() + 1}/${date.getMonth() + 1}/${date.getFullYear()}`;
+};
