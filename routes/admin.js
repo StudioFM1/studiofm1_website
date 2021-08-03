@@ -31,7 +31,12 @@ router.get('/producers', use(controller.producers_get));
 /**
  * @POST Producer registration data
  */
-router.post('/producers', use(mw.validateForm('registration')), use(controller.register_producer_post));
+router.post('/producers/register', use(mw.validateForm('registration')), use(controller.register_producer_post));
+
+/**
+ * @POST Producers status
+ */
+router.post('/producers/bulk', use(controller.bulk_producers_post));
 
 /**
  * @GET Producer profile data

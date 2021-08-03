@@ -177,12 +177,25 @@ exports.updateProducerAvatar = async (id, fileName) => {
     }
 };
 
+exports.bulkProducerRoleUpdate = async (idList, role) => {
+    await Producer.updateMany({ _id: { $in: idList } }, { $set: { 'profile.role': cipher.encrypt(role) } });
+};
+
+exports.bulkProducerStatusUpdate = async (idList, isActive) => {
+    await Producer.updateMany({ _id: { $in: idList } }, { $set: { 'status.isActive': isActive } });
+};
+
+exports.bulkProducerDeletion = async idList => {
+    await Producer.deleteMany({ _id: { $in: idList } });
+};
+
 /**
  * Update the producer's status
  */
-exports.updateProducerStatus = async (id, data) => {
-    const producer = await Producer.findById(id);
-    Object.assign(producer.status, data);
-    await producer.save();
-    return { _id: producer._id, status: producer.status };
+exports.updateProducerStatus = async (idList, status) => {
+    // const producers = await Producer.updateMany({ _id: { $in: idList } }, { $set: { status: status } });
+    // const producer = await Producer.findById(id);
+    // Object.assign(producer.status, data);
+    // await producer.save();
+    // return { _id: producer._id, status: producer.status };
 };

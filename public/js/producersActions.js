@@ -1,10 +1,10 @@
 /* Append modal inner HTML */
-const modalInnerHTML = (action, selected) => {
+const modalInnerHTML = (action, idList) => {
     const form = document.getElementById('fm1_form');
     switch (action) {
         case 'create':
             document.getElementById('actionModalLabel').innerText = 'Create Producer';
-            form.action = '/admin/producers';
+            form.action = '/admin/producers/register';
             form.innerHTML = `
                 <div class="form-group">
                     <input type="text" name="username" class="fm1-form-field" id="username" placeholder="Username" required>
@@ -45,8 +45,9 @@ const modalInnerHTML = (action, selected) => {
             break;
         case 'role':
             document.getElementById('actionModalLabel').innerText = 'Change Role';
-            form.action = '/admin/producers?prop=role';
+            form.action = '/admin/producers/bulk?action=role';
             form.innerHTML = `
+            <input type="hidden" name="idList" value="${idList}"/>
                 <div class="form-group">
                     <select name="role" class="fm1-form-select-field" placeholder="Role" required>
                         <option value="basic" selected>Basic</option>
@@ -54,34 +55,30 @@ const modalInnerHTML = (action, selected) => {
                         <option value="editor">Editor (ΔΣ / ΡΟΗ)</option>
                         <option value="admin">Admin</option>
                     </select>
-                    <label for="role" class="form-label">Assign new role to ${selected.length} producers</label>
+                    <label for="role" class="form-label">Assign new role to ${idList.length} producers</label>
                 </div>
             `;
             break;
         case 'status':
             document.getElementById('actionModalLabel').innerText = 'Change Status';
-            form.action = '/admin/producers?prop=status';
+            form.action = '/admin/producers/bulk?action=status';
             form.innerHTML = `
+                <input type="hidden" name="idList" value="${idList}"/>
                 <div class="form-group">
                     <select name="status" class="fm1-form-select-field" placeholder="Status" required>
                         <option value="active" selected>Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
-                    <label for="status" class="form-label">Change status to ${selected.length} producers</label>
+                    <label for="status" class="form-label">Change status to ${idList.length} producers</label>
                 </div>
             `;
             break;
         case 'delete':
-            const producerList = [];
-            selected.forEach(el => {
-                const producer = JSON.parse(el.dataset.producer);
-                producerList.push(`<br>${producer.profile.firstName} ${producer.profile.lastName}`);
-            });
-
             document.getElementById('actionModalLabel').innerText = 'Delete';
-            form.action = '/admin/producers';
+            form.action = '/admin/producers/bulk?action=delete';
             form.innerHTML = `
-                <p>Delete ${selected.length} producers?<b>${producerList}</b></p>
+                <input type="hidden" name="idList" value="${idList}"/>
+                <p>You are about to <b>delete ${idList.length} producer(s)</b>. This action is <b>permanent</b>.<br>Are you sure???</p>
             `;
             break;
     }
@@ -92,6 +89,7 @@ const addCheckboxEvents = () => {
     /* Master checkboxes events */
     const masterCheckboxes = [...document.querySelectorAll('.master-checkbox')];
     masterCheckboxes.forEach(masterCheckbox => {
+        masterCheckbox.checked = false;
         masterCheckbox.addEventListener('change', e => {
             /* Get row checkboxes */
             const checkboxes = [...document.querySelectorAll(`.action-checkbox[data-role="${masterCheckbox.dataset.role}"]`)];
@@ -102,6 +100,7 @@ const addCheckboxEvents = () => {
     /* Row checkboxes events */
     const checkboxes = [...document.querySelectorAll('.action-checkbox')];
     checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
         checkbox.addEventListener('change', e => {
             /* Get master checkbox */
             const masterCheckbox = document.querySelector(`.master-checkbox[data-role="${checkbox.dataset.role}"]`);
@@ -114,7 +113,8 @@ const addCheckboxEvents = () => {
 const actionModal = document.getElementById('actionModal');
 actionModal.addEventListener('show.bs.modal', e => {
     /* Get selected checkboxes */
-    const selected = [...document.querySelectorAll('.action-checkbox:checked')];
+    const idList = [];
+    [...document.querySelectorAll('.action-checkbox:checked')].forEach(el => idList.push(el.dataset.id));
     /* Setup action modal title and form */
-    modalInnerHTML(e.relatedTarget.dataset.action, selected);
+    modalInnerHTML(e.relatedTarget.dataset.action, idList);
 });

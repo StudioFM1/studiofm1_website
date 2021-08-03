@@ -58,7 +58,37 @@ exports.register_producer_post = async (req, res, next) => {
     /* Insert producer and return email & password */
     await ProducerModel.insertProducer(req.body);
     /* Send response to client */
-    res.json({});
+    res.json(200);
+};
+
+/**
+ * Change the status of the producers
+ */
+exports.bulk_producers_post = async (req, res, next) => {
+    const idList = req.body.idList.split(',');
+    if (idList.length) {
+        switch (req.query.action) {
+            case 'role':
+                /* Update producers role */
+                const role = req.body.role;
+                await ProducerModel.bulkProducerRoleUpdate(idList, role);
+                break;
+            case 'status':
+                /* Update producers status */
+                const isActive = req.body.status === 'active' ? true : false;
+                await ProducerModel.bulkProducerStatusUpdate(idList, isActive);
+                break;
+            case 'delete':
+                /* Delete producers */
+                await ProducerModel.bulkProducerDeletion(idList);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /* Send response to client */
+    res.json(200);
 };
 
 /**
@@ -76,7 +106,7 @@ exports.producer_profile_get = async (req, res, next) => {
  */
 exports.producer_avatar_post = async (req, res, next) => {
     await ProducerModel.updateProducerAvatar(req.params.id, req.fileName);
-    res.json({});
+    res.json(200);
 };
 
 /**
