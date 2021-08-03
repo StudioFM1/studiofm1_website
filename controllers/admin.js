@@ -28,49 +28,26 @@ exports.producers_get = async (req, res, next) => {
     const producers = await ProducerModel.getProducers();
     let producerObject = {};
 
-    if (view === 'defaultView') producerObject = { producers };
-    else if (view === 'roleView')
-        producerObject = {
-            admin: [...producers.filter(producer => producer.profile.role === 'admin')],
-            editor: [...producers.filter(producer => producer.profile.role === 'editor')],
-            author: [...producers.filter(producer => producer.profile.role === 'author')],
-            basic: [...producers.filter(producer => producer.profile.role === 'basic')],
-        };
-    else if (view === 'statusView')
-        producerObject = {
-            active: [...producers.filter(producer => producer.status.isActive)],
-            inactive: [...producers.filter(producer => !producer.status.isActive)],
-        };
+    switch (view) {
+        case 'roleView':
+            producerObject = {
+                admin: [...producers.filter(producer => producer.profile.role === 'admin')],
+                editor: [...producers.filter(producer => producer.profile.role === 'editor')],
+                author: [...producers.filter(producer => producer.profile.role === 'author')],
+                basic: [...producers.filter(producer => producer.profile.role === 'basic')],
+            };
+            break;
+        case 'statusView':
+            producerObject = {
+                active: [...producers.filter(producer => producer.status.isActive)],
+                inactive: [...producers.filter(producer => !producer.status.isActive)],
+            };
+            break;
+        default:
+            producerObject = { producers };
+    }
 
     res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producerObject });
-};
-
-/**
- * Get producer's profile data
- * Render producer's profile page
- */
-exports.producer_profile_get = async (req, res, next) => {
-    const producer = await ProducerModel.getProducerData(req.params.id);
-    res.render('admin/profile', { title: 'My profile', producer });
-};
-
-/**
- * Update producer's data
- * Send success message in response
- */
-exports.producer_profile_put = async (req, res, next) => {
-    const producer = await ProducerModel.updateProducerData(req.params.id, req.body);
-    req.session.producer = producer;
-    res.json({ success: successMsg.PROFILE_UPDATE });
-};
-
-/**
- * Saves new avatar's path
- * responds with a success message
- */
-exports.producer_avatar_post = async (req, res, next) => {
-    await ProducerModel.updateProducerAvatar(req.params.id, req.fileName);
-    res.json({});
 };
 
 /**
@@ -85,10 +62,29 @@ exports.register_producer_post = async (req, res, next) => {
 };
 
 /**
- * Updates producer's status
- * End request
+ * Get producer's profile data
+ * Render producer's profile page
  */
-exports.producer_status_post = async (req, res, next) => {
-    const producer = await ProducerModel.updateProducerStatus(req.params.id, req.body);
-    res.json(producer);
+exports.producer_profile_get = async (req, res, next) => {
+    const producer = await ProducerModel.getProducerData(req.params.id);
+    res.render('admin/profile', { title: 'My profile', producer });
+};
+
+/**
+ * Saves new avatar's path
+ * responds with a success message
+ */
+exports.producer_avatar_post = async (req, res, next) => {
+    await ProducerModel.updateProducerAvatar(req.params.id, req.fileName);
+    res.json({});
+};
+
+/**
+ * Update producer's data
+ * Send success message in response
+ */
+exports.producer_profile_post = async (req, res, next) => {
+    const producer = await ProducerModel.updateProducerData(req.params.id, req.body);
+    req.session.producer = producer;
+    res.json({ success: successMsg.PROFILE_UPDATE });
 };

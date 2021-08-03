@@ -65,8 +65,6 @@ const submitAvatarForm = () =>
     new Promise((resolve, reject) => {
         const form = document.getElementById('avatarForm');
         const formFields = new FormData(form);
-        let data = {};
-        for (const [name, value] of formFields) data[name] = value;
 
         fetch(form.action, {
             method: form.method,

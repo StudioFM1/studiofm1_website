@@ -2,7 +2,6 @@
 
 const path = require('path');
 const express = require('express');
-const methodOverride = require('method-override');
 const dbConnection = require('./database');
 const createSession = require('./session');
 const mw = require('./middleware');
@@ -20,16 +19,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(
-    methodOverride((req, res) => {
-        if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-            // look in urlencoded POST bodies and delete it
-            var method = req.body._method;
-            delete req.body._method;
-            return method;
-        }
-    })
-);
 
 /**
  * Connect to database

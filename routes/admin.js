@@ -24,9 +24,14 @@ router.get('/', use(controller.index));
 router.get('/logout', use(controller.producer_logout));
 
 /**
- * @GET Producers
+ * @GET Producers data
  */
 router.get('/producers', use(controller.producers_get));
+
+/**
+ * @POST Producer registration data
+ */
+router.post('/producers', use(mw.validateForm('registration')), use(controller.register_producer_post));
 
 /**
  * @GET Producer profile data
@@ -34,23 +39,13 @@ router.get('/producers', use(controller.producers_get));
 router.get('/producers/:id', use(controller.producer_profile_get));
 
 /**
- * @PUT Update producer profile
+ * @POST Upload producer avatar
  */
-router.put('/producers/:id', use(mw.validateForm('profile')), use(controller.producer_profile_put));
+router.post('/producers/:id/avatar', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.producer_avatar_post));
 
 /**
- * @POST Update producer avatar
+ * @POST producer profile
  */
-router.post('/producers/upload/:id', imgMw.uploadAvatar, imgMw.optimizeAvatar, use(controller.producer_avatar_post));
-
-/**
- * @POST Producer registration data
- */
-router.post('/register', use(mw.validateForm('registration')), use(controller.register_producer_post));
-
-/**
- * @POST Update producer status
- */
-router.post('/producers/status/:id', use(controller.producer_status_post));
+router.post('/producers/:id/profile', use(mw.validateForm('profile')), use(controller.producer_profile_post));
 
 module.exports = router;

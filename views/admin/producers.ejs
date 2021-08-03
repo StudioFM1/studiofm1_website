@@ -7,8 +7,8 @@
     <%- include('../partials/adminHeader.ejs') %>
     <div class="container-fluid">
         <main class="p-5">
-            <div class="table-wrapper">
-                <div class="table-title clearfix">
+            <div class="content-wrapper">
+                <div class="content-title table-title clearfix">
                     <h2 class="float-start">Producer <b>Management</b></h2>
                     <div class="float-end d-flex align-items-center mt-1">
                         <div class="dropdown me-2">
@@ -22,12 +22,12 @@
                         <div class="dropdown me-2">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="viewByButton" data-bs-toggle="dropdown" aria-expanded="false">View By</button>
                             <ul class="dropdown-menu" aria-labelledby="viewByButton">
-                                <li><a class="dropdown-item" href="/admin/producers?view=defaultView">Default</a></li>
+                                <li><a class="dropdown-item" href="/admin/producers">Default</a></li>
                                 <li><a class="dropdown-item" href="/admin/producers?view=roleView">Role</a></li>
                                 <li><a class="dropdown-item" href="/admin/producers?view=statusView">Status</a></li>
                             </ul>
                         </div>
-                        <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#createProducerModal">Add<i class="fas fa-plus ms-2"></i></button>
+                        <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="create">Add<i class="fas fa-plus ms-2"></i></button>
                         <form class="search-form">
                             <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                             <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
@@ -83,16 +83,15 @@
         </main>
     </div>
     <%- include('../partials/footer.ejs') %>
-    <%- include('../partials/modals/createProducer.ejs') %>
     <%- include('../partials/modals/actionModal.ejs') %>
     <script src="/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/js/form.js"></script>
-    <script src="/js/new_producers.js"></script>
+    <script src="/js/producersActions.js"></script>
     <!-- <script src="/js/producers.js"></script> -->
     <script>
         /* Add event listeners when content is loaded */
         window.addEventListener('DOMContentLoaded', () => {
-            addProducerFormEvents();
+            addFm1FormEvents();
             addCheckboxEvents();
             // addModalEvents();
         });
