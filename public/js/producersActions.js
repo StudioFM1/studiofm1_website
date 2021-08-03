@@ -110,11 +110,24 @@ const addCheckboxEvents = () => {
 };
 
 /* Add action modal events */
-const actionModal = document.getElementById('actionModal');
-actionModal.addEventListener('show.bs.modal', e => {
-    /* Get selected checkboxes */
-    const idList = [];
-    [...document.querySelectorAll('.action-checkbox:checked')].forEach(el => idList.push(el.dataset.id));
-    /* Setup action modal title and form */
-    modalInnerHTML(e.relatedTarget.dataset.action, idList);
-});
+const addModalEvents = () => {
+    const actionModal = document.getElementById('actionModal');
+    actionModal.addEventListener('show.bs.modal', e => {
+        /* Get selected checkboxes */
+        const idList = [];
+        [...document.querySelectorAll('.action-checkbox:checked')].forEach(el => idList.push(el.dataset.id));
+        /* Setup action modal title and form */
+        modalInnerHTML(e.relatedTarget.dataset.action, idList);
+    });
+};
+
+/* Add ancor elements events */
+const addAnchorEvents = () => {
+    [...document.querySelectorAll('.sort-link')].forEach(anchor => {
+        anchor.addEventListener('click', async e => {
+            e.preventDefault();
+            if (location.href.includes('?')) window.location.href = window.location.href.split('&')[0] + `&sorting=${e.target.dataset.sorting}`;
+            else window.location.href += `?sorting=${e.target.dataset.sorting}`;
+        });
+    });
+};

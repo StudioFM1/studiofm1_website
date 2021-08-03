@@ -116,8 +116,6 @@ exports.getProducers = async () => {
         }
     });
 
-    producers.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname
-
     return producers;
 };
 

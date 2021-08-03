@@ -23,11 +23,17 @@ exports.producer_logout = async (req, res, next) => {
  */
 exports.producers_get = async (req, res, next) => {
     const view = req.query.view;
+    const sorting = req.query.sorting || 'ascending';
 
     /* Get and group producers */
-    const producers = await ProducerModel.getProducers();
-    let producerObject = {};
+    const producers = await ProducerModel.getProducers(sorting);
 
+    if (sorting && sorting === 'descending')
+        producers.sort((a, b) => b.profile.lastName.localeCompare(a.profile.lastName)); // Sort by lastname - descending
+    else
+        producers.sort((a, b) => a.profile.lastName.localeCompare(b.profile.lastName)); // Sort by lastname - ascending
+   
+    let producerObject = {};
     switch (view) {
         case 'roleView':
             producerObject = {
@@ -47,8 +53,8 @@ exports.producers_get = async (req, res, next) => {
             producerObject = { producers };
     }
 
-    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producerObject });
-};
+    res.render('admin/producers', { title: 'Producers', producer: req.session.producer, producerObject, sorting });
+};;
 
 /**
  * Create a new producer

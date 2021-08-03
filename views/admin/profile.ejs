@@ -18,8 +18,8 @@
                     <h2>Producer <b>Profile</b></h2>
                 </div>
                 <div class="row g-0 py-3">
-                    <div class="col-12 col-lg-4 col-xl-3 border-2 border-end border-light">
-                        <div class="card text-center h-100 px-4">
+                    <div class="col-12 col-lg-4 col-xl-3">
+                        <div class="card text-center h-100 p-4">
                             <form id="avatarForm" class="mb-3" action="/admin/producers/<%= producer._id %>/avatar" method="POST" enctype="multipart/form-data">
                                 <div id="avatarFigure" class="avatar large-avatar avatar-uploader mb-3" style="background-image: url('<%= producer.avatar %>');">
                                     <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" name="producerAvatar" id="producerAvatar" class="fileInput">
@@ -41,8 +41,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-8 col-xl-6 border-2 border-end border-light">
-                        <div class="h-100 px-4">
+                    <div class="col-12 col-lg-8 col-xl-6">
+                        <div class="h-100 p-4">
                             <form id="fm1_form" action="/admin/producers/<%= producer._id %>/profile" method="POST">
                                 <div class="form-group">
                                     <input type="text" name="firstName" class="fm1-form-field" id="firstName" value="<%= producer.firstName %>" placeholder="First name" required>
@@ -92,8 +92,9 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-12 col-xl-3">
-                        <div class="h-100 px-4">
+                    <div class="col-12 col-xl-3">
+                        <div class="h-100 p-4">
+                            <h2>Shows</h2>
                         </div>
                     </div>
                 </div>
