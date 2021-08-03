@@ -175,14 +175,23 @@ exports.updateProducerAvatar = async (id, fileName) => {
     }
 };
 
+/**
+ * Bulk update on producers' roles
+ */
 exports.bulkProducerRoleUpdate = async (idList, role) => {
     await Producer.updateMany({ _id: { $in: idList } }, { $set: { 'profile.role': cipher.encrypt(role) } });
 };
 
+/**
+ * Bulk update on producers' statuses
+ */
 exports.bulkProducerStatusUpdate = async (idList, isActive) => {
     await Producer.updateMany({ _id: { $in: idList } }, { $set: { 'status.isActive': isActive } });
 };
 
+/**
+ * Bulk producers deletion
+ */
 exports.bulkProducerDeletion = async idList => {
     await Producer.deleteMany({ _id: { $in: idList } });
 };
@@ -190,10 +199,15 @@ exports.bulkProducerDeletion = async idList => {
 /**
  * Update the producer's status
  */
-exports.updateProducerStatus = async (idList, status) => {
-    // const producers = await Producer.updateMany({ _id: { $in: idList } }, { $set: { status: status } });
-    // const producer = await Producer.findById(id);
-    // Object.assign(producer.status, data);
-    // await producer.save();
-    // return { _id: producer._id, status: producer.status };
+exports.updateProducerStatus = async (id, status) => {
+    const producer = await Producer.findById(id);
+    Object.assign(producer.status, status);
+    await producer.save();
 };
+
+/**
+ * Delete a single producer
+ */
+exports.deleteProducer = async (id) => {
+    await Producer.deleteOne({ _id: id });
+}

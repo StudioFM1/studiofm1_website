@@ -53,4 +53,14 @@ router.post('/producers/:id/avatar', imgMw.uploadAvatar, imgMw.optimizeAvatar, u
  */
 router.post('/producers/:id/profile', use(mw.validateForm('profile')), use(controller.producer_profile_post));
 
+/**
+ * @POST Producer status
+ */
+router.post('/producers/:id/status', use(controller.producer_status_post));
+
+/**
+ * @POST Producer delete
+ */
+router.post('/producers/:id/delete', use(controller.producer_delete));
+
 module.exports = router;

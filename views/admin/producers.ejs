@@ -80,8 +80,8 @@
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column">
-                                                <a id="toggle_status_<%= producer._id %>" href="#"><%= producer.status.isActive ? 'Deactivate' : 'Activate' %></a>
-                                                <a id="delete_<%= producer._id %>" class="text-danger" href="#">Delete</a>
+                                                <a href="#" class="toggle-status-link" data-id="<%= producer._id %>" data-action="status" data-value="<%= producer.status.isActive ? false : true %>"><%= producer.status.isActive ? 'Deactivate' : 'Activate' %></a>
+                                                <a href="#" class="text-danger delete-link" data-id="<%= producer._id %>" data-action="delete">Delete</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -105,10 +105,7 @@
     <script>
         /* Add event listeners when content is loaded */
         window.addEventListener('DOMContentLoaded', () => {
-            addFm1FormEvents();
-            addCheckboxEvents();
-            addModalEvents();
-            addAnchorEvents();
+            addDOMEvents();
         });
     </script>
 </body>

@@ -117,10 +117,29 @@ exports.producer_avatar_post = async (req, res, next) => {
 
 /**
  * Update producer's data
- * Send success message in response
+ * Send in response
  */
 exports.producer_profile_post = async (req, res, next) => {
     const producer = await ProducerModel.updateProducerData(req.params.id, req.body);
     req.session.producer = producer;
-    res.json({ success: successMsg.PROFILE_UPDATE });
+    res.json(200);
 };
+
+/**
+ * Update producer's status
+ * Send in response
+ */
+exports.producer_status_post = async (req, res, next) => {
+    await ProducerModel.updateProducerStatus(req.params.id, req.body);
+    res.json(200);
+};
+
+/**
+ * Delete a producer
+ * Send a repsonse
+ */
+exports.producer_delete = async (req, res, next) => {
+    await ProducerModel.deleteProducer(req.params.id);
+    res.json(200);
+}
+

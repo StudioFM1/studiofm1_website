@@ -84,6 +84,19 @@ const modalInnerHTML = (action, idList) => {
     }
 };
 
+const submitRequest = (endpoint, data) =>
+    new Promise((resolve, reject) => {
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(resolve)
+            .catch(err => reject(err));
+    });
+
 /* Add event listeners on checkboxes */
 const addCheckboxEvents = () => {
     /* Master checkboxes events */
@@ -123,6 +136,7 @@ const addModalEvents = () => {
 
 /* Add ancor elements events */
 const addAnchorEvents = () => {
+    /* Sorting links */
     [...document.querySelectorAll('.sort-link')].forEach(anchor => {
         anchor.addEventListener('click', async e => {
             e.preventDefault();
@@ -130,4 +144,32 @@ const addAnchorEvents = () => {
             else window.location.href += `?sorting=${e.target.dataset.sorting}`;
         });
     });
+
+    /* Toggle status link */
+    [...document.querySelectorAll('.toggle-status-link')].forEach(anchor => {
+        anchor.addEventListener('click', async e => {
+            e.preventDefault();
+            e.target.disabled = true;
+            await submitRequest(`/admin/producers/${e.target.dataset.id}/${e.target.dataset.action}`, { isActive: e.target.dataset.value });
+            location.reload();
+        });
+    });
+
+    /* Delete link */
+    [...document.querySelectorAll('.delete-link')].forEach(anchor => {
+        anchor.addEventListener('click', async e => {
+            e.preventDefault();
+            e.target.disabled = true;
+            await submitRequest(`/admin/producers/${e.target.dataset.id}/${e.target.dataset.action}`, {});
+            location.reload();
+        });
+    });
+};
+
+/* Add events on DOM */
+const addDOMEvents = () => {
+    addFm1FormEvents();
+    addCheckboxEvents();
+    addModalEvents();
+    addAnchorEvents();
 };
